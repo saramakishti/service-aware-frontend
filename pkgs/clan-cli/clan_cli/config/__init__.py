@@ -9,10 +9,9 @@ import sys
 from pathlib import Path
 from typing import Any, Optional, Tuple, get_origin
 
-from clan_cli.dirs import get_clan_flake_toplevel
+from clan_cli.dirs import get_clan_flake_toplevel, machine_settings_file
 from clan_cli.errors import ClanError
 from clan_cli.git import commit_file
-from clan_cli.machines.folders import machine_settings_file
 from clan_cli.nix import nix_eval
 
 script_dir = Path(__file__).parent
@@ -172,7 +171,7 @@ def get_or_set_option(args: argparse.Namespace) -> None:
         # compute settings json file location
         if args.settings_file is None:
             get_clan_flake_toplevel()
-            settings_file = machine_settings_file(args.machine)
+            settings_file = machine_settings_file(args.flake, args.machine)
         else:
             settings_file = args.settings_file
         # set the option with the given value
@@ -305,7 +304,11 @@ def register_parser(
 
     # inject callback function to process the input later
     parser.set_defaults(func=get_or_set_option)
-
+    parser.add_argument(
+        "flake",
+        type=str,
+        help="name of the flake to set machine options for",
+    )
     parser.add_argument(
         "--machine",
         "-m",
