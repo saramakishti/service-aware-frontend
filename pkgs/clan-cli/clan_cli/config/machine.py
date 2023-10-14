@@ -14,8 +14,10 @@ from clan_cli.dirs import (
 from clan_cli.git import commit_file, find_git_repo_root
 from clan_cli.nix import nix_eval
 
+from ..flakes.types import FlakeName
 
-def config_for_machine(flake_name: str, machine_name: str) -> dict:
+
+def config_for_machine(flake_name: FlakeName, machine_name: str) -> dict:
     # read the config from a json file located at {flake}/machines/{machine_name}/settings.json
     if not specific_machine_dir(flake_name, machine_name).exists():
         raise HTTPException(
@@ -29,7 +31,9 @@ def config_for_machine(flake_name: str, machine_name: str) -> dict:
         return json.load(f)
 
 
-def set_config_for_machine(flake_name: str, machine_name: str, config: dict) -> None:
+def set_config_for_machine(
+    flake_name: FlakeName, machine_name: str, config: dict
+) -> None:
     # write the config to a json file located at {flake}/machines/{machine_name}/settings.json
     if not specific_machine_dir(flake_name, machine_name).exists():
         raise HTTPException(
@@ -46,7 +50,7 @@ def set_config_for_machine(flake_name: str, machine_name: str, config: dict) -> 
         commit_file(settings_path, repo_dir)
 
 
-def schema_for_machine(flake_name: str, machine_name: str) -> dict:
+def schema_for_machine(flake_name: FlakeName, machine_name: str) -> dict:
     flake = specific_flake_dir(flake_name)
 
     # use nix eval to lib.evalModules .#nixosModules.machine-{machine_name}
