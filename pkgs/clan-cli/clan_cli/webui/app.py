@@ -29,7 +29,6 @@ def setup_app() -> FastAPI:
 
     app.include_router(health.router)
 
-
     # Needs to be last in register. Because of wildcard route
     app.include_router(root.router)
     app.add_exception_handler(ClanError, clan_error_handler)

@@ -3,10 +3,12 @@ from pathlib import Path
 from typing import Any
 
 from pydantic import AnyUrl, BaseModel, validator
+from pydantic.tools import parse_obj_as
 
 from ..dirs import clan_data_dir, clan_flakes_dir
-from ..flakes.create import DEFAULT_URL
 from ..types import validate_path
+
+DEFAULT_URL = parse_obj_as(AnyUrl, "http://localhost:8000")
 
 log = logging.getLogger(__name__)
 

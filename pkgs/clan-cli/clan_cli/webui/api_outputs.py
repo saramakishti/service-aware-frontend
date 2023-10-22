@@ -1,10 +1,6 @@
 from enum import Enum
-from typing import Dict, List
 
-from pydantic import BaseModel, Field
-
-from ..async_cmd import CmdOut
-from ..task_manager import TaskStatus
+from pydantic import BaseModel
 
 
 class Status(Enum):
@@ -16,6 +12,3 @@ class Status(Enum):
 class Machine(BaseModel):
     name: str
     status: Status
-
-
-

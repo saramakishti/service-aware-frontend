@@ -6,7 +6,7 @@ import {
   CssBaseline,
   IconButton,
   ThemeProvider,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
