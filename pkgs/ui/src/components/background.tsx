@@ -6,7 +6,7 @@ import {
 import { useAppState } from "./hooks/useAppContext";
 
 export default function Background() {
-  const { data, isLoading } = useAppState();
+  const { isLoading } = useAppState();
 
   return (
     <div
@@ -14,7 +14,7 @@ export default function Background() {
         "fixed -z-10 h-[100vh] w-[100vw] overflow-hidden opacity-10 blur-md dark:opacity-40"
       }
     >
-      {(isLoading || !data.isJoined) && (
+      {isLoading && (
         <>
           <Image
             className="dark:hidden"

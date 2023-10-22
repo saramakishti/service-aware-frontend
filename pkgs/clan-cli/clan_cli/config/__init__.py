@@ -11,9 +11,9 @@ from typing import Any, Optional, Tuple, get_origin
 
 from clan_cli.dirs import machine_settings_file, specific_flake_dir
 from clan_cli.errors import ClanError
-from clan_cli.flakes.types import FlakeName
 from clan_cli.git import commit_file
 from clan_cli.nix import nix_eval
+from clan_cli.types import FlakeName
 
 script_dir = Path(__file__).parent
 
@@ -161,7 +161,11 @@ def read_machine_option_value(
 
 def get_or_set_option(args: argparse.Namespace) -> None:
     if args.value == []:
-        print(read_machine_option_value(args.machine, args.option, args.show_trace))
+        print(
+            read_machine_option_value(
+                args.flake, args.machine, args.option, args.show_trace
+            )
+        )
     else:
         # load options
         if args.options_file is None:
@@ -309,11 +313,6 @@ def register_parser(
     # inject callback function to process the input later
     parser.set_defaults(func=get_or_set_option)
     parser.add_argument(
-        "flake",
-        type=str,
-        help="name of the flake to set machine options for",
-    )
-    parser.add_argument(
         "--machine",
         "-m",
         help="Machine to configure",
@@ -355,6 +354,11 @@ def register_parser(
         # force this arg to be set
         nargs="*",
         help="option value to set (if omitted, the current value is printed)",
+    )
+    parser.add_argument(
+        "flake",
+        type=str,
+        help="name of the flake to set machine options for",
     )
 
 

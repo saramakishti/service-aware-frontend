@@ -1,10 +1,14 @@
 import argparse
+import logging
 import sys
 from types import ModuleType
 from typing import Optional
 
 from . import config, flakes, join, machines, secrets, vms, webui
+from .custom_logger import register
 from .ssh import cli as ssh_cli
+
+log = logging.getLogger(__name__)
 
 argcomplete: Optional[ModuleType] = None
 try:
@@ -51,6 +55,10 @@ def create_parser(prog: Optional[str] = None) -> argparse.ArgumentParser:
 
     parser_vms = subparsers.add_parser("vms", help="manage virtual machines")
     vms.register_parser(parser_vms)
+
+    #    if args.debug:
+    register(logging.DEBUG)
+    log.debug("Debug log activated")
 
     if argcomplete:
         argcomplete.autocomplete(parser)

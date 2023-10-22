@@ -5,14 +5,16 @@ from typing import Dict
 from ..async_cmd import CmdOut, run, runforcli
 from ..dirs import specific_flake_dir, specific_machine_dir
 from ..errors import ClanError
-from ..flakes.types import FlakeName
 from ..nix import nix_shell
+from ..types import FlakeName
 
 log = logging.getLogger(__name__)
 
 
 async def create_machine(flake_name: FlakeName, machine_name: str) -> Dict[str, CmdOut]:
     folder = specific_machine_dir(flake_name, machine_name)
+    if folder.exists():
+        raise ClanError(f"Machine '{machine_name}' already exists")
     folder.mkdir(parents=True, exist_ok=True)
 
     # create empty settings.json file inside the folder

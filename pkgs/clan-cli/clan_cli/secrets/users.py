@@ -1,6 +1,6 @@
 import argparse
 
-from ..flakes.types import FlakeName
+from ..types import FlakeName
 from . import secrets
 from .folders import list_objects, remove_object, sops_users_folder
 from .sops import read_key, write_key
@@ -131,6 +131,11 @@ def register_users_parser(parser: argparse.ArgumentParser) -> None:
     add_secret_parser.add_argument(
         "secret", help="the name of the secret", type=secret_name_type
     )
+    add_secret_parser.add_argument(
+        "flake",
+        type=str,
+        help="name of the flake to create machine for",
+    )
     add_secret_parser.set_defaults(func=add_secret_command)
 
     remove_secret_parser = subparser.add_parser(
@@ -141,5 +146,10 @@ def register_users_parser(parser: argparse.ArgumentParser) -> None:
     )
     remove_secret_parser.add_argument(
         "secret", help="the name of the secret", type=secret_name_type
+    )
+    remove_secret_parser.add_argument(
+        "flake",
+        type=str,
+        help="name of the flake to create machine for",
     )
     remove_secret_parser.set_defaults(func=remove_secret_command)

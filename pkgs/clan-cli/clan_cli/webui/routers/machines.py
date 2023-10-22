@@ -9,9 +9,9 @@ from ...config.machine import (
     schema_for_machine,
     set_config_for_machine,
 )
-from ...flakes.types import FlakeName
 from ...machines.create import create_machine as _create_machine
 from ...machines.list import list_machines as _list_machines
+from ...types import FlakeName
 from ..api_outputs import (
     ConfigResponse,
     Machine,

@@ -11,36 +11,28 @@ import React, {
 import { KeyedMutator } from "swr";
 
 type AppContextType = {
-  //   data: AxiosResponse<{}, any> | undefined;
   data: AppState;
 
   isLoading: boolean;
   error: AxiosError<any> | undefined;
 
   setAppState: Dispatch<SetStateAction<AppState>>;
-  mutate: KeyedMutator<AxiosResponse<MachinesResponse, any>>;
-  swrKey: string | false | Record<any, any>;
 };
-
-// const initialState = {
-//   isLoading: true,
-// } as const;
 
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
-type AppState = {
-  isJoined?: boolean;
-  clanName?: string;
-};
+type AppState = {};
 
 interface AppContextProviderProps {
   children: ReactNode;
 }
 export const WithAppState = (props: AppContextProviderProps) => {
   const { children } = props;
-  const { isLoading, error, mutate, swrKey } = useListMachines();
 
-  const [data, setAppState] = useState<AppState>({ isJoined: false });
+  const isLoading = false;
+  const error = undefined;
+
+  const [data, setAppState] = useState<AppState>({});
 
   return (
     <AppContext.Provider
@@ -49,8 +41,6 @@ export const WithAppState = (props: AppContextProviderProps) => {
         setAppState,
         isLoading,
         error,
-        swrKey,
-        mutate,
       }}
     >
       {children}

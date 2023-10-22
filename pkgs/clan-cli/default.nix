@@ -8,9 +8,11 @@
 , openssh
 , pytest
 , pytest-cov
+, pytest-xdist
 , pytest-subprocess
-, pytest-parallel
 , pytest-timeout
+, remote-pdb
+, ipdb
 , python3
 , runCommand
 , setuptools
@@ -45,8 +47,10 @@ let
     pytest
     pytest-cov
     pytest-subprocess
-    pytest-parallel
+    pytest-xdist
     pytest-timeout
+    remote-pdb
+    ipdb
     openssh
     git
     gnupg
@@ -80,9 +84,7 @@ let
   source = runCommand "clan-cli-source" { } ''
     cp -r ${./.} $out
     chmod -R +w $out
-    rm $out/clan_cli/config/jsonschema
     ln -s ${nixpkgs'} $out/clan_cli/nixpkgs
-    cp -r ${../../lib/jsonschema} $out/clan_cli/config/jsonschema
     ln -s ${ui-assets} $out/clan_cli/webui/assets
   '';
   nixpkgs' = runCommand "nixpkgs" { nativeBuildInputs = [ nix ]; } ''

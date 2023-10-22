@@ -3,11 +3,10 @@ import { Sidebar } from "@/components/sidebar";
 import { tw } from "@/utils/tailwind";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
-  Button,
   CssBaseline,
   IconButton,
   ThemeProvider,
-  useMediaQuery,
+  useMediaQuery
 } from "@mui/material";
 import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
@@ -62,9 +61,7 @@ export default function RootLayout({
               <AppContext.Consumer>
                 {(appState) => {
                   const showSidebarDerived = Boolean(
-                    showSidebar &&
-                      !appState.isLoading &&
-                      appState.data.isJoined,
+                    showSidebar && !appState.isLoading,
                   );
                   return (
                     <>
@@ -86,9 +83,7 @@ export default function RootLayout({
                                   hidden={true}
                                   onClick={() => setShowSidebar((c) => !c)}
                                 >
-                                  {!showSidebar && appState.data.isJoined && (
-                                    <MenuIcon />
-                                  )}
+                                  {!showSidebar && <MenuIcon />}
                                 </IconButton>
                               </div>
                               <div className="col-span-1 block w-full bg-fixed text-center font-semibold dark:invert lg:hidden">
@@ -105,21 +100,7 @@ export default function RootLayout({
 
                           <div className="px-1">
                             <div className="relative flex h-full flex-1 flex-col">
-                              <main>
-                                <Button
-                                  fullWidth
-                                  onClick={() => {
-                                    appState.setAppState((s) => ({
-                                      ...s,
-                                      isJoined: !s.isJoined,
-                                    }));
-                                  }}
-                                >
-                                  Toggle Joined
-                                </Button>
-
-                                {children}
-                              </main>
+                              <main>{children}</main>
                             </div>
                           </div>
                         </div>

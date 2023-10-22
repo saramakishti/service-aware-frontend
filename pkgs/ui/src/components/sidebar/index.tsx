@@ -11,14 +11,9 @@ import Image from "next/image";
 import { ReactNode } from "react";
 
 import { tw } from "@/utils/tailwind";
-import AppsIcon from "@mui/icons-material/Apps";
-import BackupIcon from "@mui/icons-material/Backup";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import DesignServicesIcon from "@mui/icons-material/DesignServices";
-import DevicesIcon from "@mui/icons-material/Devices";
-import LanIcon from "@mui/icons-material/Lan";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Link from "next/link";
-
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 type MenuEntry = {
@@ -32,39 +27,15 @@ type MenuEntry = {
 
 const menuEntries: MenuEntry[] = [
   {
-    icon: <DashboardIcon />,
-    label: "Dashoard",
+    icon: <AssignmentIndIcon />,
+    label: "Freelance",
     to: "/",
     disabled: false,
   },
   {
-    icon: <DevicesIcon />,
-    label: "Machines",
-    to: "/machines",
-    disabled: false,
-  },
-  {
-    icon: <AppsIcon />,
-    label: "Applications",
-    to: "/applications",
-    disabled: true,
-  },
-  {
-    icon: <LanIcon />,
-    label: "Network",
-    to: "/network",
-    disabled: true,
-  },
-  {
-    icon: <DesignServicesIcon />,
-    label: "Templates",
-    to: "/templates",
-    disabled: false,
-  },
-  {
-    icon: <BackupIcon />,
-    label: "Backups",
-    to: "/backups",
+    icon: <WysiwygIcon />,
+    label: "Blog",
+    to: "/blog",
     disabled: true,
   },
 ];
@@ -138,23 +109,6 @@ export function Sidebar(props: SidebarProps) {
             );
           })}
         </List>
-        <Divider
-          flexItem
-          className="mx-8 my-10 hidden bg-neutral-40 lg:block"
-        />
-        <div className="mx-auto mb-8 hidden w-full max-w-xs rounded-sm px-4 py-6 text-center align-bottom shadow-sm lg:block">
-          <h3 className="mb-2 w-full font-semibold text-white">
-            Clan.lol Admin
-          </h3>
-          <a
-            href=""
-            target="_blank"
-            rel="nofollow"
-            className="inline-block w-full rounded-md p-2 text-center text-white hover:text-purple-60/95"
-          >
-            Donate
-          </a>
-        </div>
       </div>
     </aside>
   );

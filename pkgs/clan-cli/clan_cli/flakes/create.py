@@ -8,16 +8,20 @@ from pydantic.tools import parse_obj_as
 
 from ..async_cmd import CmdOut, run, runforcli
 from ..dirs import clan_flakes_dir
+from ..errors import ClanError
 from ..nix import nix_command, nix_shell
 
 DEFAULT_URL: AnyUrl = parse_obj_as(
-    AnyUrl, "git+https://git.clan.lol/clan/clan-core#new-clan"
+    AnyUrl,
+    "git+https://git.clan.lol/clan/clan-core?ref=Qubasa-main#new-clan",  # TODO: Change me back to main branch
 )
 
 
 async def create_flake(directory: Path, url: AnyUrl) -> Dict[str, CmdOut]:
     if not directory.exists():
         directory.mkdir()
+    else:
+        raise ClanError(f"Flake at '{directory}' already exists")
     response = {}
     command = nix_command(
         [
@@ -27,27 +31,27 @@ async def create_flake(directory: Path, url: AnyUrl) -> Dict[str, CmdOut]:
             url,
         ]
     )
-    out = await run(command, directory)
+    out = await run(command, cwd=directory)
     response["flake init"] = out
 
     command = nix_shell(["git"], ["git", "init"])
-    out = await run(command, directory)
+    out = await run(command, cwd=directory)
     response["git init"] = out
 
     command = nix_shell(["git"], ["git", "add", "."])
-    out = await run(command, directory)
+    out = await run(command, cwd=directory)
     response["git add"] = out
 
     command = nix_shell(["git"], ["git", "config", "user.name", "clan-tool"])
-    out = await run(command, directory)
+    out = await run(command, cwd=directory)
     response["git config"] = out
 
     command = nix_shell(["git"], ["git", "config", "user.email", "clan@example.com"])
-    out = await run(command, directory)
+    out = await run(command, cwd=directory)
     response["git config"] = out
 
     command = nix_shell(["git"], ["git", "commit", "-a", "-m", "Initial commit"])
-    out = await run(command, directory)
+    out = await run(command, cwd=directory)
     response["git commit"] = out
 
     return response
@@ -55,7 +59,7 @@ async def create_flake(directory: Path, url: AnyUrl) -> Dict[str, CmdOut]:
 
 def create_flake_command(args: argparse.Namespace) -> None:
     flake_dir = clan_flakes_dir() / args.name
-    runforcli(create_flake, flake_dir, DEFAULT_URL)
+    runforcli(create_flake, flake_dir, args.url)
 
 
 # takes a (sub)parser and configures it
@@ -64,6 +68,12 @@ def register_create_parser(parser: argparse.ArgumentParser) -> None:
         "name",
         type=str,
         help="name for the flake",
+    )
+    parser.add_argument(
+        "--url",
+        type=str,
+        help="url for the flake",
+        default=DEFAULT_URL,
     )
     # parser.add_argument("name", type=str, help="name of the flake")
     parser.set_defaults(func=create_flake_command)
