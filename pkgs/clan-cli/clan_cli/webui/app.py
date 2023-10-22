@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from ..errors import ClanError
 from .assets import asset_path
 from .error_handlers import clan_error_handler
-from .routers import flake, health, machines, root, vms
+from .routers import health, root
 
 origins = [
     "http://localhost:3000",
@@ -26,14 +26,12 @@ def setup_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.include_router(flake.router)
+
     app.include_router(health.router)
-    app.include_router(machines.router)
-    app.include_router(vms.router)
+
 
     # Needs to be last in register. Because of wildcard route
     app.include_router(root.router)
-
     app.add_exception_handler(ClanError, clan_error_handler)
 
     app.mount("/static", StaticFiles(directory=asset_path()), name="static")

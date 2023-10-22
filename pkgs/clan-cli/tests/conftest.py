@@ -13,12 +13,8 @@ pytest_plugins = [
     "api",
     "temporary_dir",
     "root",
-    "age_keys",
-    "sshd",
     "command",
     "ports",
-    "host_group",
-    "fixtures_flakes",
 ]
 
 
