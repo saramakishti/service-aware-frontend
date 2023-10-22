@@ -1,6 +1,4 @@
-import { useListMachines } from "@/api/default/default";
-import { MachinesResponse } from "@/api/model";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import React, {
   createContext,
   Dispatch,
@@ -8,7 +6,6 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
-import { KeyedMutator } from "swr";
 
 type AppContextType = {
   data: AppState;
@@ -21,7 +18,7 @@ type AppContextType = {
 
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
-type AppState = {};
+type AppState = NonNullable<unknown>;
 
 interface AppContextProviderProps {
   children: ReactNode;
