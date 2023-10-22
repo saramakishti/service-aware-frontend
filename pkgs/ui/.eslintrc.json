@@ -3,5 +3,8 @@
   "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended",  "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["**/src/api/*"]
+  "ignorePatterns": ["**/src/api/*"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off"
+  }
 }
