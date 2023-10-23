@@ -8,9 +8,11 @@ from pathlib import Path
 import pytest
 from ports import PortFunction
 
+
 @pytest.mark.impure
 def test_nothing_much() -> None:
     pass
+
 
 @pytest.mark.timeout(10)
 def test_start_server(unused_tcp_port: PortFunction, temporary_home: Path) -> None:
