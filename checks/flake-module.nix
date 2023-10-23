@@ -2,7 +2,7 @@
   imports = [
     ./impure/flake-module.nix
   ];
-  perSystem = { pkgs, lib, self', ... }: {
+  perSystem = { lib, self', ... }: {
     checks =
       let
 
