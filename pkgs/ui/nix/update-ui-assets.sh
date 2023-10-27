@@ -22,9 +22,10 @@ nix build '.#ui' --out-link "$tmpdir/result"
 tar --transform 's,^\.,assets,' -czvf "$tmpdir/assets.tar.gz" -C "$tmpdir"/result/lib/node_modules/*/out .
 NAR_HASH=$(nix-prefetch-url --unpack file://<(cat "$tmpdir/assets.tar.gz"))
 
-owner=Luis
-package_name=consulting-website
+owner=ui-asset-bot
+package_name=ui
 package_version=$NAR_HASH
+
 url="https://gitea.gchq.icu/api/packages/$owner/generic/$package_name/$package_version/assets.tar.gz"
 set +x
 curl --upload-file "$tmpdir/assets.tar.gz" -X PUT "$url?token=$GITEA_TOKEN"
