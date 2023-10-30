@@ -15,7 +15,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v32
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Check if UI files are in the list of modified files
         run: |
@@ -35,7 +35,7 @@ jobs:
               export PATH=$PATH:$DEPS
 
               # Setup git config
-              git config --global user.email "ui-asset-bot@clan.lol"
+              git config --global user.email "ui-asset-bot@gchq.icu"
               git config --global user.name "ui-asset-bot"
 
               ################################################
