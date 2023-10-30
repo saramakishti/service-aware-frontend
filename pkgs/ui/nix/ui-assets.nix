@@ -1,5 +1,5 @@
 { fetchzip }:
 fetchzip {
-  url = "https://gitea.gchq.icu/api/packages/ui-asset-bot/generic/ui/1inlxk1i9q87bw00zwqyvpm3m0hdgdffhxlymzgi5wvqn9syd0cm/assets.tar.gz";
-  sha256 = "1inlxk1i9q87bw00zwqyvpm3m0hdgdffhxlymzgi5wvqn9syd0cm";
+  url = "https://gitea.gchq.icu/api/packages/ui-asset-bot/generic/ui/0bv0b0pnz53y2k5xx2flqf12l5acwcvckgpjx1zs0x172acy1lcw/assets.tar.gz";
+  sha256 = "0bv0b0pnz53y2k5xx2flqf12l5acwcvckgpjx1zs0x172acy1lcw";
 }
