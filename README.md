@@ -118,4 +118,3 @@ Also set the option `Enable Status Check` to `build / test (pull_request)`
 Add `merge-bot` and `ui-asset-bot` as collaborators.
 Also set the option `Delete pull request branch after merge by default`
 Also the the default merge style to `Rebase then create merge commit`
-
