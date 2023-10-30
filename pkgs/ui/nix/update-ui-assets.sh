@@ -32,7 +32,7 @@ tar --transform 's,^\.,assets,' -czvf "$tmpdir/assets.tar.gz" -C "$tmpdir"/resul
 NAR_HASH=$(nix-prefetch-url --unpack file://<(cat "$tmpdir/assets.tar.gz"))
 
 owner=$BOT_NAME
-package_name=ui
+package_name=$(echo -n "$GITHUB_REPOSITORY" | sed 's/\//-/g')
 package_version=$NAR_HASH
 baseurl=$GITHUB_SERVER_URL
 
