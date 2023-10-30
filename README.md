@@ -79,6 +79,14 @@ You will then see a prompt, please fill it out like outlined below:
    1. `git add <file1> <file2>` your changes
    2. Execute `nix fmt` to lint your files
    3. `git commit -a -m "My descriptive commit message"`
+   4. Make sure your branch has the latest changes from upstream by executing: 
+    ```bash
+    git fetch && git rebase origin/main --autostash
+    ```
+    5. Execute `git status` to see if you have a merge conflict.
+    6. If so edit the file and fix the conflict. Here is a tutorial how to do so in [vscode](https://code.visualstudio.com/docs/sourcecontrol/overview#_merge-conflicts)
+    7. Execute `git merge --continue` and repeat step 5 till there are no conflicts anymore 
+
 3. To automatically open up a pull request, that gets merged if all tests pass execute:
 
 ```bash
