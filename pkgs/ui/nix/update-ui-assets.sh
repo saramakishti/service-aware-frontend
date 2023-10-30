@@ -17,7 +17,7 @@ if [[ -z "${GITHUB_SERVER_URL:-}" ]]; then
   exit 1
 fi
 
-DEPS=$(nix shell --inputs-from '.#' "nixpkgs#gnutar" "nixpkgs#curl" "nixpkgs#gzip" -c bash -c "echo \$PATH")
+DEPS=$(nix shell --inputs-from '.#' "nixpkgs#gnutar" "nixpkgs#gnused" "nixpkgs#curl" "nixpkgs#gzip" -c bash -c "echo \$PATH")
 export PATH=$PATH:$DEPS
 
 
