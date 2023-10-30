@@ -108,9 +108,14 @@ to directly push to your open pull request
 ## Using this template
 
 Setup two new gitea accounts.
-One named `ui-asset-bot`, generate an access token for it with all access permissions and set under `settings/actions/secrets` a secret called BOT_ACCESS_TOKEN with the token.
+One named `ui-asset-bot`, generate an access token for it with all access permissions and set under `settings/actions/secrets` a secret called `BOT_ACCESS_TOKEN` with the token.
 Also edit the file `.gitea/workflows/ui_assets.yaml` and change the `BOT_EMAIL` variable to the email you set for that account.
 The second account is called `merge-bot` edit the file `pkgs/merge-after-ci/default.nix`
 if the name should be different.
-Then set the main branch to protected and add `merge-bot` to whitelisted users for pushing. Also set an unprotected file pattern to `**/ui-assets.nix`.
-Add both `ui-asset-bot` and `merge-bot` as collaborators.
+Under Branches set the main branch to protected and add `merge-bot` to whitelisted users for pushing.
+Also set an unprotected file pattern to `**/ui-assets.nix`.
+Also set the option `Enable Status Check` to `build / test (pull_request)`
+Add `merge-bot` and `ui-asset-bot` as collaborators.
+Also set the option `Delete pull request branch after merge by default`
+Also the the default merge style to `Rebase then create merge commit`
+
