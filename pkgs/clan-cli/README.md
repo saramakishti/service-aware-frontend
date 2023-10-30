@@ -56,15 +56,15 @@ Add this `launch.json` to your .vscode directory to have working breakpoints in 
 
 ## Run locally single-threaded for debugging
 
-By default tests run in parallel using pytest-parallel.
-pytest-parallel however breaks `breakpoint()`. To disable it, use this:
+By default tests run in parallel using pytest-xdist.
+pytest-xdist however breaks `breakpoint()`. To disable it, use this:
 
 ```console
-pytest --workers "" -s
+pytest -n0 -s
 ```
 
 You can also run a single test like this:
 
 ```console
-pytest --workers "" -s tests/test_secrets_cli.py::test_users
+pytest -n0 -s tests/test_secrets_cli.py::test_users
 ```

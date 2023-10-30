@@ -76,16 +76,19 @@ You will then see a prompt, please fill it out like outlined below:
 ```
 
 2. First add your changes to git:
+
    1. `git add <file1> <file2>` your changes
    2. Execute `nix fmt` to lint your files
    3. `git commit -a -m "My descriptive commit message"`
-   4. Make sure your branch has the latest changes from upstream by executing: 
-    ```bash
-    git fetch && git rebase origin/main --autostash
-    ```
-    5. Execute `git status` to see if you have a merge conflict.
-    6. If so edit the file and fix the conflict. Here is a tutorial how to do so in [vscode](https://code.visualstudio.com/docs/sourcecontrol/overview#_merge-conflicts)
-    7. Execute `git merge --continue` and repeat step 5 till there are no conflicts anymore 
+   4. Make sure your branch has the latest changes from upstream by executing:
+
+   ```bash
+   git fetch && git rebase origin/main --autostash
+   ```
+
+   5. Execute `git status` to see if you have a merge conflict.
+   6. If so edit the file and fix the conflict. Here is a tutorial how to do so in [vscode](https://code.visualstudio.com/docs/sourcecontrol/overview#_merge-conflicts)
+   7. Execute `git merge --continue` and repeat step 5 till there are no conflicts anymore
 
 3. To automatically open up a pull request, that gets merged if all tests pass execute:
 
@@ -101,3 +104,13 @@ git push origin HEAD:MyUserName-main
 ```
 
 to directly push to your open pull request
+
+## Using this template
+
+Setup two new gitea accounts.
+One named `ui-asset-bot`, generate an access token for it with all access permissions and set under `settings/actions/secrets` a secret called BOT_ACCESS_TOKEN with the token.
+Also edit the file `.gitea/workflows/ui_assets.yaml` and change the `BOT_EMAIL` variable to the email you set for that account.
+The second account is called `merge-bot` edit the file `pkgs/merge-after-ci/default.nix`
+if the name should be different.
+Then set the main branch to protected and add `merge-bot` to whitelisted users for pushing. Also set an unprotected file pattern to `**/ui-assets.nix`.
+Add both `ui-asset-bot` and `merge-bot` as collaborators.
