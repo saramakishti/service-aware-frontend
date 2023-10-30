@@ -21,6 +21,6 @@ writeShellApplication {
     remoteName="''${1:-origin}"
     targetBranch="''${2:-main}"
     shift && shift
-    tea-create-pr "$remoteName" "$targetBranch" --assignees consulting-bot "$@"
+    tea-create-pr "$remoteName" "$targetBranch" --assignees merge-bot "$@"
   '';
 }
