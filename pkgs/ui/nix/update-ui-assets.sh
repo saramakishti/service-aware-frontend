@@ -17,6 +17,11 @@ if [[ -z "${GITHUB_SERVER_URL:-}" ]]; then
   exit 1
 fi
 
+if [[ -z "${GITHUB_REPOSITORY:-}" ]]; then
+  echo "Env var GITHUB_REPOSITORY is not set. Please use the repo path here."
+  exit 1
+fi
+
 DEPS=$(nix shell --inputs-from '.#' "nixpkgs#gnutar" "nixpkgs#gnused" "nixpkgs#curl" "nixpkgs#gzip" -c bash -c "echo \$PATH")
 export PATH=$PATH:$DEPS
 
@@ -31,7 +36,7 @@ nix build '.#ui' --out-link "$tmpdir/result"
 tar --transform 's,^\.,assets,' -czvf "$tmpdir/assets.tar.gz" -C "$tmpdir"/result/lib/node_modules/*/out .
 NAR_HASH=$(nix-prefetch-url --unpack file://<(cat "$tmpdir/assets.tar.gz"))
 
-owner=$BOT_NAME
+owner=IoSL
 package_name=$(echo -n "$GITHUB_REPOSITORY" | sed 's/\//-/g')
 package_version=$NAR_HASH
 baseurl=$GITHUB_SERVER_URL
