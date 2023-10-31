@@ -4,7 +4,7 @@ Welcome to our website template repository! This template is designed to help yo
 
 **Frontend**: Our frontend is powered by [React NextJS](https://nextjs.org/), a popular and versatile framework for building web applications.
 
-**Backend**: For the backend, we use Python along with the [FastAPI framework](https://fastapi.tiangolo.com/). To ensure seamless communication between the frontend and backend, we generate an `openapi.json` file from the Python code, which defines the REST API. This file is then used with [Orval](https://orval.dev/) to generate TypeScript bindings for the REST API. We're committed to code correctness, so we use [mypy](https://mypy-lang.org/) to ensure that our Python code is statically typed correctly. For backend testing, we rely on [pytest](https://docs.pytest.org/en/7.4.x/). 
+**Backend**: For the backend, we use Python along with the [FastAPI framework](https://fastapi.tiangolo.com/). To ensure seamless communication between the frontend and backend, we generate an `openapi.json` file from the Python code, which defines the REST API. This file is then used with [Orval](https://orval.dev/) to generate TypeScript bindings for the REST API. We're committed to code correctness, so we use [mypy](https://mypy-lang.org/) to ensure that our Python code is statically typed correctly. For backend testing, we rely on [pytest](https://docs.pytest.org/en/7.4.x/).
 
 **Continuous Integration (CI)**: We've set up a CI bot that rigorously checks your code using the quality assurance (QA) tools mentioned above. If any errors are detected, it will block pull requests until they're resolved.
 
@@ -15,21 +15,25 @@ Welcome to our website template repository! This template is designed to help yo
 Let's get your development environment up and running:
 
 1. **Install Nix Package Manager**:
+
    - You can install the Nix package manager by either [downloading the Nix installer](https://github.com/DeterminateSystems/nix-installer/releases) or running this command:
      ```bash
      curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
      ```
 
 2. **Install direnv**:
+
    - Download the direnv package from [here](https://direnv.net/docs/installation.html) or run the following command:
      ```bash
      curl -sfL https://direnv.net/install.sh | bash
      ```
 
 3. **Clone the Repository and Navigate**:
+
    - Clone this repository and navigate to it.
 
 4. **Allow .envrc**:
+
    - When you enter the directory, you'll receive an error message like this:
      ```bash
      direnv: error .envrc is blocked. Run `direnv allow` to approve its content
@@ -37,6 +41,7 @@ Let's get your development environment up and running:
    - Execute `direnv allow` to automatically execute the shell script `.envrc` when entering the directory.
 
 5. **Build the Backend**:
+
    - Go to the `pkgs/clan-cli` directory and execute:
      ```bash
      direnv allow
@@ -44,6 +49,7 @@ Let's get your development environment up and running:
    - Wait for the backend to build.
 
 6. **Start the Backend Server**:
+
    - To start the backend server, execute:
      ```bash
      clan webui --reload --no-open --log-level debug
@@ -51,6 +57,7 @@ Let's get your development environment up and running:
    - The server will automatically restart if any Python files change.
 
 7. **Build the Frontend**:
+
    - In a different shell, navigate to the `pkgs/ui` directory and execute:
      ```bash
      direnv allow
@@ -64,12 +71,12 @@ Let's get your development environment up and running:
      ```
    - Access the website by going to [http://localhost:3000](http://localhost:3000).
 
-
 # Setting Up Your Git Workflow
 
 Let's set up your Git workflow to collaborate effectively:
 
 1. **Register Your Gitea Account Locally**:
+
    - Execute the following command to add your Gitea account locally:
      ```bash
      tea login add
@@ -83,6 +90,7 @@ Let's set up your Git workflow to collaborate effectively:
      - Set Optional settings: No
 
 2. **Git Workflow**:
+
    1. Add your changes to Git using `git add <file1> <file2>`.
    2. Run `nix fmt` to lint your files.
    3. Commit your changes with a descriptive message: `git commit -a -m "My descriptive commit message"`.
@@ -95,12 +103,14 @@ Let's set up your Git workflow to collaborate effectively:
    7. After resolving conflicts, execute `git merge --continue` and repeat step 5 until there are no conflicts.
 
 3. **Create a Pull Request**:
+
    - To automatically open a pull request that gets merged if all tests pass, execute:
      ```bash
      merge-after-ci
      ```
 
 4. **Review Your Pull Request**:
+
    - Visit https://gitea.gchq.icu and go to the project page. Check under "Pull Requests" for any issues with your pull request.
 
 5. **Push Your Changes**:
@@ -173,9 +183,11 @@ These debugging and testing methods will help you identify and fix issues in you
 To make the most of this template:
 
 1. Set up a new Gitea account named `ui-asset-bot`. Generate an access token with all access permissions and set it under `settings/actions/secrets` as a secret called `BOT_ACCESS_TOKEN`.
+
    - Also, edit the file `.gitea/workflows/ui_assets.yaml` and change the `BOT_EMAIL` variable to match the email you set for that account. Gitea matches commits to accounts by their email address, so this step is essential.
 
 2. Create a second Gitea account named `merge-bot`. Edit the file `pkgs/merge-after-ci/default.nix` if the name should be different. Under "Branches," set the main branch to be protected and add `merge-bot` to the whitelisted users for pushing. Set the unprotected file pattern to `**/ui-assets.nix`.
+
    - Enable the status check for "build / test (pull_request)."
 
 3. Add both `merge-bot` and `ui-asset-bot` as collaborators.
