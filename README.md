@@ -1,120 +1,185 @@
 # Website Template
 
-This repository is a template to build high quality websites as a team.
-The frontend uses [React NextJS
-](https://nextjs.org/) and the backend uses Python with the [Fastapi framework](https://fastapi.tiangolo.com/). To ensure API compatibility between frontend and backend an `openapi.json` file is generated from the Python backend code, which defines the REST API. This `openapi.json` file is then fed into [Orval](https://orval.dev/), which generates Typescript bindings for the Rest API. To ensure code correctness, we use [mypy](https://mypy-lang.org/) to ensure the Python code is correctly statically typed, and [pytest](https://docs.pytest.org/en/7.4.x/) for backend tests. A Continuos Integration (CI) Bot, verifies the code with previously mentioned Quality Assurance (QA) tools and blocks Pull requests if any errors arise.
-For dependency management we use the [Nix package manager](https://nixos.org/) to ensure reproducibility.
+Welcome to our website template repository! This template is designed to help you and your team build high-quality websites efficiently. We've carefully chosen the technologies to make development smooth and enjoyable. Here's what you can expect from this template:
 
-## Getting Started: Development Environment
+**Frontend**: Our frontend is powered by [React NextJS](https://nextjs.org/), a popular and versatile framework for building web applications.
 
-1. Install the Nix package manager by [downloading the nix installer](https://github.com/DeterminateSystems/nix-installer/releases) or executing this command:
+**Backend**: For the backend, we use Python along with the [FastAPI framework](https://fastapi.tiangolo.com/). To ensure seamless communication between the frontend and backend, we generate an `openapi.json` file from the Python code, which defines the REST API. This file is then used with [Orval](https://orval.dev/) to generate TypeScript bindings for the REST API. We're committed to code correctness, so we use [mypy](https://mypy-lang.org/) to ensure that our Python code is statically typed correctly. For backend testing, we rely on [pytest](https://docs.pytest.org/en/7.4.x/). 
 
-```bash
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-```
+**Continuous Integration (CI)**: We've set up a CI bot that rigorously checks your code using the quality assurance (QA) tools mentioned above. If any errors are detected, it will block pull requests until they're resolved.
 
-2. Install direnv by [downloading the direnv package](https://direnv.net/docs/installation.html) or executing this command:
+**Dependency Management**: We use the [Nix package manager](https://nixos.org/) to manage dependencies and ensure reproducibility, making your development process more robust.
 
-```bash
-curl -sfL https://direnv.net/install.sh | bash
-```
+# Getting Started with the Development Environment
 
-3. Clone the repository and cd into it
-4. You should see an error message reading like this:
+Let's get your development environment up and running:
 
-```bash
-direnv: error .envrc is blocked. Run `direnv allow` to approve its content
-```
+1. **Install Nix Package Manager**:
+   - You can install the Nix package manager by either [downloading the Nix installer](https://github.com/DeterminateSystems/nix-installer/releases) or running this command:
+     ```bash
+     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+     ```
 
-5. Execute `direnv allow` to allow automatically executing the shell script `.envrc` on entering the directory
-6. Go to `pkgs/clan-cli` and execute
+2. **Install direnv**:
+   - Download the direnv package from [here](https://direnv.net/docs/installation.html) or run the following command:
+     ```bash
+     curl -sfL https://direnv.net/install.sh | bash
+     ```
 
-```bash
-direnv allow
-```
+3. **Clone the Repository and Navigate**:
+   - Clone this repository and navigate to it.
 
-Then wait for the backend to build  
-7. To start the backend server then execute:
+4. **Allow .envrc**:
+   - When you enter the directory, you'll receive an error message like this:
+     ```bash
+     direnv: error .envrc is blocked. Run `direnv allow` to approve its content
+     ```
+   - Execute `direnv allow` to automatically execute the shell script `.envrc` when entering the directory.
 
-```
-clan webui --reload --no-open --log-level debug
-```
+5. **Build the Backend**:
+   - Go to the `pkgs/clan-cli` directory and execute:
+     ```bash
+     direnv allow
+     ```
+   - Wait for the backend to build.
 
-The server will automatically restart if any Python file changes.  
-8. In a different shell go to `pkgs/ui` and execute
+6. **Start the Backend Server**:
+   - To start the backend server, execute:
+     ```bash
+     clan webui --reload --no-open --log-level debug
+     ```
+   - The server will automatically restart if any Python files change.
 
-```bash
-direnv allow
-```
+7. **Build the Frontend**:
+   - In a different shell, navigate to the `pkgs/ui` directory and execute:
+     ```bash
+     direnv allow
+     ```
+   - Wait for the frontend to build.
 
-Then wait for the frontend to build.  
-9. To start the frontend, execute:
+8. **Start the Frontend**:
+   - To start the frontend, execute:
+     ```bash
+     npm run dev
+     ```
+   - Access the website by going to [http://localhost:3000](http://localhost:3000).
 
-```bash
-npm run dev
-```
 
-Visit the website by going to [http://localhost:3000](http://localhost:3000)
+# Setting Up Your Git Workflow
 
-## Getting started: Setup Git Workflow
+Let's set up your Git workflow to collaborate effectively:
 
-1. Register your Gitea account locally by executing
+1. **Register Your Gitea Account Locally**:
+   - Execute the following command to add your Gitea account locally:
+     ```bash
+     tea login add
+     ```
+   - Fill out the prompt as follows:
+     - URL of Gitea instance: `https://gitea.gchq.icu`
+     - Name of new Login [gitea.gchq.icu]: `gitea.gchq.icu:7171`
+     - Do you have an access token? No
+     - Username: YourUsername
+     - Password: YourPassword
+     - Set Optional settings: No
 
-```bash
-tea login add
-```
-
-You will then see a prompt, please fill it out like outlined below:
-
-```
-? URL of Gitea instance:  https://gitea.gchq.icu
-? Name of new Login [gitea.gchq.icu]:  gitea.gchq.icu:7171
-? Do you have an access token? No
-? Username:  MyUserName
-? Password:  **********
-? Set Optional settings: No
-```
-
-2. First add your changes to git:
-
-   1. `git add <file1> <file2>` your changes
-   2. Execute `nix fmt` to lint your files
-   3. `git commit -a -m "My descriptive commit message"`
+2. **Git Workflow**:
+   1. Add your changes to Git using `git add <file1> <file2>`.
+   2. Run `nix fmt` to lint your files.
+   3. Commit your changes with a descriptive message: `git commit -a -m "My descriptive commit message"`.
    4. Make sure your branch has the latest changes from upstream by executing:
+      ```bash
+      git fetch && git rebase origin/main --autostash
+      ```
+   5. Use `git status` to check for merge conflicts.
+   6. If conflicts exist, resolve them. Here's a tutorial for resolving conflicts in [VSCode](https://code.visualstudio.com/docs/sourcecontrol/overview#_merge-conflicts).
+   7. After resolving conflicts, execute `git merge --continue` and repeat step 5 until there are no conflicts.
 
+3. **Create a Pull Request**:
+   - To automatically open a pull request that gets merged if all tests pass, execute:
+     ```bash
+     merge-after-ci
+     ```
+
+4. **Review Your Pull Request**:
+   - Visit https://gitea.gchq.icu and go to the project page. Check under "Pull Requests" for any issues with your pull request.
+
+5. **Push Your Changes**:
+   - If there are issues, fix them and redo step 2. Afterward, execute:
+     ```bash
+     git push origin HEAD:YourUsername-main
+     ```
+   - This will directly push to your open pull request.
+
+# Debugging
+
+When working on the backend of your project, debugging is an essential part of the development process. Here are some methods for debugging and testing the backend of your application:
+
+## Test Backend Locally in Devshell with Breakpoints
+
+To test the backend locally in a development environment and set breakpoints for debugging, follow these steps:
+
+1. Run the following command to execute your tests and allow for debugging with breakpoints:
    ```bash
-   git fetch && git rebase origin/main --autostash
+   pytest -n0 -s --maxfail=1
+   ```
+   You can place `breakpoint()` in your Python code where you want to trigger a breakpoint for debugging.
+
+## Test Backend Locally in a Nix Sandbox
+
+To run your backend tests in a Nix sandbox, you have two options depending on whether your test functions have been marked as impure or not:
+
+### Running Tests Marked as Impure
+
+If your test functions need to execute `nix build` and have been marked as impure because you can't execute `nix build` inside a Nix sandbox, use the following command:
+
+```bash
+nix run .#impure-checks
+```
+
+This command will run the impure test functions.
+
+### Running Pure Tests
+
+For test functions that have not been marked as impure and don't require executing `nix build`, you can use the following command:
+
+```bash
+nix build .#checks.x86_64-linux.clan-pytest --rebuild
+```
+
+This command will run all pure test functions.
+
+### Inspecting the Nix Sandbox
+
+If you need to inspect the Nix sandbox while running tests, follow these steps:
+
+1. Insert an endless sleep into your test code where you want to pause the execution. For example:
+
+   ```python
+   import time
+   time.sleep(3600)  # Sleep for one hour
    ```
 
-   5. Execute `git status` to see if you have a merge conflict.
-   6. If so edit the file and fix the conflict. Here is a tutorial how to do so in [vscode](https://code.visualstudio.com/docs/sourcecontrol/overview#_merge-conflicts)
-   7. Execute `git merge --continue` and repeat step 5 till there are no conflicts anymore
+2. Use `cntr` and `psgrep` to attach to the Nix sandbox. This allows you to interactively debug your code while it's paused. For example:
 
-3. To automatically open up a pull request, that gets merged if all tests pass execute:
+   ```bash
+   cntr exec -w your_sandbox_name
+   psgrep -a -x your_python_process_name
+   ```
 
-```bash
-merge-after-ci
-```
+These debugging and testing methods will help you identify and fix issues in your backend code efficiently, ensuring the reliability and robustness of your application.
 
-4. Go to https://gitea.gchq.icu to the project page, and look under "Pull Requests" if there are any issues with it.
-5. If there are issues, fix them and redo step 2. Afterwards execute
+# Using this Template
 
-```
-git push origin HEAD:MyUserName-main
-```
+To make the most of this template:
 
-to directly push to your open pull request
+1. Set up a new Gitea account named `ui-asset-bot`. Generate an access token with all access permissions and set it under `settings/actions/secrets` as a secret called `BOT_ACCESS_TOKEN`.
+   - Also, edit the file `.gitea/workflows/ui_assets.yaml` and change the `BOT_EMAIL` variable to match the email you set for that account. Gitea matches commits to accounts by their email address, so this step is essential.
 
-## Using this template
+2. Create a second Gitea account named `merge-bot`. Edit the file `pkgs/merge-after-ci/default.nix` if the name should be different. Under "Branches," set the main branch to be protected and add `merge-bot` to the whitelisted users for pushing. Set the unprotected file pattern to `**/ui-assets.nix`.
+   - Enable the status check for "build / test (pull_request)."
 
-Setup two new gitea accounts.
-One named `ui-asset-bot`, generate an access token for it with all access permissions and set under `settings/actions/secrets` a secret called `BOT_ACCESS_TOKEN` with the token.
-Also edit the file `.gitea/workflows/ui_assets.yaml` and change the `BOT_EMAIL` variable to the email you set for that account.
-The second account is called `merge-bot` edit the file `pkgs/merge-after-ci/default.nix`
-if the name should be different.
-Under Branches set the main branch to protected and add `merge-bot` to whitelisted users for pushing.
-Also set an unprotected file pattern to `**/ui-assets.nix`.
-Also set the option `Enable Status Check` to `build / test (pull_request)`
-Add `merge-bot` and `ui-asset-bot` as collaborators.
-Also set the option `Delete pull request branch after merge by default`
-Also the the default merge style to `Rebase then create merge commit`
+3. Add both `merge-bot` and `ui-asset-bot` as collaborators.
+   - Set the option to "Delete pull request branch after merge by default."
+   - Also, set the default merge style to "Rebase then create merge commit."
+
+With this template, you're well-equipped to build and collaborate on high-quality websites efficiently. Happy coding!
