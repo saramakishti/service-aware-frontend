@@ -31,7 +31,7 @@ nix build '.#ui' --out-link "$tmpdir/result"
 tar --transform 's,^\.,assets,' -czvf "$tmpdir/assets.tar.gz" -C "$tmpdir"/result/lib/node_modules/*/out .
 NAR_HASH=$(nix-prefetch-url --unpack file://<(cat "$tmpdir/assets.tar.gz"))
 
-owner=$BOT_NAME
+owner=IoSL
 package_name=$(echo -n "$GITHUB_REPOSITORY" | sed 's/\//-/g')
 package_version=$NAR_HASH
 baseurl=$GITHUB_SERVER_URL
