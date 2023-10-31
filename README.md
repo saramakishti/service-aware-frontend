@@ -1,6 +1,5 @@
 # Website Template
 
-
 Welcome to our website template repository! This template is designed to help you and your team build high-quality websites efficiently. We've carefully chosen the technologies to make development smooth and enjoyable. Here's what you can expect from this template:
 
 **Frontend**: Our frontend is powered by [React NextJS](https://nextjs.org/), a popular and versatile framework for building web applications.
@@ -195,4 +194,4 @@ To make the most of this template:
    - Set the option to "Delete pull request branch after merge by default."
    - Also, set the default merge style to "Rebase then create merge commit."
 
-With this template, you're well-equipped to build and collaborate on high-quality websites efficiently. Happy coding!
+With this template, you're well-equipped to build and collaborate on high-quality websites efficiently. Happy coding!.
