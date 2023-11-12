@@ -122,6 +122,8 @@ Let's set up your Git workflow to collaborate effectively:
      ```bash
      merge-after-ci
      ```
+   - If it fails and says something along the lines off `[ERROR] fail-on-change` then the formatter complained.
+     Execute `nix fmt` from the project root by hand and then make a new git commit. Afterwards redo step 3 and it should work.
 
 4. **Review Your Pull Request**:
 
