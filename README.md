@@ -11,6 +11,7 @@ Welcome to our website template repository! This template is designed to help yo
 **Dependency Management**: We use the [Nix package manager](https://nixos.org/) to manage dependencies and ensure reproducibility, making your development process more robust.
 
 ## Supported Operating Systems
+
 - Linux
 - macOS
 
@@ -33,8 +34,10 @@ Let's get your development environment up and running:
      ```
 
 3. **Add direnv to your shell**:
+
    - Direnv needs to [hook into your shell](https://direnv.net/docs/hook.html) to work.
-      You can do this by executing following command:
+     You can do this by executing following command:
+
    ```bash
    echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc && echo 'eval "$(direnv hook bash)"' >> ~/.bashrc && eval "$SHELL"
    ```
@@ -119,6 +122,8 @@ Let's set up your Git workflow to collaborate effectively:
      ```bash
      merge-after-ci
      ```
+   - If it fails and says something along the lines off `[ERROR] fail-on-change` then the formatter complained.
+     Execute `nix fmt` from the project root by hand and then make a new git commit. Afterwards redo step 3 and it should work.
 
 4. **Review Your Pull Request**:
 

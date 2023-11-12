@@ -34,6 +34,8 @@
 , gnupg
 , e2fsprogs
 , mypy
+, sqlalchemy
+, websockets
 }:
 let
 
@@ -41,6 +43,8 @@ let
     argcomplete # optional dependency: if not enabled, shell completion will not work
     fastapi
     uvicorn # optional dependencies: if not enabled, webui subcommand will not work
+    sqlalchemy
+    websockets
   ];
 
   pytestDependencies = runtimeDependencies ++ dependencies ++ [
