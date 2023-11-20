@@ -58,11 +58,11 @@
     },
     "nixpkgs-for-iosl": {
       "locked": {
-        "lastModified": 1700505490,
-        "narHash": "sha256-MLF5dkExensQoByZCmsR/kdcwZoaY/j6/ctSvmQHBJc=",
+        "lastModified": 1700515317,
+        "narHash": "sha256-DSnKT3glZCKE0/Rc6ainSJUbUGC248HNKVRSbo9kxkM=",
         "owner": "Luis-Hebendanz",
         "repo": "nixpkgs",
-        "rev": "5f9d94794badee6fcb3230ccea75628a802baeab",
+        "rev": "bcd6be7a5ab22c94c775945fb16a61b5867f15d2",
         "type": "github"
       },
       "original": {
