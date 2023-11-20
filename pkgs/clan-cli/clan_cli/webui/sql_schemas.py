@@ -1,41 +1,34 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-
-class ProducerBase(BaseModel):
+class RepositoryBase(BaseModel):
     title: str
     description: str | None = None
 
+class RepositoryCreate(RepositoryBase):
+    pass
 
-class ProducerCreate(ProducerBase):
-    service_name: str
-    service_type: str
-    end_point: str
-    usage_str: str
-    status: str
-    action: str
-
-
-class Producer(ProducerBase):
+class Repository(RepositoryBase):
     id: int
-
+    prod_id: str
     class Config:
         orm_mode = True
 
 
-class RepositoryBase(BaseModel):
-    service_name: str
-
-
-class RepositoryCreate(RepositoryBase):
-    service_type: str
-    end_point: str
-    producer_did: str
-    network: str
-
-
-class Repository(RepositoryBase):
+class ProducerBase(BaseModel):
     id: int
-    Producers: list[Producer] = []
 
+class ProducerCreate(ProducerBase):
+    jsonblob: int = Field(
+        42,
+        title='The Json',
+        description='this is the value of json',
+        gt=30,
+        lt=50,
+        list=[1,2,"3"],
+    )
+
+class Producer(ProducerBase):
+    id: int
+    repos: list[Repository] = []
     class Config:
         orm_mode = True

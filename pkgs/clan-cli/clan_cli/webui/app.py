@@ -10,7 +10,14 @@ from fastapi.staticfiles import StaticFiles
 from ..errors import ClanError
 from .assets import asset_path
 from .error_handlers import clan_error_handler
-from .routers import health, root, socket_manager2
+from .routers import health, root, sql_connect, socket_manager2 # sql router hinzufügen
+
+#import for sql
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
+from . import sql_crud, sql_models, sql_schemas
+from .sql_db import SessionLocal, engine
+
 
 origins = [
     "http://localhost:3000",
@@ -27,7 +34,11 @@ async def lifespan(app: FastAPI) -> Any:
 
 
 def setup_app() -> FastAPI:
-    app = FastAPI(lifespan=lifespan)
+    # bind sql engine
+    sql_models.Base.metadata.drop_all(engine)
+    sql_models.Base.metadata.create_all(bind=engine)
+    
+    app = FastAPI()
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
@@ -37,6 +48,8 @@ def setup_app() -> FastAPI:
     )
 
     app.include_router(health.router)
+    #sql methodes
+    app.include_router(sql_connect.router)
 
     app.include_router(socket_manager2.router)
 
