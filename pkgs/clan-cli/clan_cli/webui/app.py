@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
+from contextlib import asynccontextmanager
+from typing import Any
 
 from ..errors import ClanError
 from .assets import asset_path
@@ -37,8 +39,8 @@ def setup_app() -> FastAPI:
     # bind sql engine
     sql_models.Base.metadata.drop_all(engine)
     sql_models.Base.metadata.create_all(bind=engine)
-    
-    app = FastAPI()
+
+    app = FastAPI(lifespan=lifespan)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
