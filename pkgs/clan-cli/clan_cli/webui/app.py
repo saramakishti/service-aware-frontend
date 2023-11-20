@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from ..errors import ClanError
 from .assets import asset_path
 from .error_handlers import clan_error_handler
-from .routers import health, root
+from .routers import health, root, socket_manager
 
 origins = [
     "http://localhost:3000",
@@ -29,9 +29,11 @@ def setup_app() -> FastAPI:
 
     app.include_router(health.router)
 
+    app.include_router(socket_manager.router)
+
     # Needs to be last in register. Because of wildcard route
     app.include_router(root.router)
-    app.add_exception_handler(ClanError, clan_error_handler)
+    app.add_exception_handler(ClanError, clan_error_handler) # type: ignore
 
     app.mount("/static", StaticFiles(directory=asset_path()), name="static")
 

@@ -36,6 +36,8 @@
 , mypy
 , sqlalchemy
 , websockets
+, deal
+, broadcaster
 }:
 let
 
@@ -45,6 +47,8 @@ let
     uvicorn # optional dependencies: if not enabled, webui subcommand will not work
     sqlalchemy
     websockets
+    broadcaster
+    deal
   ];
 
   pytestDependencies = runtimeDependencies ++ dependencies ++ [
