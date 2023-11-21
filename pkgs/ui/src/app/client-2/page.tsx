@@ -1,3 +1,5 @@
+"use client";
+
 import SummaryDetails from "@/components/summary_card";
 import { Client2SummaryDetails } from "@/mock/client_2";
 

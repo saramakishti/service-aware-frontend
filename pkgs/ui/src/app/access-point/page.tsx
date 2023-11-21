@@ -18,7 +18,7 @@ export default function AccessPoint() {
         entity={{ name: "Access Point", details: APSummaryDetails }}
       />
       <div>
-        <h4>Attachement View</h4>
+        <h4>Attachment View</h4>
         <CustomTable
           data={APAttachmentsDummyData}
           configuration={APAttachmentsTableConfig}
