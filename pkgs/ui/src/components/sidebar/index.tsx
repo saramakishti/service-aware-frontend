@@ -8,13 +8,16 @@ import {
   ListItemText,
 } from "@mui/material";
 import Image from "next/image";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import { tw } from "@/utils/tailwind";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Link from "next/link";
-import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import HomeIcon from "@mui/icons-material/Home";
+import HubIcon from "@mui/icons-material/Hub";
+import PersonIcon from "@mui/icons-material/Person";
+import RouterIcon from "@mui/icons-material/Router";
+import StorageIcon from "@mui/icons-material/Storage";
 
 type MenuEntry = {
   icon: ReactNode;
@@ -27,16 +30,40 @@ type MenuEntry = {
 
 const menuEntries: MenuEntry[] = [
   {
-    icon: <AssignmentIndIcon />,
-    label: "Freelance",
+    icon: <HomeIcon />,
+    label: "Home",
     to: "/",
     disabled: false,
   },
   {
-    icon: <WysiwygIcon />,
-    label: "Blog",
-    to: "/blog",
+    icon: <HubIcon />,
+    label: "Entities",
+    to: "/entities",
     disabled: true,
+  },
+  {
+    icon: <PersonIcon />,
+    label: "C1",
+    to: "/client-1",
+    disabled: false,
+  },
+  {
+    icon: <PersonIcon />,
+    label: "C2",
+    to: "/client-2",
+    disabled: false,
+  },
+  {
+    icon: <RouterIcon />,
+    label: "AP",
+    to: "/access-point",
+    disabled: false,
+  },
+  {
+    icon: <StorageIcon />,
+    label: "DLG",
+    to: "/distributed-ledger-gateway",
+    disabled: false,
   },
 ];
 
@@ -50,6 +77,12 @@ interface SidebarProps {
 export function Sidebar(props: SidebarProps) {
   const { show, onClose } = props;
 
+  const [activeMenuItem, setActiveMenuItem] = React.useState("/");
+
+  const handleMenuItemClick = (path: string) => {
+    setActiveMenuItem(path);
+  };
+
   return (
     <aside
       className={tw`${
@@ -60,7 +93,7 @@ export function Sidebar(props: SidebarProps) {
         <div className="mt-8 hidden w-full text-center font-semibold text-white lg:block">
           <Image
             src="/logo.png"
-            alt="Clan Logo"
+            alt="TUB Logo"
             width={75}
             height={75}
             priority
@@ -90,6 +123,8 @@ export function Sidebar(props: SidebarProps) {
                   LinkComponent={Link}
                   href={menuEntry.to}
                   disabled={menuEntry.disabled}
+                  selected={activeMenuItem === menuEntry.to}
+                  onClick={() => handleMenuItemClick(menuEntry.to)}
                 >
                   <ListItemIcon
                     color="inherit"
