@@ -10,6 +10,7 @@ export default function Home() {
       <SummaryDetails
         entity={{ name: "Home", details: [] }}
         hasRefreshButton={false}
+        hasAttachDetach={false}
       />
 
       <div>
