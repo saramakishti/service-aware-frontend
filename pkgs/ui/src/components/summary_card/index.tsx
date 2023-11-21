@@ -44,9 +44,9 @@ const SummaryDetails = ({
             action={<CopyToClipboard contentRef={cardContentRef} />}
           />
           <CardContent ref={cardContentRef}>
-            {entity.details.map((info: EntityDetails) => {
+            {entity.details.map((info: EntityDetails, index: number) => {
               return (
-                <Typography color="text.primary" gutterBottom>
+                <Typography key={index} color="text.primary" gutterBottom>
                   {info.label}: <code>{info.value}</code>
                 </Typography>
               );
