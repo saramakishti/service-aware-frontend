@@ -5,6 +5,6 @@ export interface CustomTableConfiguration {
 }
 
 export interface ICustomTable {
-  configuration: CustomTableConfiguration[],
-  data: any
+  configuration: CustomTableConfiguration[];
+  data: any;
 }
