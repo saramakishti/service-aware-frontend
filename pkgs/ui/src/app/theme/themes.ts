@@ -21,10 +21,10 @@ const commonOptions: Partial<ThemeOptions> = {
 
 const commonPalette: Partial<PaletteOptions> = {
   primary: {
-    main: palette.green50.value,
+    main: palette.blue10.value,
   },
   secondary: {
-    main: palette.green50.value,
+    main: palette.blue20.value,
   },
   info: {
     main: palette.blue50.value,

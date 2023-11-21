@@ -1,3 +1,18 @@
+// DLG Summary Details
+
+export const DLGSummaryDetails = [
+  {
+    label: "DID",
+    value: "did:sov:test:1274",
+  },
+  {
+    label: "URL",
+    value: "dlg.tu-berlin.de",
+  },
+];
+
+// DLG Resolution Table
+
 export const DLGResolutionDummyData = [
   {
     requester_name: "C1",

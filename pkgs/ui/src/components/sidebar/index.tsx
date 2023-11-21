@@ -85,6 +85,7 @@ export function Sidebar(props: SidebarProps) {
 
   return (
     <aside
+      style={{ backgroundColor: "#00497c" }}
       className={tw`${
         show ? showSidebar : hideSidebar
       } z-9999 static left-0  top-0 flex h-screen w-14 flex-col overflow-x-hidden overflow-y-hidden bg-neutral-10 transition duration-150 ease-in-out dark:bg-neutral-2 lg:w-64`}

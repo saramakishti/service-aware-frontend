@@ -47,9 +47,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Clan.lol</title>
+        <title>Service Aware Networks</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Clan.lol - build your own network" />
+        <meta name="description" content="Service Aware Networks" />
         <link rel="icon" href="favicon.ico" sizes="any" />
       </head>
       <StyledEngineProvider injectFirst>
@@ -89,7 +89,7 @@ export default function RootLayout({
                               <div className="col-span-1 block w-full bg-fixed text-center font-semibold dark:invert lg:hidden">
                                 <Image
                                   src="/favicon.png"
-                                  alt="Clan Logo"
+                                  alt="TUB Logo"
                                   width={58}
                                   height={58}
                                   priority
