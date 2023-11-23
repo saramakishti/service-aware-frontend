@@ -83,7 +83,7 @@ interface SidebarProps {
 
 export function Sidebar(props: SidebarProps) {
     const {show, onClose} = props;
-    const [activeMenuItem, setActiveMenuItem] = React.useState("/");
+    const [activeMenuItem, setActiveMenuItem] = React.useState(window.location.pathname);
     const [collapseMenuOpen, setCollapseMenuOpen] = React.useState(true);
 
     const handleCollapseClick = () => {
