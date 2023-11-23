@@ -50,7 +50,7 @@ export default function RootLayout({
         <title>Service Aware Networks</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Service Aware Networks" />
-        <link rel="icon" href="tub-favicon.png" sizes="any" />
+        <link rel="icon" href="tub-favicon.ico" sizes="any" />
       </head>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={userPrefersDarkmode ? darkTheme : lightTheme}>
