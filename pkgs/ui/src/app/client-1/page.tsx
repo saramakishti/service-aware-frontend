@@ -1,7 +1,7 @@
 "use client";
 
 import SummaryDetails from "@/components/summary_card";
-import { Client1SummaryDetails, Client1DummyData, Client1TableConfig } from "@/mock/client_1";
+import { Client1SummaryDetails, Client1ConsumerData, Client1ConsumerTableConfig } from "@/mock/client_1";
 import CustomTable from "@/components/table";
 
 export default function Client1() {
@@ -18,8 +18,8 @@ export default function Client1() {
         <div>
             <h4>Consumer View</h4>
             <CustomTable
-                data={Client1DummyData}
-                configuration={Client1TableConfig}
+                data={Client1ConsumerData}
+                configuration={Client1ConsumerTableConfig}
             />
         </div>
     </div>

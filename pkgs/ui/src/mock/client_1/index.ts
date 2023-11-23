@@ -15,7 +15,7 @@ export const Client1SummaryDetails = [
   },
 ];
 
-export const Client1DummyData = [
+export const Client1ConsumerData = [
   {
     "service_name": "Carlo's Printing",
     "service_type": "3D Printing",
@@ -52,7 +52,7 @@ export const Client1DummyData = [
 ]
 
 
-export const Client1TableConfig = [
+export const Client1ConsumerTableConfig = [
   {
     key: "service_name",
     label: "Service name"
