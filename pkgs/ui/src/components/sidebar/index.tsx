@@ -106,8 +106,8 @@ export function Sidebar(props: SidebarProps) {
                     <Image
                         src="/tub-logo.png"
                         alt="TU Berlin Logo"
-                        width={75}
-                        height={75}
+                        width={150}
+                        height={100}
                         priority
                     />
                 </div>
