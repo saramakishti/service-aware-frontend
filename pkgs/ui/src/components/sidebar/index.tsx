@@ -104,8 +104,8 @@ export function Sidebar(props: SidebarProps) {
             <div className="flex items-center justify-between gap-2 overflow-hidden px-0 py-5 lg:p-6">
                 <div className="mt-8 hidden w-full text-center font-semibold text-white lg:block">
                     <Image
-                        src="/logo.png"
-                        alt="TUB Logo"
+                        src="/tub-logo.png"
+                        alt="TU Berlin Logo"
                         width={75}
                         height={75}
                         priority
