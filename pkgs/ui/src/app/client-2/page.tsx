@@ -2,11 +2,11 @@
 
 import SummaryDetails from "@/components/summary_card";
 import {
-    Client2ConsumerData,
-    Client2ConsumerTableConfig,
-    Client2ProducerData,
-    Client2ProducerTableConfig,
-    Client2SummaryDetails
+  Client2ConsumerData,
+  Client2ConsumerTableConfig,
+  Client2ProducerData,
+  Client2ProducerTableConfig,
+  Client2SummaryDetails,
 } from "@/mock/client_2";
 import CustomTable from "@/components/table";
 
@@ -21,20 +21,20 @@ export default function Client1() {
           details: Client2SummaryDetails,
         }}
       />
-        <div>
-            <h4>Consumer View</h4>
-            <CustomTable
-                data={Client2ConsumerData}
-                configuration={Client2ConsumerTableConfig}
-            />
-        </div>
-        <div>
-            <h4>Producer View</h4>
-            <CustomTable
-                data={Client2ProducerData}
-                configuration={Client2ProducerTableConfig}
-            />
-        </div>
+      <div>
+        <h4>Consumer View</h4>
+        <CustomTable
+          data={Client2ConsumerData}
+          configuration={Client2ConsumerTableConfig}
+        />
+      </div>
+      <div>
+        <h4>Producer View</h4>
+        <CustomTable
+          data={Client2ProducerData}
+          configuration={Client2ProducerTableConfig}
+        />
+      </div>
     </div>
   );
 }
