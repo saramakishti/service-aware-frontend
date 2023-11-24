@@ -3,6 +3,7 @@
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
+import {HomeDummyData, HomeTableConfig} from "@/mock/home";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
 
       <div>
         <h4>Home View Table</h4>
-        <CustomTable data={[]} configuration={[]} />
+        <CustomTable data={HomeDummyData} configuration={HomeTableConfig} />
       </div>
 
       <div>
