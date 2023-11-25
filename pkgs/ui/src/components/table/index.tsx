@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import { StyledTableCell, StyledTableRow } from "./style";
 import { ICustomTable, CustomTableConfiguration } from "@/types";
+import { Checkbox } from "@mui/material";
 
 const CustomTable = ({ configuration, data }: ICustomTable) => {
   // display empty icon in case there is no data
@@ -24,6 +25,10 @@ const CustomTable = ({ configuration, data }: ICustomTable) => {
 
     // cover use case if the data is an array
     if (Array.isArray(value)) renderedValue = value.join(", ");
+
+    // cover use case if the data is an boolean
+    if (typeof value === "boolean")
+      renderedValue = <Checkbox disabled checked={value} />;
 
     // cover use case if we want to render a component
     if (render) renderedValue = render(value);

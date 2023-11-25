@@ -50,7 +50,7 @@ export default function RootLayout({
         <title>Service Aware Networks</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Service Aware Networks" />
-        <link rel="icon" href="favicon.ico" sizes="any" />
+        <link rel="icon" href="tub-favicon.ico" sizes="any" />
       </head>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={userPrefersDarkmode ? darkTheme : lightTheme}>
@@ -88,8 +88,8 @@ export default function RootLayout({
                               </div>
                               <div className="col-span-1 block w-full bg-fixed text-center font-semibold dark:invert lg:hidden">
                                 <Image
-                                  src="/favicon.png"
-                                  alt="TUB Logo"
+                                  src="/tub-favicon.png"
+                                  alt="TU Berlin Logo"
                                   width={58}
                                   height={58}
                                   priority

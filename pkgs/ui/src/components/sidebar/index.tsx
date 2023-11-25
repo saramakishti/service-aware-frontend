@@ -11,6 +11,7 @@ import Image from "next/image";
 import React, { ReactNode } from "react";
 
 import { tw } from "@/utils/tailwind";
+import Collapse from "@mui/material/Collapse";
 import Link from "next/link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HomeIcon from "@mui/icons-material/Home";
@@ -18,6 +19,8 @@ import HubIcon from "@mui/icons-material/Hub";
 import PersonIcon from "@mui/icons-material/Person";
 import RouterIcon from "@mui/icons-material/Router";
 import StorageIcon from "@mui/icons-material/Storage";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
 type MenuEntry = {
   icon: ReactNode;
@@ -27,6 +30,21 @@ type MenuEntry = {
 } & {
   subMenuEntries?: MenuEntry[];
 };
+
+const menuEntityEntries: MenuEntry[] = [
+  {
+    icon: <PersonIcon />,
+    label: "C1",
+    to: "/client-1",
+    disabled: false,
+  },
+  {
+    icon: <PersonIcon />,
+    label: "C2",
+    to: "/client-2",
+    disabled: false,
+  },
+];
 
 const menuEntries: MenuEntry[] = [
   {
@@ -39,18 +57,6 @@ const menuEntries: MenuEntry[] = [
     icon: <HubIcon />,
     label: "Entities",
     to: "/entities",
-    disabled: true,
-  },
-  {
-    icon: <PersonIcon />,
-    label: "C1",
-    to: "/client-1",
-    disabled: false,
-  },
-  {
-    icon: <PersonIcon />,
-    label: "C2",
-    to: "/client-2",
     disabled: false,
   },
   {
@@ -74,10 +80,17 @@ interface SidebarProps {
   show: boolean;
   onClose: () => void;
 }
+
 export function Sidebar(props: SidebarProps) {
   const { show, onClose } = props;
+  const [activeMenuItem, setActiveMenuItem] = React.useState(
+    typeof window !== "undefined" ? window.location.pathname : "",
+  );
+  const [collapseMenuOpen, setCollapseMenuOpen] = React.useState(true);
 
-  const [activeMenuItem, setActiveMenuItem] = React.useState("/");
+  const handleCollapseClick = () => {
+    setCollapseMenuOpen(!collapseMenuOpen);
+  };
 
   const handleMenuItemClick = (path: string) => {
     setActiveMenuItem(path);
@@ -93,10 +106,10 @@ export function Sidebar(props: SidebarProps) {
       <div className="flex items-center justify-between gap-2 overflow-hidden px-0 py-5 lg:p-6">
         <div className="mt-8 hidden w-full text-center font-semibold text-white lg:block">
           <Image
-            src="/logo.png"
-            alt="TUB Logo"
-            width={75}
-            height={75}
+            src="/tub-logo.png"
+            alt="TU Berlin Logo"
+            width={125}
+            height={90}
             priority
           />
         </div>
@@ -119,28 +132,88 @@ export function Sidebar(props: SidebarProps) {
                 disablePadding
                 className="!overflow-hidden py-2"
               >
-                <ListItemButton
-                  className="justify-center lg:justify-normal"
-                  LinkComponent={Link}
-                  href={menuEntry.to}
-                  disabled={menuEntry.disabled}
-                  selected={activeMenuItem === menuEntry.to}
-                  onClick={() => handleMenuItemClick(menuEntry.to)}
-                >
-                  <ListItemIcon
-                    color="inherit"
-                    className="justify-center overflow-hidden text-white lg:justify-normal"
+                {menuEntry.label !== "Entities" ? (
+                  <ListItemButton
+                    className="justify-center lg:justify-normal"
+                    LinkComponent={Link}
+                    href={menuEntry.to}
+                    disabled={menuEntry.disabled}
+                    selected={activeMenuItem === menuEntry.to}
+                    onClick={() => handleMenuItemClick(menuEntry.to)}
                   >
-                    {menuEntry.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={menuEntry.label}
-                    primaryTypographyProps={{
-                      color: "inherit",
-                    }}
-                    className="hidden lg:block"
-                  />
-                </ListItemButton>
+                    <ListItemIcon
+                      color="inherit"
+                      className="justify-center overflow-hidden text-white lg:justify-normal"
+                    >
+                      {menuEntry.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={menuEntry.label}
+                      primaryTypographyProps={{
+                        color: "inherit",
+                      }}
+                      className="hidden lg:block"
+                    />
+                  </ListItemButton>
+                ) : (
+                  <div>
+                    <ListItemButton
+                      className="justify-center lg:justify-normal"
+                      disabled={menuEntry.disabled}
+                      selected={activeMenuItem === menuEntry.to}
+                      onClick={handleCollapseClick}
+                    >
+                      <ListItemIcon
+                        color="inherit"
+                        className="justify-center overflow-hidden text-white lg:justify-normal"
+                      >
+                        {menuEntry.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={menuEntry.label}
+                        primaryTypographyProps={{
+                          color: "inherit",
+                        }}
+                        className="hidden lg:block"
+                      />
+                      {collapseMenuOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse
+                      in={collapseMenuOpen}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <List component="div" disablePadding>
+                        {menuEntityEntries.map((menuEntry, idx) => (
+                          <ListItemButton
+                            key={idx}
+                            sx={{ pl: 4 }}
+                            className="justify-center lg:justify-normal"
+                            LinkComponent={Link}
+                            href={menuEntry.to}
+                            disabled={menuEntry.disabled}
+                            selected={activeMenuItem === menuEntry.to}
+                            onClick={() => handleMenuItemClick(menuEntry.to)}
+                          >
+                            <ListItemIcon
+                              color="inherit"
+                              className="justify-center overflow-hidden text-white lg:justify-normal"
+                            >
+                              {menuEntry.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={menuEntry.label}
+                              primaryTypographyProps={{
+                                color: "inherit",
+                              }}
+                              className="hidden lg:block"
+                            />
+                          </ListItemButton>
+                        ))}
+                      </List>
+                    </Collapse>
+                  </div>
+                )}
               </ListItem>
             );
           })}
