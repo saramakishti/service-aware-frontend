@@ -3,7 +3,7 @@
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
-import {HomeDummyData, HomeTableConfig} from "@/mock/home";
+import { HomeDummyData, HomeTableConfig } from "@/mock/home";
 
 export default function Home() {
   return (
