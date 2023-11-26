@@ -14,6 +14,23 @@ class Machine(BaseModel):
     status: Status
 
 
+class EntityBase(BaseModel):
+    did: str = "did:sov:test:1234"
+    name: str = "C1"
+    ip: str = "127.0.0.1"
+    attached: bool = False
+    other: dict = {"test": "test"}
+
+
+class Entity(EntityBase):
+    class Config:
+        orm_mode = True
+
+
+class EntityCreate(EntityBase):
+    pass
+
+
 class RepositoryBase(BaseModel):
     title: str
     description: str | None = None

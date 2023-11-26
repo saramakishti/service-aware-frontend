@@ -14,6 +14,7 @@ from .assets import asset_path
 from .error_handlers import clan_error_handler
 from .routers import health, root, socket_manager2, sql_connect  # sql router hinzufügen
 from .sql_db import engine
+from .tags import tags_metadata
 
 origins = [
     "http://localhost:3000",
@@ -54,6 +55,9 @@ def setup_app() -> FastAPI:
     app.add_exception_handler(ClanError, clan_error_handler)  # type: ignore
 
     app.mount("/static", StaticFiles(directory=asset_path()), name="static")
+
+    # Add tag descriptions to the OpenAPI schema
+    app.openapi_tags = tags_metadata
 
     for route in app.routes:
         if isinstance(route, APIRoute):
