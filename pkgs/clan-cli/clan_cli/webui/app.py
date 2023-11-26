@@ -1,4 +1,6 @@
 import logging
+from contextlib import asynccontextmanager
+from typing import Any
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from ..errors import ClanError
 from .assets import asset_path
 from .error_handlers import clan_error_handler
-from .routers import health, root
+from .routers import health, root, socket_manager2
 
 origins = [
     "http://localhost:3000",
@@ -17,8 +19,15 @@ origins = [
 log = logging.getLogger(__name__)
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> Any:
+    await socket_manager2.brd.connect()
+    yield
+    await socket_manager2.brd.disconnect()
+
+
 def setup_app() -> FastAPI:
-    app = FastAPI()
+    app = FastAPI(lifespan=lifespan)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
@@ -29,9 +38,11 @@ def setup_app() -> FastAPI:
 
     app.include_router(health.router)
 
+    app.include_router(socket_manager2.router)
+
     # Needs to be last in register. Because of wildcard route
     app.include_router(root.router)
-    app.add_exception_handler(ClanError, clan_error_handler)
+    app.add_exception_handler(ClanError, clan_error_handler)  # type: ignore
 
     app.mount("/static", StaticFiles(directory=asset_path()), name="static")
 

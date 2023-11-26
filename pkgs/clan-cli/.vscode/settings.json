@@ -18,5 +18,5 @@
     "python.linting.mypyPath": "mypy",
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
-    "python.defaultInterpreterPath": "python"
+    "python.defaultInterpreterPath": "/nix/store/k34qdl5397mwg3k00jsl3xcynij7n0z9-python3-3.11.6-env/bin/python"
 }
