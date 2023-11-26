@@ -1,13 +1,12 @@
 # Requires: `starlette`, `uvicorn`, `jinja2`
 # Run with `uvicorn example:app`
+import logging
+import os
+
 import anyio
 from broadcaster import Broadcast
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, WebSocket
 from fastapi.responses import HTMLResponse
-from fastapi import APIRouter, Response
-import os
-import logging
-import asyncio
 
 log = logging.getLogger(__name__)
 router = APIRouter()
@@ -18,14 +17,13 @@ brd = Broadcast("memory://")
 
 @router.get("/ws2_example")
 async def get() -> HTMLResponse:
-
     html = open(f"{os.getcwd()}/webui/routers/messenger.html").read()
     return HTMLResponse(html)
+
 
 @router.websocket("/ws2")
 async def chatroom_ws(websocket: WebSocket) -> None:
     await websocket.accept()
-
 
     async with anyio.create_task_group() as task_group:
         # run until first is complete
@@ -47,8 +45,8 @@ async def chatroom_ws_receiver(websocket: WebSocket) -> None:
 
 async def chatroom_ws_sender(websocket: WebSocket) -> None:
     async with brd.subscribe(channel="chatroom") as subscriber:
-        log.warning("====>Subscribed to chatroom channel")
-        async for event in subscriber:
-            log.warning(f"Sending message: {event.message}")
+        if subscriber is None:
+            log.error("Subscriber is None")
+            return
+        async for event in subscriber:  # type: ignore
             await websocket.send_text(event.message)
-

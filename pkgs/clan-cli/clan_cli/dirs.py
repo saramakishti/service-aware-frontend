@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+from .clan_types import FlakeName
 from .errors import ClanError
-from .types import FlakeName
 
 log = logging.getLogger(__name__)
 
