@@ -2,15 +2,19 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Any
 
+# import for sql
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
 
 from ..errors import ClanError
+from . import sql_models
 from .assets import asset_path
 from .error_handlers import clan_error_handler
-from .routers import health, root, socket_manager2
+from .routers import health, root, socket_manager2, sql_connect  # sql router hinzufügen
+from .sql_db import engine
+from .tags import tags_metadata
 
 origins = [
     "http://localhost:3000",
@@ -27,6 +31,10 @@ async def lifespan(app: FastAPI) -> Any:
 
 
 def setup_app() -> FastAPI:
+    # bind sql engine
+    sql_models.Base.metadata.drop_all(engine)
+    sql_models.Base.metadata.create_all(bind=engine)
+
     app = FastAPI(lifespan=lifespan)
     app.add_middleware(
         CORSMiddleware,
@@ -37,6 +45,8 @@ def setup_app() -> FastAPI:
     )
 
     app.include_router(health.router)
+    # sql methodes
+    app.include_router(sql_connect.router)
 
     app.include_router(socket_manager2.router)
 
@@ -45,6 +55,9 @@ def setup_app() -> FastAPI:
     app.add_exception_handler(ClanError, clan_error_handler)  # type: ignore
 
     app.mount("/static", StaticFiles(directory=asset_path()), name="static")
+
+    # Add tag descriptions to the OpenAPI schema
+    app.openapi_tags = tags_metadata
 
     for route in app.routes:
         if isinstance(route, APIRoute):

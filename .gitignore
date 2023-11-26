@@ -1,4 +1,5 @@
 .direnv
+sql_app.db
 .coverage.*
 **/qubeclan
 **/testdir
@@ -14,6 +15,7 @@ __pycache__
 .coverage
 .mypy_cache
 .pytest_cache
+pkgs.pyproj
 .reports
 .ruff_cache
 htmlcov
