@@ -2,22 +2,18 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Any
 
+#import for sql
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
 
 from ..errors import ClanError
+from . import sql_models
 from .assets import asset_path
 from .error_handlers import clan_error_handler
-from .routers import health, root, sql_connect, socket_manager2 # sql router hinzufügen
-
-#import for sql
-from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
-from . import sql_crud, sql_models, sql_schemas
-from .sql_db import SessionLocal, engine
-
+from .routers import health, root, socket_manager2, sql_connect  # sql router hinzufügen
+from .sql_db import engine
 
 origins = [
     "http://localhost:3000",

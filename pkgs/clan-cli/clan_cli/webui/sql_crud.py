@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
+
 from . import sql_models, sql_schemas
+
 
 def get_producers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(sql_models.Producer).offset(skip).limit(limit).all()

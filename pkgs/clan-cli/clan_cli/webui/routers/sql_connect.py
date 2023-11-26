@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from .. import sql_crud, sql_models, sql_schemas, sql_db
+
+from .. import sql_crud, sql_db, sql_schemas
 
 router = APIRouter()
 

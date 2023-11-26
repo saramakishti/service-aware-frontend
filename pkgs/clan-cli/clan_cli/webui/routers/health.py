@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from ..api_outputs import Machine, Status
 
 router = APIRouter()

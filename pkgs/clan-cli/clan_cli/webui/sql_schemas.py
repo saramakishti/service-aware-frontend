@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class RepositoryBase(BaseModel):
     title: str
     description: str | None = None
