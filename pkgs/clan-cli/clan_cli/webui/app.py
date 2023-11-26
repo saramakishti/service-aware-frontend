@@ -2,7 +2,7 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Any
 
-#import for sql
+# import for sql
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
@@ -44,7 +44,7 @@ def setup_app() -> FastAPI:
     )
 
     app.include_router(health.router)
-    #sql methodes
+    # sql methodes
     app.include_router(sql_connect.router)
 
     app.include_router(socket_manager2.router)

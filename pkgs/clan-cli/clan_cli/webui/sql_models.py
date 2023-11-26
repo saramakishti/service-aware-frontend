@@ -1,6 +1,8 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, JSON
+from sqlalchemy import JSON, Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
+
 from .sql_db import Base
+
 
 class Producer(Base):
     __tablename__ = "producers"
@@ -9,6 +11,7 @@ class Producer(Base):
     jsonblob = Column(JSON)
 
     repos = relationship("Repository", back_populates="producer")
+
 
 class Repository(Base):
     __tablename__ = "repositories"
