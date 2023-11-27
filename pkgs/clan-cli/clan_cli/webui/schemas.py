@@ -1,6 +1,8 @@
+from datetime import datetime
 from enum import Enum
+from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class Status(Enum):
@@ -14,6 +16,76 @@ class Machine(BaseModel):
     status: Status
 
 
+#########################
+#                       #
+#       Producer        #
+#                       #
+#########################
+class ProducerBase(BaseModel):
+    uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
+    service_name: str = "Carlo's Printing"
+    service_type: str = "3D Printing"
+    endpoint_url: str = "http://127.0.0.1:8000"
+    status: str = "unknown"
+    other: dict = {"test": "test"}
+
+
+class ProducerCreate(ProducerBase):
+    entity_did: str = "did:sov:test:1234"
+
+
+class Producer(ProducerCreate):
+    class Config:
+        orm_mode = True
+
+
+#########################
+#                       #
+#       Consumer        #
+#                       #
+#########################
+class ConsumerBase(BaseModel):
+    entity_did: str = "did:sov:test:1234"
+    producer_uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
+    other: dict = {"test": "test"}
+
+
+class ConsumerCreate(ConsumerBase):
+    pass
+
+
+class Consumer(ConsumerCreate):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+#########################
+#                       #
+#       REPOSITORY      #
+#                       #
+#########################
+class RepositoryBase(ProducerBase):
+    pass
+
+
+class RepositoryCreate(RepositoryBase):
+    entity_did: str = "did:sov:test:1234"
+
+
+class Repository(RepositoryCreate):
+    time_created: datetime
+
+    class Config:
+        orm_mode = True
+
+
+#########################
+#                       #
+#        Entity         #
+#                       #
+#########################
 class EntityBase(BaseModel):
     did: str = "did:sov:test:1234"
     name: str = "C1"
@@ -22,50 +94,14 @@ class EntityBase(BaseModel):
     other: dict = {"test": "test"}
 
 
-class Entity(EntityBase):
-    class Config:
-        orm_mode = True
-
-
 class EntityCreate(EntityBase):
     pass
 
 
-class RepositoryBase(BaseModel):
-    title: str
-    description: str | None = None
-
-
-class RepositoryCreate(RepositoryBase):
-    pass
-
-
-class Repository(RepositoryBase):
-    id: int
-    prod_id: str
-
-    class Config:
-        orm_mode = True
-
-
-class ProducerBase(BaseModel):
-    id: int
-
-
-class ProducerCreate(ProducerBase):
-    jsonblob: int = Field(
-        42,
-        title="The Json",
-        description="this is the value of json",
-        gt=30,
-        lt=50,
-        list=[1, 2, "3"],
-    )
-
-
-class Producer(ProducerBase):
-    id: int
-    repos: list[Repository] = []
+class Entity(EntityCreate):
+    producers: List[Producer] = []
+    consumers: List[Consumer] = []
+    repository: Optional[Repository] = None
 
     class Config:
         orm_mode = True
