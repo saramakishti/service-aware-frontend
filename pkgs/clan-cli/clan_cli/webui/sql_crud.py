@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -19,34 +19,69 @@ def get_entities(
     return db.query(sql_models.Entity).offset(skip).limit(limit).all()
 
 
-# def get_producers(
-#     db: Session, skip: int = 0, limit: int = 100
-# ) -> List[sql_models.Producer]:
-#     return db.query(sql_models.Producer).offset(skip).limit(limit).all()
+def create_consumer(
+    db: Session, consumer: schemas.ConsumerCreate
+) -> sql_models.Consumer:
+    db_consumer = sql_models.Consumer(**consumer.dict())
+    db.add(db_consumer)
+    db.commit()
+    db.refresh(db_consumer)
+    return db_consumer
 
 
-# def create_producer(
-#     db: Session, producer: schemas.ProducerCreate
-# ) -> sql_models.Producer:
-#     jsonblob_init = {"test_repo": "jsonblob_create"}
-#     db_producer = sql_models.Producer(jsonblob=jsonblob_init)
-#     db.add(db_producer)
-#     db.commit()
-#     db.refresh(db_producer)
-#     return db_producer
+def get_consumers(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Consumer]:
+    return db.query(sql_models.Consumer).offset(skip).limit(limit).all()
 
 
-# def get_repositories(
-#     db: Session, skip: int = 0, limit: int = 100
-# ) -> List[sql_models.Repository]:
-#     return db.query(sql_models.Repository).offset(skip).limit(limit).all()
+def create_producer(
+    db: Session, producer: schemas.ProducerCreate
+) -> sql_models.Producer:
+    db_producer = sql_models.Producer(**producer.dict())
+    db.add(db_producer)
+    db.commit()
+    db.refresh(db_producer)
+    return db_producer
 
 
-# def create_repository(
-#     db: Session, repository: schemas.RepositoryCreate, producers_id: int
-# ) -> sql_models.Repository:
-#     db_repository = sql_models.Repository(**repository.dict(), prod_id=producers_id)
-#     db.add(db_repository)
-#     db.commit()
-#     db.refresh(db_repository)
-#     return db_repository
+def get_producers(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Producer]:
+    return db.query(sql_models.Producer).offset(skip).limit(limit).all()
+
+
+def create_repository(
+    db: Session, repository: schemas.RepositoryCreate
+) -> sql_models.Repository:
+    db_repository = sql_models.Repository(**repository.dict())
+    db.add(db_repository)
+    db.commit()
+    db.refresh(db_repository)
+    return db_repository
+
+
+def get_repositories(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Repository]:
+    return db.query(sql_models.Repository).offset(skip).limit(limit).all()
+
+
+def get_repository_by_uuid(db: Session, uuid: str) -> Optional[sql_models.Repository]:
+    return (
+        db.query(sql_models.Repository)
+        .filter(sql_models.Repository.uuid == uuid)
+        .first()
+    )
+
+
+def get_repository_by_did(
+    db: Session, did: str, skip: int = 0, limit: int = 100
+) -> List[sql_models.Repository]:
+    return (
+        db.query(sql_models.Repository)
+        .filter(sql_models.Repository.entity_did == did)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
