@@ -7,11 +7,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.exc import SQLAlchemyError
 
 from ..errors import ClanError
 from . import sql_models
 from .assets import asset_path
-from .error_handlers import clan_error_handler
+from .error_handlers import clan_error_handler, sql_error_handler
 from .routers import health, root, socket_manager2, sql_connect  # sql router hinzufügen
 from .sql_db import engine
 from .tags import tags_metadata
@@ -53,6 +54,7 @@ def setup_app() -> FastAPI:
     # Needs to be last in register. Because of wildcard route
     app.include_router(root.router)
     app.add_exception_handler(ClanError, clan_error_handler)  # type: ignore
+    app.add_exception_handler(SQLAlchemyError, sql_error_handler)  # type: ignore
 
     app.mount("/static", StaticFiles(directory=asset_path()), name="static")
 
