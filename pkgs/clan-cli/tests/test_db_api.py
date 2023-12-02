@@ -191,7 +191,6 @@ def test_repository(api: TestClient) -> None:
     # get_request = "entity_did=did%3Asov%3Atest%3A1234"
     make_test_post_and_get(api, request_body, paramter)
 
-
 def test_repository2(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d1",
@@ -205,7 +204,6 @@ def test_repository2(api: TestClient) -> None:
     paramter = "repository"
     get_request = "entity_did=" + url.quote(default_entity_did2)
     make_test_post_and_get(api, request_body, paramter, get_request)
-
 
 def test_repository3(api: TestClient) -> None:
     request_body = {
@@ -221,7 +219,6 @@ def test_repository3(api: TestClient) -> None:
     get_request = "entity_did=" + url.quote(default_entity_did3)
     make_test_post_and_get(api, request_body, paramter, get_request)
 
-
 def test_repository4(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d3",
@@ -235,7 +232,6 @@ def test_repository4(api: TestClient) -> None:
     paramter = "repository"
     get_request = "entity_did=" + url.quote(default_entity_did4)
     make_test_post_and_get(api, request_body, paramter, get_request)
-
 
 def test_repository5(api: TestClient) -> None:
     request_body = {
