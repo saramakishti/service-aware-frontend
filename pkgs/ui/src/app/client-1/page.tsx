@@ -2,39 +2,77 @@
 
 import SummaryDetails from "@/components/summary_card";
 import {
-  Client1SummaryDetails,
-  Client1ConsumerData,
-  Client1ConsumerTableConfig,
-  Client1ProducerTableConfig,
-  Client1ProducerData,
+    Client1SummaryDetails,
+    Client1ConsumerData,
+    Client1ConsumerTableConfig,
+    Client1ProducerTableConfig,
+    Client1ProducerData,
 } from "@/mock/client_1";
 import CustomTable from "@/components/table";
+import {useEffect, useState} from "react";
 
 export default function Client1() {
-  return (
-    <div className="m-10">
-      <SummaryDetails
-        hasAttachDetach
-        hasRefreshButton
-        entity={{
-          name: "Client 1",
-          details: Client1SummaryDetails,
-        }}
-      />
-      <div>
-        <h4>Consumer View</h4>
-        <CustomTable
-          data={Client1ConsumerData}
-          configuration={Client1ConsumerTableConfig}
-        />
-      </div>
-      <div>
-        <h4>Producer View</h4>
-        <CustomTable
-          data={Client1ProducerData}
-          configuration={Client1ProducerTableConfig}
-        />
-      </div>
-    </div>
-  );
+    const [consumerData, setConsumerData] = useState(null);
+    const [producerData, setProducerData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://localhost:2979/api/v1/get_consumers', {
+            method: 'GET',
+            // credentials: 'include',
+        })
+            .then(resp => resp.json().then(jsonData => {
+                    console.log(jsonData);
+                    if (jsonData.length > 0) {
+                        setConsumerData(jsonData);
+                    } else {
+                        setConsumerData(Client1ConsumerData);
+                    }
+                }
+            ))
+            .then(data => null)
+            .catch(err => null)
+
+        fetch('http://localhost:2979/api/v1/get_producers', {
+            method: 'GET',
+            // credentials: 'include',
+        })
+            .then(resp => resp.json().then(jsonData => {
+                    console.log(jsonData);
+                    if (jsonData.length > 0) {
+                        setProducerData(jsonData);
+                    } else {
+                        setProducerData(Client1ProducerData);
+                    }
+                }
+            ))
+            .then(data => null)
+            .catch(err => null)
+    }, []);
+
+    return (
+        <div className="m-10">
+            <SummaryDetails
+                hasAttachDetach
+                hasRefreshButton
+                entity={{
+                    name: "Client 1",
+                    details: Client1SummaryDetails,
+                }}
+            />
+            <div>
+                <h4>Consumer View</h4>
+                <CustomTable
+                    data={consumerData}
+                    configuration={Client1ConsumerTableConfig}
+                />
+            </div>
+            <div>
+                <h4>Producer View</h4>
+                <CustomTable
+                    data={producerData}
+                    configuration={Client1ProducerTableConfig}
+                />
+            </div>
+        </div>
+    );
 }
