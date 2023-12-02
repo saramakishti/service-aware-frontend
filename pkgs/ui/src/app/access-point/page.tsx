@@ -9,31 +9,31 @@ import {
   APServiceRepositoryDummyData,
   APServiceRepositoryTableConfig,
 } from "@/mock/access_point";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function AccessPoint() {
-    const [repositoryData, setRepositoryData] = useState([]);
+  const [repositoryData, setRepositoryData] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:2979/api/v1/get_repositories', {
-            method: 'GET',
-            // credentials: 'include',
-        })
-            .then(resp => resp.json().then(jsonData => {
-                    console.log(jsonData);
-                    if (jsonData.length > 0) {
-                        setRepositoryData(jsonData);
-                    } else {
-                        setRepositoryData(APServiceRepositoryDummyData);
-                    }
-                }
-            ))
-            .then()
-            .catch()
-    }, []);
+  useEffect(() => {
+    fetch("http://localhost:2979/api/v1/get_repositories", {
+      method: "GET",
+      // credentials: 'include',
+    })
+      .then((resp) =>
+        resp.json().then((jsonData) => {
+          console.log(jsonData);
+          if (jsonData.length > 0) {
+            setRepositoryData(jsonData);
+          } else {
+            setRepositoryData(APServiceRepositoryDummyData);
+          }
+        }),
+      )
+      .then()
+      .catch();
+  }, []);
 
-
-        return (
+  return (
     <div className="m-10">
       <SummaryDetails
         hasRefreshButton
