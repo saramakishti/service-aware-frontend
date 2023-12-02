@@ -19,3 +19,7 @@ pkgs.pyproj
 .reports
 .ruff_cache
 htmlcov
+
+# georgs
+pkgs/.vs/
+pkgs/clan-cli/.hypothesis/

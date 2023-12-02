@@ -34,7 +34,8 @@ class Entity(Base):
     ## Relations ##
     producers = relationship("Producer", back_populates="entity")
     consumers = relationship("Consumer", back_populates="entity")
-    repository = relationship("Repository", uselist=False, back_populates="entity")
+    repository = relationship("Repository", back_populates="entity")
+    # TODO maby refactor to repositories
 
 
 class ProducerAbstract(Base):

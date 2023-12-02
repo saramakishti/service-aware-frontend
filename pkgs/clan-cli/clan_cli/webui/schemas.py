@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel
 
@@ -101,7 +101,7 @@ class EntityCreate(EntityBase):
 class Entity(EntityCreate):
     producers: List[Producer] = []
     consumers: List[Consumer] = []
-    repository: Optional[Repository] = None
+    repository: List[Repository] = []
 
     class Config:
         orm_mode = True
