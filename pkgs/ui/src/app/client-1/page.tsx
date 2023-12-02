@@ -12,8 +12,8 @@ import CustomTable from "@/components/table";
 import {useEffect, useState} from "react";
 
 export default function Client1() {
-    const [consumerData, setConsumerData] = useState(null);
-    const [producerData, setProducerData] = useState(null);
+    const [consumerData, setConsumerData] = useState([]);
+    const [producerData, setProducerData] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:2979/api/v1/get_consumers', {
@@ -29,8 +29,8 @@ export default function Client1() {
                     }
                 }
             ))
-            .then(data => null)
-            .catch(err => null)
+            .then()
+            .catch()
 
         fetch('http://localhost:2979/api/v1/get_producers', {
             method: 'GET',
@@ -45,8 +45,8 @@ export default function Client1() {
                     }
                 }
             ))
-            .then(data => null)
-            .catch(err => null)
+            .then()
+            .catch()
     }, []);
 
     return (
