@@ -23,11 +23,7 @@ export default function Client1() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          if (jsonData.length > 0) {
-            setConsumerData(jsonData);
-          } else {
-            setConsumerData(Client1ConsumerData);
-          }
+          jsonData.length > 0 ? setConsumerData(jsonData) : setConsumerData(Client1ConsumerData);
         }),
       )
       .then()
@@ -37,15 +33,11 @@ export default function Client1() {
       method: "GET",
       // credentials: 'include',
     })
-      .then((resp) =>
-        resp.json().then((jsonData) => {
-          console.log(jsonData);
-          if (jsonData.length > 0) {
-            setProducerData(jsonData);
-          } else {
-            setProducerData(Client1ProducerData);
-          }
-        }),
+        .then((resp) =>
+            resp.json().then((jsonData) => {
+                console.log(jsonData);
+                jsonData.length > 0 ? setProducerData(jsonData) : setProducerData(Client1ProducerData);
+            }),
       )
       .then()
       .catch();
