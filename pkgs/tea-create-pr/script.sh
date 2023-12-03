@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -xeuo pipefail
 
 remoteName="${1:-origin}"
 targetBranch="${2:-main}"
