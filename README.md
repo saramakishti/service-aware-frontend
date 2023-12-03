@@ -106,8 +106,8 @@ Let's set up your Git workflow to collaborate effectively:
 2. **Git Workflow**:
 
    1. Add your changes to Git using `git add <file1> <file2>`.
-   2. Run `nix fmt` to lint your files.
-   3. Commit your changes with a descriptive message: `git commit -a -m "My descriptive commit message"`.
+   2. Run `nix fmt` to lint your files. This will format your files and make changes!  
+   3. Commit your changes and those of nix fmt with a descriptive message: `git commit -a -m "My descriptive commit message"`.
    4. Make sure your branch has the latest changes from upstream by executing:
       ```bash
       git fetch && git rebase origin/main --autostash
