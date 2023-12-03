@@ -19,33 +19,33 @@ export const Client1ConsumerData = [
   {
     service_name: "Carlo's Printing",
     service_type: "3D Printing",
-    end_point: "Consume",
-    producer: "C2",
-    producer_did: "did:sov:test:1223",
+    endpoint_url: "Consume",
+    entity: "C2",
+    entity_did: "did:sov:test:1223",
     network: "Carlo's Home Network",
   },
   {
     service_name: "Steve's Printing",
     service_type: "3D Printing",
-    end_point: "Consume",
-    producer: "C2",
-    producer_did: "did:sov:test:1234",
+    endpoint_url: "Consume",
+    entity: "C2",
+    entity_did: "did:sov:test:1234",
     network: "Steve's Home Network",
   },
   {
     service_name: "Test A",
     service_type: "3D Printing",
-    end_point: "Consume",
-    producer: "C2",
-    producer_did: "did:sov:test:4567",
+    endpoint_url: "Consume",
+    entity: "C2",
+    entity_did: "did:sov:test:4567",
     network: "Test Network A",
   },
   {
     service_name: "Test B",
     service_type: "3D Printing",
-    end_point: "Consume",
-    producer: "C2",
-    producer_did: "did:sov:test:0062",
+    endpoint_url: "Consume",
+    entity: "C2",
+    entity_did: "did:sov:test:0062",
     network: "Test Network B",
   },
 ];
@@ -60,16 +60,16 @@ export const Client1ConsumerTableConfig = [
     label: "Service Type",
   },
   {
-    key: "end_point",
+    key: "endpoint_url",
     label: "End Point",
   },
   {
-    key: "producer",
-    label: "Producer",
+    key: "entity",
+    label: "Entity",
   },
   {
-    key: "producer_did",
-    label: "Producer DID",
+    key: "entity_did",
+    label: "Entity DID",
   },
   {
     key: "network",
@@ -81,7 +81,7 @@ export const Client1ProducerData = [
   {
     service_name: "Carlo's Printing",
     service_type: "3D Printing",
-    end_point: "URL",
+    endpoint_url: "URL",
     usage: "C1(3), C3(4)",
     status: "DRAFT, REGISTERED",
     action: "Register, Deregister, Delete",
@@ -89,7 +89,7 @@ export const Client1ProducerData = [
   {
     service_name: "Steve's Printing",
     service_type: "3D Printing",
-    end_point: "URL",
+    endpoint_url: "URL",
     usage: "C1(3), C3(4)",
     status: "REGISTERED",
     action: "Create",
@@ -97,7 +97,7 @@ export const Client1ProducerData = [
   {
     service_name: "Test Printing A",
     service_type: "3D Printing",
-    end_point: "URL",
+    endpoint_url: "URL",
     usage: "C1(3), C3(4)",
     status: "DRAFT",
     action: "Register, Deregister",
@@ -105,7 +105,7 @@ export const Client1ProducerData = [
   {
     service_name: "Test Printing B",
     service_type: "3D Printing",
-    end_point: "URL",
+    endpoint_url: "URL",
     usage: "C1(3), C3(4)",
     status: "DRAFT, REGISTERED",
     action: "Delete, Create",
@@ -122,7 +122,7 @@ export const Client1ProducerTableConfig = [
     label: "Service Type",
   },
   {
-    key: "end_point",
+    key: "endpoint_url",
     label: "End Point",
   },
   {
