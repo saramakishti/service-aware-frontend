@@ -27,6 +27,7 @@ Let's get your development environment up and running:
      ```
 
 On Windows Subsystem for Linux (WSL) the installer will fail and tell you what to do. Execute the command from the error message and then afterwards execute:
+
 ```bash
 sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
 ```
@@ -105,13 +106,13 @@ Let's set up your Git workflow to collaborate effectively:
      - URL of Gitea instance: `https://gitea.gchq.icu`
      - Name of new Login [gitea.gchq.icu]: `gitea.gchq.icu:7171`
      - Do you have an access token? Yes
-     - Token: *********
+     - Token: ****\*****
      - Set Optional settings: No
 
 2. **Git Workflow**:
 
    1. Add your changes to Git using `git add <file1> <file2>`.
-   2. Run `nix fmt` to lint your files. This will format your files and make changes!  
+   2. Run `nix fmt` to lint your files. This will format your files and make changes!
    3. Commit your changes and those of nix fmt with a descriptive message: `git commit -a -m "My descriptive commit message"`.
    4. Make sure your branch has the latest changes from upstream by executing:
       ```bash
