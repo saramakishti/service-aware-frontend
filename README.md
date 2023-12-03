@@ -26,6 +26,11 @@ Let's get your development environment up and running:
      curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
      ```
 
+On Windows Subsystem for Linux (WSL) the installer will fail and tell you what to do. Execute the command from the error message and then afterwards execute:
+```bash
+sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
+```
+
 2. **Install direnv**:
 
    - Download the direnv package from [here](https://direnv.net/docs/installation.html) or run the following command:
@@ -95,12 +100,12 @@ Let's set up your Git workflow to collaborate effectively:
      ```bash
      tea login add
      ```
+   - Go to https://gitea.gchq.icu/user/settings/applications and create token with all privileges
    - Fill out the prompt as follows:
      - URL of Gitea instance: `https://gitea.gchq.icu`
      - Name of new Login [gitea.gchq.icu]: `gitea.gchq.icu:7171`
-     - Do you have an access token? No
-     - Username: YourUsername
-     - Password: YourPassword
+     - Do you have an access token? Yes
+     - Token: *********
      - Set Optional settings: No
 
 2. **Git Workflow**:
