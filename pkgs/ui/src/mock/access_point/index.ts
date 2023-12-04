@@ -94,16 +94,20 @@ export const APServiceRepositoryTableConfig = [
     key: "endpoint_url",
     label: "End point",
   },
-  {
-    key: "entity",
-    label: "Entity",
-  },
+  // {
+  //   key: "entity",
+  //   label: "Entity",
+  // },
   {
     key: "entity_did",
     label: "Entity DID",
   },
+  // {
+  //   key: "network",
+  //   label: "Network",
+  // },
   {
-    key: "network",
-    label: "Network",
+    key: "status",
+    label: "Status",
   },
 ];
