@@ -178,7 +178,7 @@ def get_attached_entities(
     return entities
 
 
-@router.get("/api/v1/detach")
+@router.post("/api/v1/detach")
 async def detach(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
@@ -192,7 +192,7 @@ async def detach(
     return {"message": "Detaching in the background"}
 
 
-@router.get("/api/v1/attach")
+@router.post("/api/v1/attach")
 async def attach(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
