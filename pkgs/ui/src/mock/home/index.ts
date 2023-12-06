@@ -21,27 +21,27 @@ export const HomeDummyData = [
 
 export const HomeTableConfig = [
   {
-    key: "entity_name",
+    key: "name",
     label: "Entity name",
   },
   {
-    key: "entity_DID",
+    key: "did",
     label: "Entity DID",
   },
+  // {
+  //   key: "network",
+  //   label: "Network",
+  // },
   {
-    key: "network",
-    label: "Network",
-  },
-  {
-    key: "ip_address",
+    key: "ip",
     label: "IP address",
   },
+  // {
+  //   key: "roles",
+  //   label: "Roles",
+  // },
   {
-    key: "roles",
-    label: "Roles",
-  },
-  {
-    key: "visible",
-    label: "Visible",
+    key: "attached",
+    label: "Attached",
   },
 ];
