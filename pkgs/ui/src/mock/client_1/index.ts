@@ -125,16 +125,16 @@ export const Client1ProducerTableConfig = [
     key: "endpoint_url",
     label: "End Point",
   },
-  {
-    key: "usage",
-    label: "Usage",
-  },
+  // {
+  //   key: "usage",
+  //   label: "Usage",
+  // },
   {
     key: "status",
     label: "Status",
   },
-  {
-    key: "action",
-    label: "Action",
-  },
+  // {
+  //   key: "action",
+  //   label: "Action",
+  // },
 ];
