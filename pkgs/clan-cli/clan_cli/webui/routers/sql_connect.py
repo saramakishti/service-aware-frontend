@@ -1,3 +1,4 @@
+import logging
 import time
 from typing import List, Optional
 
@@ -5,6 +6,7 @@ import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.orm import Session
 
+from ...errors import ClanError
 from .. import sql_crud, sql_db, sql_models
 from ..schemas import (
     Consumer,
@@ -19,6 +21,8 @@ from ..schemas import (
 from ..tags import Tags
 
 router = APIRouter()
+
+log = logging.getLogger(__name__)
 
 
 #########################
@@ -141,11 +145,7 @@ def get_repository(
 @router.post("/api/v1/create_entity", response_model=Entity, tags=[Tags.entities])
 def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
-) -> EntityCreate | str:
-    # todo checken ob schon da ...
-    if sql_crud.get_entity_by_did(db, did=entity.did):
-        print("did already exsists")
-        return "Error did already exsists in db"
+) -> EntityCreate:
     return sql_crud.create_entity(db, entity)
 
 
@@ -178,7 +178,7 @@ def get_attached_entities(
     return entities
 
 
-@router.post("/api/v1/detach")
+@router.post("/api/v1/detach", response_model=Entity, tags=[Tags.entities])
 async def detach(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
@@ -186,13 +186,11 @@ async def detach(
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
-    background_tasks.add_task(
-        sql_crud.set_attached_by_entity_did, db, entity_did, False
-    )
-    return {"message": "Detaching in the background"}
+    entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
+    return entity
 
 
-@router.post("/api/v1/attach")
+@router.post("/api/v1/attach", tags=[Tags.entities])
 async def attach(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
@@ -200,27 +198,28 @@ async def attach(
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
+    if sql_crud.get_entity_by_did(db, entity_did) is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+
     background_tasks.add_task(attach_entity, db, entity_did)
     return {"message": "Attaching in the background"}
 
 
-# TODO
 def attach_entity(db: Session, entity_did: str) -> None:
     db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, True)
     try:
-        if db_entity is not None:
-            while db_entity.attached:
-                # query status endpoint
-                # https://www.python-httpx.org/
-                response = httpx.get(f"http://{db_entity.ip}", timeout=2)
-                print(response)
-                # test with:
-                #  while true ; do printf 'HTTP/1.1 200 OK\r\n\r\ncool, thanks' | nc -l -N localhost 5555 ; done
-                # client test (apt install python3-httpx):
-                #  httpx http://localhost:5555
-                # except not reached set false
-                time.sleep(1)
-    except Exception as e:
-        print(e)
-        if db_entity is not None:
-            db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
+        while db_entity.attached:
+            # query status endpoint
+            # https://www.python-httpx.org/
+            response = httpx.get(f"http://{db_entity.ip}", timeout=2)
+            print(response)
+            # test with:
+            #  while true ; do printf 'HTTP/1.1 200 OK\r\n\r\ncool, thanks' | nc -l -N localhost 5555 ; done
+            # client test (apt install python3-httpx):
+            #  httpx http://localhost:5555
+            # except not reached set false
+            time.sleep(1)
+    except Exception:
+        log.warning(f"Entity {entity_did} not reachable. Setting attached to false")
+
+        db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
