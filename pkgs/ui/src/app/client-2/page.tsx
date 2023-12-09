@@ -2,9 +2,7 @@
 
 import SummaryDetails from "@/components/summary_card";
 import {
-  Client2ConsumerData,
   Client2ConsumerTableConfig,
-  Client2ProducerData,
   Client2ProducerTableConfig,
   Client2SummaryDetails,
 } from "@/mock/client_2";
@@ -23,9 +21,7 @@ export default function Client1() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0
-            ? setConsumerData(jsonData)
-            : setConsumerData(Client2ConsumerData);
+          setConsumerData(jsonData);
         }),
       )
       .then()
@@ -38,9 +34,7 @@ export default function Client1() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0
-            ? setProducerData(jsonData)
-            : setProducerData(Client2ProducerData);
+          setProducerData(jsonData);
         }),
       )
       .then()

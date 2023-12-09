@@ -3,10 +3,8 @@
 import SummaryDetails from "@/components/summary_card";
 import {
   Client1SummaryDetails,
-  Client1ConsumerData,
   Client1ConsumerTableConfig,
   Client1ProducerTableConfig,
-  Client1ProducerData,
 } from "@/mock/client_1";
 import CustomTable from "@/components/table";
 import { useEffect, useState } from "react";
@@ -23,9 +21,7 @@ export default function Client1() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0
-            ? setConsumerData(jsonData)
-            : setConsumerData(Client1ConsumerData);
+          setConsumerData(jsonData);
         }),
       )
       .then()
@@ -38,9 +34,7 @@ export default function Client1() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0
-            ? setProducerData(jsonData)
-            : setProducerData(Client1ProducerData);
+          setProducerData(jsonData);
         }),
       )
       .then()

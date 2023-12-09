@@ -3,7 +3,7 @@
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
-import { HomeDummyData, HomeTableConfig } from "@/mock/home";
+import { HomeTableConfig } from "@/mock/home";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -17,9 +17,7 @@ export default function Home() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0
-            ? setHomeData(jsonData)
-            : setHomeData(HomeDummyData);
+          setHomeData(jsonData);
         }),
       )
       .then()

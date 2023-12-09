@@ -6,7 +6,6 @@ import {
   APSummaryDetails,
   APAttachmentsDummyData,
   APAttachmentsTableConfig,
-  APServiceRepositoryDummyData,
   APServiceRepositoryTableConfig,
 } from "@/mock/access_point";
 import { useEffect, useState } from "react";
@@ -30,16 +29,14 @@ export default function AccessPoint() {
         resp.json().then((jsonData) => {
           console.log(jsonData);
 
-          const transformedData = jsonData.map((item) => ({
+          const transformedData = jsonData.map((item: { service_name: any; entity_did: any; network: any; }) => ({
             entity_name: item.service_name,
             entity_did: item.entity_did,
             network: item.network,
-            ip_address: "", // You might need to set an appropriate default value
+            ip_address: "",
           }));
 
-          jsonData.length > 0
-            ? setRepositoryData(transformedData)
-            : setRepositoryData(APServiceRepositoryDummyData);
+          setRepositoryData(transformedData);
         }),
       )
       .then()
