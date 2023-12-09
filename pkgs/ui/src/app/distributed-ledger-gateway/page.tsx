@@ -6,7 +6,7 @@ import {
 } from "@/mock/dlg";
 import CustomTable from "@/components/table";
 import SummaryDetails from "@/components/summary_card";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function DLG() {
   const [resolutionData, setResolutionData] = useState([]);

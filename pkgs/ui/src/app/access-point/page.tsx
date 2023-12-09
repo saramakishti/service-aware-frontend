@@ -23,7 +23,6 @@ export default function AccessPoint() {
   useEffect(() => {
     fetch("http://localhost:2979/api/v1/get_repositories", {
       method: "GET",
-      // credentials: 'include',
     })
       .then((resp) =>
         resp.json().then((jsonData) => {
