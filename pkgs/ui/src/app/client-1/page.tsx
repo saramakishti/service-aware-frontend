@@ -16,7 +16,6 @@ export default function Client1() {
   useEffect(() => {
     fetch("http://localhost:2979/api/v1/get_consumers", {
       method: "GET",
-      // credentials: 'include',
     })
       .then((resp) =>
         resp.json().then((jsonData) => {
@@ -29,7 +28,6 @@ export default function Client1() {
 
     fetch("http://localhost:2979/api/v1/get_producers", {
       method: "GET",
-      // credentials: 'include',
     })
       .then((resp) =>
         resp.json().then((jsonData) => {

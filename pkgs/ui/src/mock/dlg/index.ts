@@ -16,14 +16,14 @@ export const DLGSummaryDetails = [
 export const DLGResolutionDummyData = [
   {
     requester_name: "C1",
-    requester_DID: "did:sov:test:1234",
-    DID_resolved: "did:sov:test:1234",
+    requester_did: "did:sov:test:1234",
+    resolved_did: "did:sov:test:1234",
     timestamp: "2023.11.01 17:05:45",
   },
   {
     requester_name: "C2",
-    requester_DID: "did:sov:test:5678",
-    DID_resolved: "did:sov:test:5678",
+    requester_did: "did:sov:test:5678",
+    resolved_did: "did:sov:test:5678",
     timestamp: "2023.12.01 15:05:50",
   },
 ];
@@ -34,12 +34,12 @@ export const DLGResolutionTableConfig = [
     label: "Requester name",
   },
   {
-    key: "requester_DID",
+    key: "requester_did",
     label: "Requester DID",
   },
   {
-    key: "DID_resolved",
-    label: "DID resolved",
+    key: "resolved_did",
+    label: "Resolved DID",
   },
   {
     key: "timestamp",

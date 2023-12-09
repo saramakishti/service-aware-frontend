@@ -12,7 +12,6 @@ export default function Home() {
   useEffect(() => {
     fetch("http://localhost:2979/api/v1/get_entities", {
       method: "GET",
-      // credentials: 'include',
     })
       .then((resp) =>
         resp.json().then((jsonData) => {
