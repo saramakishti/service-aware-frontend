@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  DLGResolutionTableConfig,
-  DLGSummaryDetails,
-} from "@/mock/dlg";
+import { DLGResolutionTableConfig, DLGSummaryDetails } from "@/mock/dlg";
 import CustomTable from "@/components/table";
 import SummaryDetails from "@/components/summary_card";
 import { useEffect, useState } from "react";
