@@ -38,8 +38,11 @@ def make_test_post_and_get(
         headers={"Content-Type": "application/json"},
     )
     assert response.status_code == 200
+
     if paramter == "repository":
         assert_extra_info(["time_created"], request_body, response.json())
+    elif paramter == "resolution":
+        assert_extra_info(["timestamp", "id"], request_body, response.json())
     elif paramter == "consumer":
         assert_extra_info(["id"], request_body, response.json())
     elif paramter == "entity":
@@ -55,6 +58,8 @@ def make_test_post_and_get(
     assert response.status_code == 200
     if paramter == "repository":
         assert_extra_info(["time_created"], request_body, response.json()[0])
+    elif paramter == "resolution":
+        assert_extra_info(["timestamp", "id"], request_body, response.json()[0])
     elif paramter == "consumer":
         assert_extra_info(["id"], request_body, response.json()[0])
     elif paramter == "entity":
@@ -288,4 +293,45 @@ def test_entity2(api: TestClient) -> None:
     }
     paramter = "entity"
     get_request = "entity_did=" + url.quote(default_entity_did2)
+    make_test_post_and_get(api, request_body, paramter, get_request)
+
+
+#########################
+#                       #
+#      Resolution       #
+#                       #
+#########################
+def test_resolution(api: TestClient) -> None:
+    request_body = {
+        "requester_did": default_entity_did2,
+        "requester_name": "C2",
+        "resolved_did": default_entity_did,
+        "other": {"test": "test"},
+    }
+    paramter = "resolution"
+    get_request = "requester_did=" + url.quote(default_entity_did2)
+    make_test_post_and_get(api, request_body, paramter, get_request)
+
+
+def test_resolution2(api: TestClient) -> None:
+    request_body = {
+        "requester_did": default_entity_did3,
+        "requester_name": "C3",
+        "resolved_did": default_entity_did,
+        "other": {"test": "test"},
+    }
+    paramter = "resolution"
+    get_request = "requester_did=" + url.quote(default_entity_did3)
+    make_test_post_and_get(api, request_body, paramter, get_request)
+
+
+def test_resolution3(api: TestClient) -> None:
+    request_body = {
+        "requester_did": default_entity_did4,
+        "requester_name": "C4",
+        "resolved_did": default_entity_did,
+        "other": {"test": "test"},
+    }
+    paramter = "resolution"
+    get_request = "requester_did=" + url.quote(default_entity_did4)
     make_test_post_and_get(api, request_body, paramter, get_request)

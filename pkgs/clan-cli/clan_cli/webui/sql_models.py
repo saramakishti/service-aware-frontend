@@ -107,4 +107,5 @@ class Resolution(Base):
     requester_name = Column(String, index=True)
     requester_did = Column(String, index=True)
     resolved_did = Column(String, index=True)
-    timestamp = Column(DateTime, index=True)
+    other = Column(JSON)
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())
