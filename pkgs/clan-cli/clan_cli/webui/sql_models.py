@@ -26,6 +26,7 @@ class Entity(Base):
     name = Column(String, index=True)
     ip = Column(String, index=True)
     attached = Column(Boolean, index=True)
+    visible = Column(Boolean, index=True)
 
     ## Non queryable body ##
     # In here we deposit: Network, Roles, Visible, etc.

@@ -35,10 +35,11 @@ def setup_app() -> FastAPI:
     # bind sql engine
     # TODO comment aut and add flag to run with pupulated data rm *.sql run pytest with marked then start clan webui
     # https://docs.pytest.org/en/7.1.x/example/markers.html
-    sql_models.Base.metadata.drop_all(engine)
+    # sql_models.Base.metadata.drop_all(engine)
+
     sql_models.Base.metadata.create_all(bind=engine)
 
-    app = FastAPI(lifespan=lifespan)
+    app = FastAPI(lifespan=lifespan, swagger_ui_parameters={"tryItOutEnabled": True})
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
