@@ -17,6 +17,8 @@ from ..schemas import (
     ProducerCreate,
     Repository,
     RepositoryCreate,
+    Resolution,
+    ResolutionCreate,
 )
 from ..tags import Tags
 
@@ -61,6 +63,15 @@ def get_producer(
     return producer
 
 
+@router.delete("/api/v1/delete_producer", tags=[Tags.producers])
+def delete_producer(
+    entity_did: str = "did:sov:test:1234",
+    db: Session = Depends(sql_db.get_db),
+) -> dict[str, str]:
+    sql_crud.delete_producer_by_entity_did(db, entity_did)
+    return {"message": "Producer deleted"}
+
+
 #########################
 #                       #
 #       Consumer        #
@@ -95,6 +106,15 @@ def get_consumer(
 ) -> List[sql_models.Consumer]:
     consumer = sql_crud.get_consumers_by_entity_did(db, entity_did=entity_did)
     return consumer
+
+
+@router.delete("/api/v1/delete_consumer", tags=[Tags.consumers])
+def delete_consumer(
+    entity_did: str = "did:sov:test:1234",
+    db: Session = Depends(sql_db.get_db),
+) -> dict[str, str]:
+    sql_crud.delete_consumer_by_entity_did(db, entity_did)
+    return {"message": "Consumer deleted"}
 
 
 #########################
@@ -133,8 +153,17 @@ def get_repository(
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
 ) -> List[sql_models.Repository]:
-    repository = sql_crud.get_repository_by_did(db, did=entity_did)
+    repository = sql_crud.get_repository_by_entity_did(db, did=entity_did)
     return repository
+
+
+@router.delete("/api/v1/delete_repository", tags=[Tags.repositories])
+def delete_repository(
+    entity_did: str = "did:sov:test:1234",
+    db: Session = Depends(sql_db.get_db),
+) -> dict[str, str]:
+    sql_crud.delete_repository_by_entity_did(db, did=entity_did)
+    return {"message": "Repository deleted"}
 
 
 #########################
@@ -185,7 +214,7 @@ async def detach(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
-) -> dict[str, str]:
+) -> sql_models.Entity:
     entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
     return entity
 
@@ -223,3 +252,61 @@ def attach_entity(db: Session, entity_did: str) -> None:
         log.warning(f"Entity {entity_did} not reachable. Setting attached to false")
 
         db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
+
+
+@router.delete("/api/v1/delete_entity_recursive", tags=[Tags.entities])
+def delete_entity(
+    entity_did: str = "did:sov:test:1234",
+    db: Session = Depends(sql_db.get_db),
+) -> dict[str, str]:
+    sql_crud.delete_entity_by_did_recursive(db, did=entity_did)
+    return {"message": "Entity deleted and all relations to that entity"}
+
+
+#########################
+#                       #
+#      Resolution       #
+#                       #
+#########################
+@router.post(
+    "/api/v1/create_resolution", response_model=Resolution, tags=[Tags.resolutions]
+)
+def create_resolution(
+    resolution: ResolutionCreate,
+    db: Session = Depends(sql_db.get_db),
+) -> sql_models.Resolution:
+    return sql_crud.create_resolution(db, resolution)
+
+
+@router.get(
+    "/api/v1/get_resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
+)
+def get_resolutions(
+    skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
+) -> List[sql_models.Resolution]:
+    resolutions = sql_crud.get_resolutions(db, skip=skip, limit=limit)
+    return resolutions
+
+
+@router.get(
+    "/api/v1/get_resolution", response_model=List[Resolution], tags=[Tags.resolutions]
+)
+def get_resolution(
+    requester_did: str = "did:sov:test:1122",
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(sql_db.get_db),
+) -> List[sql_models.Resolution]:
+    resolution = sql_crud.get_resolution_by_requester_did(
+        db, requester_did=requester_did
+    )
+    return resolution
+
+
+@router.delete("/api/v1/delete_resolution", tags=[Tags.resolutions])
+def delete_resolution(
+    requester_did: str = "did:sov:test:1122",
+    db: Session = Depends(sql_db.get_db),
+) -> dict[str, str]:
+    sql_crud.delete_resolution_by_requester_did(db, requester_did=requester_did)
+    return {"message": "Resolution deleted"}

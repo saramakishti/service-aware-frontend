@@ -109,3 +109,29 @@ class Entity(EntityCreate):
 
     class Config:
         orm_mode = True
+
+
+#########################
+#                       #
+#      Resolution       #
+#                       #
+#########################
+
+
+class ResolutionBase(BaseModel):
+    requester_name: str = "C1"
+    requester_did: str = "did:sov:test:1122"
+    resolved_did: str = "did:sov:test:1234"
+    other: dict = {"test": "test"}
+
+
+class ResolutionCreate(ResolutionBase):
+    pass
+
+
+class Resolution(ResolutionCreate):
+    timestamp: datetime
+    id: int
+
+    class Config:
+        orm_mode = True

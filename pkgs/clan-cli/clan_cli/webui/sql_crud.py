@@ -41,6 +41,13 @@ def get_producers_by_entity_did(
     )
 
 
+def delete_producer_by_entity_did(db: Session, entity_did: str) -> None:
+    db.query(sql_models.Producer).filter(
+        sql_models.Producer.entity_did == entity_did
+    ).delete()
+    db.commit()
+
+
 #########################
 #                       #
 #       Consumer        #
@@ -76,6 +83,13 @@ def get_consumers_by_entity_did(
     )
 
 
+def delete_consumer_by_entity_did(db: Session, entity_did: str) -> None:
+    db.query(sql_models.Consumer).filter(
+        sql_models.Consumer.entity_did == entity_did
+    ).delete()
+    db.commit()
+
+
 #########################
 #                       #
 #       REPOSITORY      #
@@ -105,7 +119,7 @@ def get_repository_by_uuid(db: Session, uuid: str) -> Optional[sql_models.Reposi
     )
 
 
-def get_repository_by_did(
+def get_repository_by_entity_did(
     db: Session, did: str, skip: int = 0, limit: int = 100
 ) -> List[sql_models.Repository]:
     return (
@@ -115,6 +129,13 @@ def get_repository_by_did(
         .limit(limit)
         .all()
     )
+
+
+def delete_repository_by_entity_did(db: Session, did: str) -> None:
+    db.query(sql_models.Repository).filter(
+        sql_models.Repository.entity_did == did
+    ).delete()
+    db.commit()
 
 
 #########################
@@ -169,3 +190,55 @@ def set_attached_by_entity_did(
     db.commit()
     db.refresh(db_entity)
     return db_entity
+
+
+def delete_entity_by_did(db: Session, did: str) -> None:
+    db.query(sql_models.Entity).filter(sql_models.Entity.did == did).delete()
+    db.commit()
+
+
+def delete_entity_by_did_recursive(db: Session, did: str) -> None:
+    delete_producer_by_entity_did(db, did)
+    delete_consumer_by_entity_did(db, did)
+    delete_repository_by_entity_did(db, did)
+    delete_entity_by_did(db, did)
+
+
+#########################
+#                       #
+#      Resolution       #
+#                       #
+#########################
+def create_resolution(
+    db: Session, resolution: schemas.ResolutionCreate
+) -> sql_models.Resolution:
+    db_resolution = sql_models.Resolution(**resolution.dict())
+    db.add(db_resolution)
+    db.commit()
+    db.refresh(db_resolution)
+    return db_resolution
+
+
+def get_resolutions(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Resolution]:
+    return db.query(sql_models.Resolution).offset(skip).limit(limit).all()
+
+
+def get_resolution_by_requester_did(
+    db: Session, requester_did: str, skip: int = 0, limit: int = 100
+) -> List[sql_models.Resolution]:
+    return (
+        db.query(sql_models.Resolution)
+        .filter(sql_models.Resolution.requester_did == requester_did)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+
+def delete_resolution_by_requester_did(db: Session, requester_did: str) -> None:
+    db.query(sql_models.Resolution).filter(
+        sql_models.Resolution.requester_did == requester_did
+    ).delete()
+    db.commit()
