@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import true
 
 from . import schemas, sql_models
 
@@ -136,3 +137,37 @@ def get_entities(
 
 def get_entity_by_did(db: Session, did: str) -> Optional[sql_models.Entity]:
     return db.query(sql_models.Entity).filter(sql_models.Entity.did == did).first()
+
+
+# get attached
+def get_attached_entities(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Entity]:
+    return (
+        db.query(sql_models.Entity)
+        .filter(sql_models.Entity.attached == true())
+        # https://stackoverflow.com/questions/18998010/flake8-complains-on-boolean-comparison-in-filter-clause
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+
+# set attached
+# None if did not found
+# Returns same entity if setting didnt changed something
+def set_attached_by_entity_did(
+    db: Session, entity_did: str, value: bool
+) -> Optional[sql_models.Entity]:
+    # ste attached to true
+    db_entity = get_entity_by_did(db, entity_did)
+    if db_entity is not None:
+        # db_entity.attached = Column(True)
+        setattr(db_entity, "attached", value)
+        # save changes in db
+        db.add(db_entity)
+        db.commit()
+        db.refresh(db_entity)
+        return db_entity
+    else:
+        return db_entity
