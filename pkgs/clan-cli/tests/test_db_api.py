@@ -77,9 +77,7 @@ def test_producer(api: TestClient) -> None:
         "service_type": "3D Printing",
         "endpoint_url": "http://127.0.0.1:8000",
         "status": "unknown",
-        "other": { 
-            "action": ["register", "deregister", "delete", "create"]
-            },
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did,
     }
     paramter = "producer"
@@ -94,9 +92,7 @@ def test_producer2(api: TestClient) -> None:
         "service_type": "Fax",
         "endpoint_url": "http://127.0.0.1:8001",
         "status": "unknown",
-                "other": { 
-            "action": ["register", "deregister", "delete", "create"]
-            },
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did2,
     }
     paramter = "producer"
@@ -111,9 +107,7 @@ def test_producer3(api: TestClient) -> None:
         "service_type": "VR-Stream",
         "endpoint_url": "http://127.0.0.1:8002",
         "status": "unknown",
-                "other": { 
-            "action": ["register", "deregister", "delete", "create"]
-            },
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did3,
     }
     paramter = "producer"
@@ -128,9 +122,7 @@ def test_producer4(api: TestClient) -> None:
         "service_type": "gallary",
         "endpoint_url": "http://127.0.0.1:8003",
         "status": "unknown",
-                "other": { 
-            "action": ["register", "deregister", "delete", "create"]
-            },
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did4,
     }
     paramter = "producer"
@@ -145,9 +137,7 @@ def test_producer5(api: TestClient) -> None:
         "service_type": "Game-Shop",
         "endpoint_url": "http://127.0.0.1:8004",
         "status": "unknown",
-                "other": { 
-            "action": ["register", "deregister", "delete", "create"]
-            },
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did5,
     }
     paramter = "producer"

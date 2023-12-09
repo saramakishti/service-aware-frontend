@@ -106,7 +106,7 @@ Let's set up your Git workflow to collaborate effectively:
      - URL of Gitea instance: `https://gitea.gchq.icu`
      - Name of new Login [gitea.gchq.icu]: `gitea.gchq.icu:7171`
      - Do you have an access token? Yes
-     - Token: ****\*****
+     - Token: \***\*\*\*\***
      - Set Optional settings: No
 
 2. **Git Workflow**:
