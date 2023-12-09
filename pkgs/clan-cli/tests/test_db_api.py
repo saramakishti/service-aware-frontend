@@ -77,7 +77,7 @@ def test_producer(api: TestClient) -> None:
         "service_type": "3D Printing",
         "endpoint_url": "http://127.0.0.1:8000",
         "status": "unknown",
-        "other": {"test": "test"},
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did,
     }
     paramter = "producer"
@@ -92,7 +92,7 @@ def test_producer2(api: TestClient) -> None:
         "service_type": "Fax",
         "endpoint_url": "http://127.0.0.1:8001",
         "status": "unknown",
-        "other": {"faxen": "dicke"},
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did2,
     }
     paramter = "producer"
@@ -107,7 +107,7 @@ def test_producer3(api: TestClient) -> None:
         "service_type": "VR-Stream",
         "endpoint_url": "http://127.0.0.1:8002",
         "status": "unknown",
-        "other": {"oculos": "rift"},
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did3,
     }
     paramter = "producer"
@@ -122,7 +122,7 @@ def test_producer4(api: TestClient) -> None:
         "service_type": "gallary",
         "endpoint_url": "http://127.0.0.1:8003",
         "status": "unknown",
-        "other": {"nice": "pics"},
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did4,
     }
     paramter = "producer"
@@ -137,7 +137,7 @@ def test_producer5(api: TestClient) -> None:
         "service_type": "Game-Shop",
         "endpoint_url": "http://127.0.0.1:8004",
         "status": "unknown",
-        "other": {"war": "games"},
+        "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did5,
     }
     paramter = "producer"
@@ -263,7 +263,11 @@ def test_entity(api: TestClient) -> None:
         "name": "C1",
         "ip": "127.0.0.1",
         "attached": False,
-        "other": {"test": "test"},
+        "visible": True,
+        "other": {
+            "network": "Carlo1's Home Network",
+            "roles": ["service repository", "service consumer"],
+        },
     }
     paramter = "entity"
     # get_request = "entity_did=did%3Asov%3Atest%3A1234"
@@ -276,7 +280,11 @@ def test_entity2(api: TestClient) -> None:
         "name": "C2",
         "ip": "127.0.0.2",
         "attached": False,
-        "other": {"test": "test"},
+        "visible": True,
+        "other": {
+            "network": "Carlo2's Home Network",
+            "roles": ["service repository", "service prosumer"],
+        },
     }
     paramter = "entity"
     get_request = "entity_did=" + url.quote(default_entity_did2)

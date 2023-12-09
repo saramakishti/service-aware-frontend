@@ -23,6 +23,12 @@ def register_parser(parser: argparse.ArgumentParser) -> None:
         "--host", type=str, default="localhost", help="Host to listen on"
     )
     parser.add_argument(
+        "--populate",
+        action="store_true",
+        help="Populate the database with dummy data",
+        default=False,
+    )
+    parser.add_argument(
         "--no-open", action="store_true", help="Don't open the browser", default=False
     )
     parser.add_argument(

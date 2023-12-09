@@ -27,7 +27,7 @@ class ProducerBase(BaseModel):
     service_type: str = "3D Printing"
     endpoint_url: str = "http://127.0.0.1:8000"
     status: str = "unknown"
-    other: dict = {"test": "test"}
+    other: dict = {"action": ["register", "deregister", "delete", "create"]}
 
 
 class ProducerCreate(ProducerBase):
@@ -91,7 +91,11 @@ class EntityBase(BaseModel):
     name: str = "C1"
     ip: str = "127.0.0.1"
     attached: bool = False
-    other: dict = {"test": "test"}
+    visible: bool = True
+    other: dict = {
+        "network": "Carlo's Home Network",
+        "roles": ["service repository", "service prosumer"],
+    }
 
 
 class EntityCreate(EntityBase):

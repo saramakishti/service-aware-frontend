@@ -3,6 +3,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import true
 
+from ..errors import ClanError
 from . import schemas, sql_models
 
 #########################
@@ -153,21 +154,18 @@ def get_attached_entities(
     )
 
 
-# set attached
-# None if did not found
 # Returns same entity if setting didnt changed something
 def set_attached_by_entity_did(
     db: Session, entity_did: str, value: bool
-) -> Optional[sql_models.Entity]:
-    # ste attached to true
+) -> sql_models.Entity:
     db_entity = get_entity_by_did(db, entity_did)
-    if db_entity is not None:
-        # db_entity.attached = Column(True)
-        setattr(db_entity, "attached", value)
-        # save changes in db
-        db.add(db_entity)
-        db.commit()
-        db.refresh(db_entity)
-        return db_entity
-    else:
-        return db_entity
+    if db_entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+
+    setattr(db_entity, "attached", value)
+
+    # save changes in db
+    db.add(db_entity)
+    db.commit()
+    db.refresh(db_entity)
+    return db_entity

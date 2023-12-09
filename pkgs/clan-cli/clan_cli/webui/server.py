@@ -105,6 +105,27 @@ def start_server(args: argparse.Namespace) -> None:
         if not args.no_open:
             Thread(target=open_browser, args=(base_url, args.sub_url)).start()
 
+        # DELETE all data from the database
+        from . import sql_models
+        from .sql_db import engine
+
+        sql_models.Base.metadata.drop_all(engine)
+
+        if args.populate:
+            test_dir = Path(__file__).parent.parent.parent / "tests"
+
+            if not test_dir.is_dir():
+                raise ClanError(f"Could not find test dir: {test_dir}")
+
+            test_db_api = test_dir / "test_db_api.py"
+            if not test_db_api.is_file():
+                raise ClanError(f"Could not find test db api: {test_db_api}")
+
+            import subprocess
+
+            cmd = ["pytest", "-s", "-n0", str(test_db_api)]
+            subprocess.run(cmd, check=True)
+
         uvicorn.run(
             "clan_cli.webui.app:app",
             host=args.host,
