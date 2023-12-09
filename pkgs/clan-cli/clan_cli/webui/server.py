@@ -111,7 +111,7 @@ def start_server(args: argparse.Namespace) -> None:
 
         sql_models.Base.metadata.drop_all(engine)
 
-        if args.no_populate is False:
+        if args.populate:
             test_dir = Path(__file__).parent.parent.parent / "tests"
 
             if not test_dir.is_dir():

@@ -1,6 +1,6 @@
-# 1Service Aware Network Project Repo
+# Service Aware Network Project Repo
 
-Welcome to our website repository! This repo is designed to help you and your team build high-quality websites efficiently. We've carefully chosen the technologies to make development smooth and enjoyable. Here's what you can expect from this template:
+Welcome to our website repository! This repo is designed to build high-quality websites efficiently. We've carefully chosen the technologies to make development smooth and enjoyable.
 
 **Frontend**: Our frontend is powered by [React NextJS](https://nextjs.org/), a popular and versatile framework for building web applications.
 
@@ -51,6 +51,7 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
 4. **Clone the Repository and Navigate**:
 
    - Clone this repository and navigate to it.
+   - If you are under Windows Subystem For Linux (WSL) please clone the repository to the home folder of your Linux. Do NOT clone it onto your Windows machine!
 
 5. **Allow .envrc**:
 
@@ -72,9 +73,10 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
 
    - To start the backend server, execute:
      ```bash
-     clan webui --reload --no-open --log-level debug
+     clan webui --reload --no-open --log-level debug --populate
      ```
    - The server will automatically restart if any Python files change.
+   - The `--populate` flag will automatically populate the database with dummy data
 
 8. **Build the Frontend**:
 
@@ -194,8 +196,8 @@ If you need to inspect the Nix sandbox while running tests, follow these steps:
 2. Use `cntr` and `psgrep` to attach to the Nix sandbox. This allows you to interactively debug your code while it's paused. For example:
 
    ```bash
-   cntr exec -w your_sandbox_name
    psgrep -a -x your_python_process_name
+   cntr attach <pid>
    ```
 
 These debugging and testing methods will help you identify and fix issues in your backend code efficiently, ensuring the reliability and robustness of your application.
