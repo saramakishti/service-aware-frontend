@@ -22,7 +22,9 @@ export default function AccessPoint() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0 ? setRepositoryData(jsonData) : setRepositoryData(APServiceRepositoryDummyData);
+          jsonData.length > 0
+            ? setRepositoryData(jsonData)
+            : setRepositoryData(APServiceRepositoryDummyData);
         }),
       )
       .then()

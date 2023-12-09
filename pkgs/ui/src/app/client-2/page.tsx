@@ -9,7 +9,7 @@ import {
   Client2SummaryDetails,
 } from "@/mock/client_2";
 import CustomTable from "@/components/table";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 export default function Client1() {
   const [consumerData, setConsumerData] = useState([]);
@@ -23,7 +23,9 @@ export default function Client1() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
-          jsonData.length > 0 ? setConsumerData(jsonData) : setConsumerData(Client2ConsumerData);
+          jsonData.length > 0
+            ? setConsumerData(jsonData)
+            : setConsumerData(Client2ConsumerData);
         }),
       )
       .then()
@@ -33,11 +35,13 @@ export default function Client1() {
       method: "GET",
       // credentials: 'include',
     })
-        .then((resp) =>
-            resp.json().then((jsonData) => {
-                console.log(jsonData);
-                jsonData.length > 0 ? setProducerData(jsonData) : setProducerData(Client2ProducerData);
-            }),
+      .then((resp) =>
+        resp.json().then((jsonData) => {
+          console.log(jsonData);
+          jsonData.length > 0
+            ? setProducerData(jsonData)
+            : setProducerData(Client2ProducerData);
+        }),
       )
       .then()
       .catch();
