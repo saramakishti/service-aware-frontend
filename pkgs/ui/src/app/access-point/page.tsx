@@ -12,14 +12,14 @@ import {
 import { useEffect, useState } from "react";
 
 interface RepositoryData {
-    entity_name: string;
-    entity_did: string;
-    network: string;
-    ip_address: string;
+  entity_name: string;
+  entity_did: string;
+  network: string;
+  ip_address: string;
 }
 
 export default function AccessPoint() {
-    const [repositoryData, setRepositoryData] = useState<RepositoryData[]>([]);
+  const [repositoryData, setRepositoryData] = useState<RepositoryData[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:2979/api/v1/get_repositories", {
