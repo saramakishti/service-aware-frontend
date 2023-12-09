@@ -29,8 +29,16 @@ export default function AccessPoint() {
       .then((resp) =>
         resp.json().then((jsonData) => {
           console.log(jsonData);
+
+          const transformedData = jsonData.map((item) => ({
+            entity_name: item.service_name,
+            entity_did: item.entity_did,
+            network: item.network,
+            ip_address: "", // You might need to set an appropriate default value
+          }));
+
           jsonData.length > 0
-            ? setRepositoryData(jsonData)
+            ? setRepositoryData(transformedData)
             : setRepositoryData(APServiceRepositoryDummyData);
         }),
       )
