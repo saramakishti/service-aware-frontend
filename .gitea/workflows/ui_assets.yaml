@@ -25,7 +25,7 @@ jobs:
           || echo "$MODIFIED_FILES" | grep -q ".gitea/workflows/ui_assets.yaml"; then
 
             echo "UI files have changed"
-            ./pkgs/ui/nix/update-ui-assets.sh
+            bash ./pkgs/ui/nix/update-ui-assets.sh
 
 
             # git push if we have a diff
