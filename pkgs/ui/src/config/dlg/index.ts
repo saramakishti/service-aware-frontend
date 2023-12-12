@@ -1,5 +1,7 @@
 // DLG Summary Details
 
+import { formatDateTime } from "@/utils/helpers";
+
 export const DLGSummaryDetails = [
   {
     label: "DID",
@@ -44,5 +46,6 @@ export const DLGResolutionTableConfig = [
   {
     key: "timestamp",
     label: "Timestamp",
+    render: (value: string) => formatDateTime(value),
   },
 ];

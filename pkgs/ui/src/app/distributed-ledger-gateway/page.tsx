@@ -1,31 +1,37 @@
 "use client";
 
-import { DLGResolutionTableConfig, DLGSummaryDetails } from "@/mock/dlg";
+import { DLGResolutionTableConfig, DLGSummaryDetails } from "@/config/dlg";
 import CustomTable from "@/components/table";
 import SummaryDetails from "@/components/summary_card";
-import { useEffect, useState } from "react";
+import useFetch from "@/components/hooks/useFetch";
+import { useEffect } from "react";
 
 export default function DLG() {
-  const [resolutionData, setResolutionData] = useState([]);
+  const {
+    data: resolutionData,
+    loading: loadingResolutions,
+    fetch,
+  } = useFetch("/get_resolutions");
+
+  const onRefresh = () => {
+    fetch();
+  };
 
   useEffect(() => {
-    fetch("http://localhost:2979/api/v1/get_resolutions", {
-      method: "GET",
-    })
-      .then((resp) =>
-        resp.json().then((jsonData) => {
-          console.log(jsonData);
-          setResolutionData(jsonData);
-        }),
-      )
-      .then()
-      .catch();
+    const interval = setInterval(() => {
+      onRefresh();
+    }, 5000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="m-10">
       <SummaryDetails
+        fake
         hasRefreshButton
+        onRefresh={onRefresh}
         entity={{
           name: "Distributed Ledger Gateway",
           details: DLGSummaryDetails,
@@ -34,6 +40,7 @@ export default function DLG() {
       <div>
         <h4>DID Resolution View</h4>
         <CustomTable
+          loading={loadingResolutions}
           data={resolutionData}
           configuration={DLGResolutionTableConfig}
         />

@@ -14,6 +14,8 @@ const SummaryDetails = ({
   entity,
   hasRefreshButton,
   hasAttachDetach,
+  fake,
+  onRefresh,
 }: ISummaryDetails) => {
   const cardContentRef = useRef(null);
   const hasDetails = entity.details && entity.details.length > 0;
@@ -34,13 +36,17 @@ const SummaryDetails = ({
               Attach / Detach
             </Button>
           )}
-          {hasRefreshButton && <Button variant="contained">Refresh</Button>}
+          {hasRefreshButton && (
+            <Button onClick={onRefresh} variant="contained">
+              Refresh
+            </Button>
+          )}
         </div>
       </div>
       {hasDetails && (
         <Card variant="outlined">
           <CardHeader
-            subheader="Summary"
+            subheader={fake ? "Summary (Fake Data)" : "Summary"}
             action={<CopyToClipboard contentRef={cardContentRef} />}
           />
           <CardContent ref={cardContentRef}>

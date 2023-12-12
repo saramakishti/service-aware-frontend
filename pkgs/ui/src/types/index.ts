@@ -7,6 +7,7 @@ export interface CustomTableConfiguration {
 export interface ICustomTable {
   configuration: CustomTableConfiguration[];
   data: any;
+  loading?: boolean;
 }
 
 export interface EntityDetails {
@@ -20,7 +21,9 @@ export interface Entity {
 }
 
 export interface ISummaryDetails {
-  entity: Entity;
+  entity: any;
+  fake?: boolean;
   hasRefreshButton?: boolean;
   hasAttachDetach?: boolean;
+  onRefresh?: () => void;
 }

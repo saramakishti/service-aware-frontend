@@ -1,3 +1,5 @@
+import { useGetEntities } from "@/api/entities/entities";
+import { Entity } from "@/api/model";
 import { AxiosError } from "axios";
 import React, {
   createContext,
@@ -5,6 +7,7 @@ import React, {
   ReactNode,
   SetStateAction,
   useState,
+  useEffect,
 } from "react";
 
 type AppContextType = {
@@ -18,7 +21,11 @@ type AppContextType = {
 
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
-type AppState = NonNullable<unknown>;
+type AppState = {
+  allEntities: Entity[] | undefined;
+  loadingEntities: boolean;
+  entitiesKeyFunc: any;
+};
 
 interface AppContextProviderProps {
   children: ReactNode;
@@ -26,10 +33,28 @@ interface AppContextProviderProps {
 export const WithAppState = (props: AppContextProviderProps) => {
   const { children } = props;
 
+  const { data: entityData, swrKey: entitiesKeyFunc } = useGetEntities();
+
   const isLoading = false;
   const error = undefined;
 
-  const [data, setAppState] = useState<AppState>({});
+  const [data, setAppState] = useState<AppState>({
+    allEntities: [],
+    loadingEntities: true,
+    entitiesKeyFunc,
+  });
+
+  useEffect(() => {
+    if (entityData) {
+      setAppState((prevState) => ({
+        ...prevState,
+        allEntities: entityData.data,
+        entitiesKeyFunc,
+        loadingEntities: false,
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityData]);
 
   return (
     <AppContext.Provider

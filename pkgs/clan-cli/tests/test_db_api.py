@@ -266,7 +266,7 @@ def test_entity(api: TestClient) -> None:
     request_body = {
         "did": default_entity_did,
         "name": "C1",
-        "ip": "127.0.0.1",
+        "ip": "127.0.0.1:5555",
         "attached": False,
         "visible": True,
         "other": {
@@ -283,7 +283,7 @@ def test_entity2(api: TestClient) -> None:
     request_body = {
         "did": default_entity_did2,
         "name": "C2",
-        "ip": "127.0.0.2",
+        "ip": "127.0.0.1:5555",
         "attached": False,
         "visible": True,
         "other": {

@@ -9,9 +9,12 @@ import Paper from "@mui/material/Paper";
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import { StyledTableCell, StyledTableRow } from "./style";
 import { ICustomTable, CustomTableConfiguration } from "@/types";
-import { Checkbox } from "@mui/material";
+import { Checkbox, Skeleton } from "@mui/material";
 
-const CustomTable = ({ configuration, data }: ICustomTable) => {
+const CustomTable = ({ configuration, data, loading }: ICustomTable) => {
+  if (loading)
+    return <Skeleton variant="rectangular" animation="wave" height={200} />;
+
   // display empty icon in case there is no data
   if (!data || data.length === 0)
     return <NoDataOverlay label="No Activity yet" />;

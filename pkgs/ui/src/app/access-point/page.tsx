@@ -1,56 +1,77 @@
 "use client";
 
+import { mutate } from "swr";
+import { useGetAttachedEntities } from "@/api/entities/entities";
+import { useGetRepositories } from "@/api/repositories/repositories";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
 import {
   APSummaryDetails,
-  APAttachmentsDummyData,
   APAttachmentsTableConfig,
   APServiceRepositoryTableConfig,
-} from "@/mock/access_point";
-import { useEffect, useState } from "react";
-
-interface RepositoryData {
-  entity_name: string;
-  entity_did: string;
-  network: string;
-  ip_address: string;
-}
+} from "@/config/access_point";
+import { useEffect } from "react";
 
 export default function AccessPoint() {
-  const [repositoryData, setRepositoryData] = useState<RepositoryData[]>([]);
+  const {
+    data: APAttachementData,
+    isLoading: loadingAttachements,
+    swrKey: attachedEntitiesKeyFunc,
+  } = useGetAttachedEntities();
+  const {
+    data: APRepositories,
+    isLoading: laodingRepositories,
+    swrKey: repositoriesKeyFunc,
+  } = useGetRepositories();
+
+  const onRefresh = () => {
+    const attachedEntitiesKey =
+      typeof attachedEntitiesKeyFunc === "function"
+        ? attachedEntitiesKeyFunc()
+        : attachedEntitiesKeyFunc;
+    const repositoriesKey =
+      typeof repositoriesKeyFunc === "function"
+        ? repositoriesKeyFunc()
+        : repositoriesKeyFunc;
+
+    if (attachedEntitiesKey) {
+      mutate(attachedEntitiesKey);
+    }
+    if (repositoriesKey) {
+      mutate(repositoriesKey);
+    }
+  };
 
   useEffect(() => {
-    fetch("http://localhost:2979/api/v1/get_repositories", {
-      method: "GET",
-    })
-      .then((resp) =>
-        resp.json().then((jsonData) => {
-          console.log(jsonData);
-          setRepositoryData(jsonData);
-        }),
-      )
-      .then()
-      .catch();
+    const interval = setInterval(() => {
+      onRefresh();
+    }, 1000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="m-10">
       <SummaryDetails
+        fake
         hasRefreshButton
+        onRefresh={onRefresh}
         entity={{ name: "Access Point", details: APSummaryDetails }}
       />
       <div>
         <h4>Attachment View</h4>
         <CustomTable
-          data={APAttachmentsDummyData}
+          loading={loadingAttachements}
+          data={APAttachementData?.data}
           configuration={APAttachmentsTableConfig}
         />
       </div>
       <div>
         <h4>Service Repository View </h4>
         <CustomTable
-          data={repositoryData}
+          loading={laodingRepositories}
+          data={APRepositories?.data}
           configuration={APServiceRepositoryTableConfig}
         />
       </div>

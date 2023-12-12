@@ -1,39 +1,51 @@
 "use client";
 
+import { useAppState } from "@/components/hooks/useAppContext";
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
-import { HomeTableConfig } from "@/mock/home";
-import { useEffect, useState } from "react";
+import { HomeTableConfig } from "@/config/home";
+import { useEffect } from "react";
+import { mutate } from "swr";
 
 export default function Home() {
-  const [homeData, setHomeData] = useState([]);
+  const { data } = useAppState();
+
+  const entitiesKeyFunc = data.entitiesKeyFunc;
+
+  const onRefresh = () => {
+    const entityKey =
+      typeof entitiesKeyFunc === "function"
+        ? entitiesKeyFunc()
+        : entitiesKeyFunc;
+    if (entitiesKeyFunc) mutate(entityKey);
+  };
 
   useEffect(() => {
-    fetch("http://localhost:2979/api/v1/get_entities", {
-      method: "GET",
-    })
-      .then((resp) =>
-        resp.json().then((jsonData) => {
-          console.log(jsonData);
-          setHomeData(jsonData);
-        }),
-      )
-      .then()
-      .catch();
+    const interval = setInterval(() => {
+      onRefresh();
+    }, 500);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="m-10">
       <SummaryDetails
         entity={{ name: "Home", details: [] }}
-        hasRefreshButton={false}
+        hasRefreshButton={true}
+        onRefresh={onRefresh}
         hasAttachDetach={false}
       />
 
       <div>
         <h4>Home View Table</h4>
-        <CustomTable data={homeData} configuration={HomeTableConfig} />
+        <CustomTable
+          loading={data.loadingEntities}
+          data={data?.allEntities}
+          configuration={HomeTableConfig}
+        />
       </div>
 
       <div>
