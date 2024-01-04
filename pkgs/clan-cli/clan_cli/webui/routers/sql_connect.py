@@ -1,5 +1,6 @@
 import logging
 import time
+from datetime import datetime
 from typing import List, Optional
 
 import httpx
@@ -9,14 +10,9 @@ from sqlalchemy.orm import Session
 from ...errors import ClanError
 from .. import sql_crud, sql_db, sql_models
 from ..schemas import (
-    Client,
-    ClientCreate,
     Entity,
     EntityCreate,
-    Repository,
-    RepositoryCreate,
     Resolution,
-    ResolutionCreate,
     Service,
     ServiceCreate,
 )
@@ -32,7 +28,7 @@ log = logging.getLogger(__name__)
 #        Service        #
 #                       #
 #########################
-@router.post("/api/v1/create_service", response_model=Service, tags=[Tags.services])
+@router.post("/api/v1/service", response_model=Service, tags=[Tags.services])
 def create_service(
     service: ServiceCreate, db: Session = Depends(sql_db.get_db)
 ) -> Service:
@@ -40,16 +36,18 @@ def create_service(
     return sql_crud.create_service(db=db, service=service)
 
 
-@router.get("/api/v1/get_services", response_model=List[Service], tags=[Tags.services])
-def get_services(
+@router.get("/api/v1/services", response_model=List[Service], tags=[Tags.services])
+def get_all_services(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Service]:
     services = sql_crud.get_services(db, skip=skip, limit=limit)
     return services
 
 
-@router.get("/api/v1/get_service", response_model=List[Service], tags=[Tags.services])
-def get_service(
+@router.get(
+    "/api/v1/{entity_did}/service", response_model=List[Service], tags=[Tags.services]
+)
+def get_service_by_did(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
@@ -59,7 +57,7 @@ def get_service(
     return service
 
 
-@router.delete("/api/v1/delete_service", tags=[Tags.services])
+@router.delete("/api/v1/{entity_did}/service", tags=[Tags.services])
 def delete_service(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
@@ -73,38 +71,19 @@ def delete_service(
 #         Client        #
 #                       #
 #########################
-@router.post("/api/v1/create_client", response_model=Client, tags=[Tags.clients])
-def create_client(client: ClientCreate, db: Session = Depends(sql_db.get_db)) -> Client:
-    # todo checken ob schon da ...
-    return sql_crud.create_client(db=db, client=client)
-
-
-@router.get("/api/v1/get_clients", response_model=List[Client], tags=[Tags.clients])
-def get_clients(
-    skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Client]:
-    clients = sql_crud.get_clients(db, skip=skip, limit=limit)
-    return clients
-
-
-@router.get("/api/v1/get_client", response_model=List[Client], tags=[Tags.clients])
-def get_client(
+@router.get(
+    "/api/v1/{entity_did}/clients", response_model=List[Service], tags=[Tags.clients]
+)
+def get_all_clients(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
-) -> List[sql_models.Client]:
-    client = sql_crud.get_client_by_entity_did(db, entity_did=entity_did)
-    return client
-
-
-@router.delete("/api/v1/delete_client", tags=[Tags.clients])
-def delete_client(
-    entity_did: str = "did:sov:test:1234",
-    db: Session = Depends(sql_db.get_db),
-) -> dict[str, str]:
-    sql_crud.delete_client_by_entity_did(db, entity_did)
-    return {"message": "client deleted"}
+) -> List[sql_models.Service]:
+    clients = sql_crud.get_services_without_entity_id(
+        db, entity_did, skip=skip, limit=limit
+    )
+    return clients
 
 
 #########################
@@ -112,48 +91,18 @@ def delete_client(
 #       REPOSITORY      #
 #                       #
 #########################
-@router.post(
-    "/api/v1/create_repository", response_model=Repository, tags=[Tags.repositories]
-)
-def create_repository(
-    repository: RepositoryCreate, db: Session = Depends(sql_db.get_db)
-) -> sql_models.Repository:
-    # todo checken ob schon da ...
-    return sql_crud.create_repository(db=db, repository=repository)
 
 
 @router.get(
-    "/api/v1/get_repositories",
-    response_model=List[Repository],
+    "/api/v1/repositories",
+    response_model=List[Service],
     tags=[Tags.repositories],
 )
-def get_repositories(
+def get_all_repositories(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Repository]:
-    repositories = sql_crud.get_repositories(db, skip=skip, limit=limit)
+) -> List[sql_models.Service]:
+    repositories = sql_crud.get_services(db, skip=skip, limit=limit)
     return repositories
-
-
-@router.get(
-    "/api/v1/get_repository", response_model=List[Repository], tags=[Tags.repositories]
-)
-def get_repository(
-    entity_did: str = "did:sov:test:1234",
-    skip: int = 0,
-    limit: int = 100,
-    db: Session = Depends(sql_db.get_db),
-) -> List[sql_models.Repository]:
-    repository = sql_crud.get_repository_by_entity_did(db, did=entity_did)
-    return repository
-
-
-@router.delete("/api/v1/delete_repository", tags=[Tags.repositories])
-def delete_repository(
-    entity_did: str = "did:sov:test:1234",
-    db: Session = Depends(sql_db.get_db),
-) -> dict[str, str]:
-    sql_crud.delete_repository_by_entity_did(db, did=entity_did)
-    return {"message": "Repository deleted"}
 
 
 #########################
@@ -161,23 +110,25 @@ def delete_repository(
 #        Entity         #
 #                       #
 #########################
-@router.post("/api/v1/create_entity", response_model=Entity, tags=[Tags.entities])
+@router.post("/api/v1/entity", response_model=Entity, tags=[Tags.entities])
 def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
 ) -> EntityCreate:
     return sql_crud.create_entity(db, entity)
 
 
-@router.get("/api/v1/get_entities", response_model=List[Entity], tags=[Tags.entities])
-def get_entities(
+@router.get("/api/v1/entities", response_model=List[Entity], tags=[Tags.entities])
+def get_all_entities(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Entity]:
     entities = sql_crud.get_entities(db, skip=skip, limit=limit)
     return entities
 
 
-@router.get("/api/v1/get_entity", response_model=Optional[Entity], tags=[Tags.entities])
-def get_entity(
+@router.get(
+    "/api/v1/{entity_did}/entity", response_model=Optional[Entity], tags=[Tags.entities]
+)
+def get_entity_by_did(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> Optional[sql_models.Entity]:
@@ -186,7 +137,7 @@ def get_entity(
 
 
 @router.get(
-    "/api/v1/get_attached_entities",
+    "/api/v1/attached_entities",
     response_model=List[Entity],
     tags=[Tags.entities],
 )
@@ -197,8 +148,8 @@ def get_attached_entities(
     return entities
 
 
-@router.post("/api/v1/detach", response_model=Entity, tags=[Tags.entities])
-async def detach(
+@router.post("/api/v1/{entity_did}/detach", response_model=Entity, tags=[Tags.entities])
+async def detach_entity(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
@@ -209,8 +160,8 @@ async def detach(
     return entity
 
 
-@router.post("/api/v1/attach", tags=[Tags.entities])
-async def attach(
+@router.post("/api/v1/{entity_did}/attach", tags=[Tags.entities])
+async def attach_entity(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
@@ -220,11 +171,11 @@ async def attach(
     if sql_crud.get_entity_by_did(db, entity_did) is None:
         raise ClanError(f"Entity with did '{entity_did}' not found")
 
-    background_tasks.add_task(attach_entity, db, entity_did)
+    background_tasks.add_task(attach_entity_loc, db, entity_did)
     return {"message": "Attaching in the background"}
 
 
-def attach_entity(db: Session, entity_did: str) -> None:
+def attach_entity_loc(db: Session, entity_did: str) -> None:
     db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, True)
     try:
         while db_entity.attached:
@@ -244,7 +195,7 @@ def attach_entity(db: Session, entity_did: str) -> None:
         db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
 
 
-@router.delete("/api/v1/delete_entity_recursive", tags=[Tags.entities])
+@router.delete("/api/v1/{entity_did}/entity", tags=[Tags.entities])
 def delete_entity(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
@@ -258,45 +209,23 @@ def delete_entity(
 #      Resolution       #
 #                       #
 #########################
-@router.post(
-    "/api/v1/create_resolution", response_model=Resolution, tags=[Tags.resolutions]
-)
-def create_resolution(
-    resolution: ResolutionCreate,
-    db: Session = Depends(sql_db.get_db),
-) -> sql_models.Resolution:
-    return sql_crud.create_resolution(db, resolution)
 
 
 @router.get(
-    "/api/v1/get_resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
+    "/api/v1/resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
 )
-def get_resolutions(
+def get_all_resolutions(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Resolution]:
-    resolutions = sql_crud.get_resolutions(db, skip=skip, limit=limit)
-    return resolutions
+) -> List[Resolution]:
+    # TODO: Get resolutions from DLG entity
 
-
-@router.get(
-    "/api/v1/get_resolution", response_model=List[Resolution], tags=[Tags.resolutions]
-)
-def get_resolution(
-    requester_did: str = "did:sov:test:1122",
-    skip: int = 0,
-    limit: int = 100,
-    db: Session = Depends(sql_db.get_db),
-) -> List[sql_models.Resolution]:
-    resolution = sql_crud.get_resolution_by_requester_did(
-        db, requester_did=requester_did
-    )
-    return resolution
-
-
-@router.delete("/api/v1/delete_resolution", tags=[Tags.resolutions])
-def delete_resolution(
-    requester_did: str = "did:sov:test:1122",
-    db: Session = Depends(sql_db.get_db),
-) -> dict[str, str]:
-    sql_crud.delete_resolution_by_requester_did(db, requester_did=requester_did)
-    return {"message": "Resolution deleted"}
+    return [
+        Resolution(
+            requester_name="C1",
+            requester_did="did:sov:test:1122",
+            resolved_did="did:sov:test:1234",
+            other={"test": "test"},
+            timestamp=datetime.now(),
+            id=1,
+        )
+    ]

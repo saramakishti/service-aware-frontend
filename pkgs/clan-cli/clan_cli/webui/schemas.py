@@ -1,6 +1,5 @@
 from datetime import datetime
 from enum import Enum
-from typing import List
 
 from pydantic import BaseModel
 
@@ -41,48 +40,6 @@ class Service(ServiceCreate):
 
 #########################
 #                       #
-#       Consumer        #
-#                       #
-#########################
-class ClientBase(BaseModel):
-    entity_did: str = "did:sov:test:1234"
-    service_uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
-    other: dict = {"test": "test"}
-
-
-class ClientCreate(ClientBase):
-    pass
-
-
-class Client(ClientCreate):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
-#########################
-#                       #
-#       REPOSITORY      #
-#                       #
-#########################
-class RepositoryBase(ServiceBase):
-    pass
-
-
-class RepositoryCreate(RepositoryBase):
-    entity_did: str = "did:sov:test:1234"
-
-
-class Repository(RepositoryCreate):
-    time_created: datetime
-
-    class Config:
-        orm_mode = True
-
-
-#########################
-#                       #
 #        Entity         #
 #                       #
 #########################
@@ -90,7 +47,6 @@ class EntityBase(BaseModel):
     did: str = "did:sov:test:1234"
     name: str = "C1"
     ip: str = "127.0.0.1"
-    attached: bool = False
     visible: bool = True
     other: dict = {
         "network": "Carlo's Home Network",
@@ -103,9 +59,7 @@ class EntityCreate(EntityBase):
 
 
 class Entity(EntityCreate):
-    services: List[Service] = []
-    clients: List[Client] = []
-    repository: List[Repository] = []
+    attached: bool
 
     class Config:
         orm_mode = True
@@ -116,8 +70,6 @@ class Entity(EntityCreate):
 #      Resolution       #
 #                       #
 #########################
-
-
 class ResolutionBase(BaseModel):
     requester_name: str = "C1"
     requester_did: str = "did:sov:test:1122"
