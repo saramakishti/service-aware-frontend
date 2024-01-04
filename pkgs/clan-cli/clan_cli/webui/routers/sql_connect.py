@@ -9,16 +9,16 @@ from sqlalchemy.orm import Session
 from ...errors import ClanError
 from .. import sql_crud, sql_db, sql_models
 from ..schemas import (
-    Consumer,
-    ConsumerCreate,
+    Client,
+    ClientCreate,
     Entity,
     EntityCreate,
-    Producer,
-    ProducerCreate,
     Repository,
     RepositoryCreate,
     Resolution,
     ResolutionCreate,
+    Service,
+    ServiceCreate,
 )
 from ..tags import Tags
 
@@ -29,92 +29,82 @@ log = logging.getLogger(__name__)
 
 #########################
 #                       #
-#       Producer        #
+#        Service        #
 #                       #
 #########################
-@router.post("/api/v1/create_producer", response_model=Producer, tags=[Tags.producers])
-def create_producer(
-    producer: ProducerCreate, db: Session = Depends(sql_db.get_db)
-) -> Producer:
+@router.post("/api/v1/create_service", response_model=Service, tags=[Tags.services])
+def create_service(
+    service: ServiceCreate, db: Session = Depends(sql_db.get_db)
+) -> Service:
     # todo checken ob schon da ...
-    return sql_crud.create_producer(db=db, producer=producer)
+    return sql_crud.create_service(db=db, service=service)
 
 
-@router.get(
-    "/api/v1/get_producers", response_model=List[Producer], tags=[Tags.producers]
-)
-def get_producers(
+@router.get("/api/v1/get_services", response_model=List[Service], tags=[Tags.services])
+def get_services(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Producer]:
-    producers = sql_crud.get_producers(db, skip=skip, limit=limit)
-    return producers
+) -> List[sql_models.Service]:
+    services = sql_crud.get_services(db, skip=skip, limit=limit)
+    return services
 
 
-@router.get(
-    "/api/v1/get_producer", response_model=List[Producer], tags=[Tags.producers]
-)
-def get_producer(
+@router.get("/api/v1/get_service", response_model=List[Service], tags=[Tags.services])
+def get_service(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
-) -> List[sql_models.Producer]:
-    producer = sql_crud.get_producers_by_entity_did(db, entity_did=entity_did)
-    return producer
+) -> List[sql_models.Service]:
+    service = sql_crud.get_services_by_entity_did(db, entity_did=entity_did)
+    return service
 
 
-@router.delete("/api/v1/delete_producer", tags=[Tags.producers])
-def delete_producer(
+@router.delete("/api/v1/delete_service", tags=[Tags.services])
+def delete_service(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
-    sql_crud.delete_producer_by_entity_did(db, entity_did)
-    return {"message": "Producer deleted"}
+    sql_crud.delete_service_by_entity_did(db, entity_did)
+    return {"message": "service deleted"}
 
 
 #########################
 #                       #
-#       Consumer        #
+#         Client        #
 #                       #
 #########################
-@router.post("/api/v1/create_consumer", response_model=Consumer, tags=[Tags.consumers])
-def create_consumer(
-    consumer: ConsumerCreate, db: Session = Depends(sql_db.get_db)
-) -> Consumer:
+@router.post("/api/v1/create_client", response_model=Client, tags=[Tags.clients])
+def create_client(client: ClientCreate, db: Session = Depends(sql_db.get_db)) -> Client:
     # todo checken ob schon da ...
-    return sql_crud.create_consumer(db=db, consumer=consumer)
+    return sql_crud.create_client(db=db, client=client)
 
 
-@router.get(
-    "/api/v1/get_consumers", response_model=List[Consumer], tags=[Tags.consumers]
-)
-def get_consumers(
+@router.get("/api/v1/get_clients", response_model=List[Client], tags=[Tags.clients])
+def get_clients(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Consumer]:
-    consumers = sql_crud.get_consumers(db, skip=skip, limit=limit)
-    return consumers
+) -> List[sql_models.Client]:
+    clients = sql_crud.get_clients(db, skip=skip, limit=limit)
+    return clients
 
 
-@router.get(
-    "/api/v1/get_consumer", response_model=List[Consumer], tags=[Tags.consumers]
-)
-def get_consumer(
+@router.get("/api/v1/get_client", response_model=List[Client], tags=[Tags.clients])
+def get_client(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
-) -> List[sql_models.Consumer]:
-    consumer = sql_crud.get_consumers_by_entity_did(db, entity_did=entity_did)
-    return consumer
+) -> List[sql_models.Client]:
+    client = sql_crud.get_client_by_entity_did(db, entity_did=entity_did)
+    return client
 
 
-@router.delete("/api/v1/delete_consumer", tags=[Tags.consumers])
-def delete_consumer(
+@router.delete("/api/v1/delete_client", tags=[Tags.clients])
+def delete_client(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
-    sql_crud.delete_consumer_by_entity_did(db, entity_did)
-    return {"message": "Consumer deleted"}
+    sql_crud.delete_client_by_entity_did(db, entity_did)
+    return {"message": "client deleted"}
 
 
 #########################

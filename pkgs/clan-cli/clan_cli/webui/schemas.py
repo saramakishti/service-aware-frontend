@@ -18,10 +18,10 @@ class Machine(BaseModel):
 
 #########################
 #                       #
-#       Producer        #
+#        Service        #
 #                       #
 #########################
-class ProducerBase(BaseModel):
+class ServiceBase(BaseModel):
     uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
     service_name: str = "Carlo's Printing"
     service_type: str = "3D Printing"
@@ -30,11 +30,11 @@ class ProducerBase(BaseModel):
     other: dict = {"action": ["register", "deregister", "delete", "create"]}
 
 
-class ProducerCreate(ProducerBase):
+class ServiceCreate(ServiceBase):
     entity_did: str = "did:sov:test:1234"
 
 
-class Producer(ProducerCreate):
+class Service(ServiceCreate):
     class Config:
         orm_mode = True
 
@@ -44,17 +44,17 @@ class Producer(ProducerCreate):
 #       Consumer        #
 #                       #
 #########################
-class ConsumerBase(BaseModel):
+class ClientBase(BaseModel):
     entity_did: str = "did:sov:test:1234"
-    producer_uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
+    service_uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
     other: dict = {"test": "test"}
 
 
-class ConsumerCreate(ConsumerBase):
+class ClientCreate(ClientBase):
     pass
 
 
-class Consumer(ConsumerCreate):
+class Client(ClientCreate):
     id: int
 
     class Config:
@@ -66,7 +66,7 @@ class Consumer(ConsumerCreate):
 #       REPOSITORY      #
 #                       #
 #########################
-class RepositoryBase(ProducerBase):
+class RepositoryBase(ServiceBase):
     pass
 
 
@@ -103,8 +103,8 @@ class EntityCreate(EntityBase):
 
 
 class Entity(EntityCreate):
-    producers: List[Producer] = []
-    consumers: List[Consumer] = []
+    services: List[Service] = []
+    clients: List[Client] = []
     repository: List[Repository] = []
 
     class Config:

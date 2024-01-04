@@ -43,11 +43,11 @@ def make_test_post_and_get(
         assert_extra_info(["time_created"], request_body, response.json())
     elif paramter == "resolution":
         assert_extra_info(["timestamp", "id"], request_body, response.json())
-    elif paramter == "consumer":
+    elif paramter == "client":
         assert_extra_info(["id"], request_body, response.json())
     elif paramter == "entity":
         assert_extra_info(
-            ["consumers", "producers", "repository"], request_body, response.json()
+            ["clients", "services", "repository"], request_body, response.json()
         )
     else:
         assert response.json() == request_body
@@ -60,11 +60,11 @@ def make_test_post_and_get(
         assert_extra_info(["time_created"], request_body, response.json()[0])
     elif paramter == "resolution":
         assert_extra_info(["timestamp", "id"], request_body, response.json()[0])
-    elif paramter == "consumer":
+    elif paramter == "client":
         assert_extra_info(["id"], request_body, response.json()[0])
     elif paramter == "entity":
         assert_extra_info(
-            ["consumers", "producers", "repository"], request_body, response.json()
+            ["clients", "services", "repository"], request_body, response.json()
         )
     else:
         assert response.json() == [request_body]
@@ -72,10 +72,10 @@ def make_test_post_and_get(
 
 #########################
 #                       #
-#       Producer        #
+#       service        #
 #                       #
 #########################
-def test_producer(api: TestClient) -> None:
+def test_service(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
         "service_name": "Carlo'''s Printing",
@@ -85,12 +85,12 @@ def test_producer(api: TestClient) -> None:
         "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did,
     }
-    paramter = "producer"
+    paramter = "service"
     # get_request = "entity_did=did%3Asov%3Atest%3A1234"
     make_test_post_and_get(api, request_body, paramter)
 
 
-def test_producer2(api: TestClient) -> None:
+def test_service2(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d1",
         "service_name": "Luis'''s Fax",
@@ -100,12 +100,12 @@ def test_producer2(api: TestClient) -> None:
         "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did2,
     }
-    paramter = "producer"
+    paramter = "service"
     get_request = "entity_did=" + url.quote(default_entity_did2)
     make_test_post_and_get(api, request_body, paramter, get_request)
 
 
-def test_producer3(api: TestClient) -> None:
+def test_service3(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d2",
         "service_name": "Erdem'''s VR-Stream",
@@ -115,12 +115,12 @@ def test_producer3(api: TestClient) -> None:
         "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did3,
     }
-    paramter = "producer"
+    paramter = "service"
     get_request = "entity_did=" + url.quote(default_entity_did3)
     make_test_post_and_get(api, request_body, paramter, get_request)
 
 
-def test_producer4(api: TestClient) -> None:
+def test_service4(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d3",
         "service_name": "Onur'''s gallary",
@@ -130,12 +130,12 @@ def test_producer4(api: TestClient) -> None:
         "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did4,
     }
-    paramter = "producer"
+    paramter = "service"
     get_request = "entity_did=" + url.quote(default_entity_did4)
     make_test_post_and_get(api, request_body, paramter, get_request)
 
 
-def test_producer5(api: TestClient) -> None:
+def test_service5(api: TestClient) -> None:
     request_body = {
         "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
         "service_name": "Sara'''s Game-Shop",
@@ -145,34 +145,34 @@ def test_producer5(api: TestClient) -> None:
         "other": {"action": ["register", "deregister", "delete", "create"]},
         "entity_did": default_entity_did5,
     }
-    paramter = "producer"
+    paramter = "service"
     get_request = "entity_did=" + url.quote(default_entity_did5)
     make_test_post_and_get(api, request_body, paramter, get_request)
 
 
 #########################
 #                       #
-#       Consumer        #
+#       client        #
 #                       #
 #########################
-def test_consumer(api: TestClient) -> None:
+def test_client(api: TestClient) -> None:
     request_body = {
         "entity_did": default_entity_did,
-        "producer_uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
+        "service_uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
         "other": {"test": "test"},
     }
-    paramter = "consumer"
+    paramter = "client"
     # get_request = "entity_did=did%3Asov%3Atest%3A1234"
     make_test_post_and_get(api, request_body, paramter)
 
 
-def test_consumer2(api: TestClient) -> None:
+def test_client2(api: TestClient) -> None:
     request_body = {
         "entity_did": default_entity_did2,
-        "producer_uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
+        "service_uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
         "other": {"war": "games"},
     }
-    paramter = "consumer"
+    paramter = "client"
     get_request = "entity_did=" + url.quote(default_entity_did2)
     make_test_post_and_get(api, request_body, paramter, get_request)
 
@@ -271,7 +271,7 @@ def test_entity(api: TestClient) -> None:
         "visible": True,
         "other": {
             "network": "Carlo1's Home Network",
-            "roles": ["service repository", "service consumer"],
+            "roles": ["service repository", "service client"],
         },
     }
     paramter = "entity"

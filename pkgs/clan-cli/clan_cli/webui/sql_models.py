@@ -33,13 +33,13 @@ class Entity(Base):
     other = Column(JSON)
 
     ## Relations ##
-    producers = relationship("Producer", back_populates="entity")
-    consumers = relationship("Consumer", back_populates="entity")
+    services = relationship("Service", back_populates="entity")
+    clients = relationship("Client", back_populates="entity")
     repository = relationship("Repository", back_populates="entity")
     # TODO maby refactor to repositories
 
 
-class ProducerAbstract(Base):
+class ServiceAbstract(Base):
     __abstract__ = True
 
     # Queryable body
@@ -54,22 +54,22 @@ class ProducerAbstract(Base):
     other = Column(JSON)
 
 
-class Producer(ProducerAbstract):
-    __tablename__ = "producers"
+class Service(ServiceAbstract):
+    __tablename__ = "services"
 
-    # Usage is the consumers column
+    # Usage is the clients column
 
     ## Relations ##
-    # One entity can have many producers
-    entity = relationship("Entity", back_populates="producers")
+    # One entity can have many services
+    entity = relationship("Entity", back_populates="services")
     entity_did = Column(String, ForeignKey("entities.did"))
 
-    # One producer has many consumers
-    consumers = relationship("Consumer", back_populates="producer")
+    # One service has many clients
+    clients = relationship("Client", back_populates="service")
 
 
-class Consumer(Base):
-    __tablename__ = "consumers"
+class Client(Base):
+    __tablename__ = "clients"
 
     ## Queryable body ##
     id = Column(Integer, primary_key=True, index=True)
@@ -78,18 +78,18 @@ class Consumer(Base):
     other = Column(JSON)
 
     ## Relations ##
-    # one entity can have many consumers
-    entity = relationship("Entity", back_populates="consumers")
+    # one entity can have many clients
+    entity = relationship("Entity", back_populates="clients")
     entity_did = Column(String, ForeignKey("entities.did"))
 
-    # one consumer has one producer
-    producer = relationship("Producer", back_populates="consumers")
-    producer_uuid = Column(String, ForeignKey("producers.uuid"))
+    # one client has one service
+    service = relationship("Service", back_populates="clients")
+    service_uuid = Column(String, ForeignKey("services.uuid"))
 
-    __table_args__ = (UniqueConstraint("producer_uuid", "entity_did"),)
+    __table_args__ = (UniqueConstraint("service_uuid", "entity_did"),)
 
 
-class Repository(ProducerAbstract):
+class Repository(ServiceAbstract):
     __tablename__ = "repositories"
 
     time_created = Column(DateTime(timezone=True), server_default=func.now())
