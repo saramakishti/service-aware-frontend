@@ -20,7 +20,7 @@ from pydantic import validate_arguments, ValidationError
 
 from pydantic import StrictInt, StrictStr
 
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Dict
 
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate

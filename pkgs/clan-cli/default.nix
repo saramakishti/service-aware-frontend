@@ -36,8 +36,10 @@
 , mypy
 , sqlalchemy
 , websockets
-, deal
 , broadcaster
+, aenum
+, dateutil
+, urllib3
 }:
 let
 
@@ -48,7 +50,6 @@ let
     sqlalchemy
     websockets
     broadcaster
-    deal
   ];
 
   pytestDependencies = runtimeDependencies ++ dependencies ++ [
@@ -63,6 +64,10 @@ let
     git
     gnupg
     stdenv.cc
+    # openapi client deps
+    dateutil
+    aenum
+    urllib3
   ];
 
   # Optional dependencies for clan cli, we re-expose them here to make sure they all build.

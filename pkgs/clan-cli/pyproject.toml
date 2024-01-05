@@ -34,6 +34,7 @@ no_implicit_optional = true
 exclude = [
   "clan_cli.nixpkgs",
   "tests/openapi_client",
+  "openapi_client",
 ]
 
 [[tool.mypy.overrides]]

@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
 #                       #
 #########################
 @router.post("/api/v1/service", response_model=Service, tags=[Tags.services])
-def create_service(
+async def create_service(
     service: ServiceCreate, db: Session = Depends(sql_db.get_db)
 ) -> Service:
     # todo checken ob schon da ...
@@ -37,7 +37,7 @@ def create_service(
 
 
 @router.get("/api/v1/services", response_model=List[Service], tags=[Tags.services])
-def get_all_services(
+async def get_all_services(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Service]:
     services = sql_crud.get_services(db, skip=skip, limit=limit)
@@ -47,7 +47,7 @@ def get_all_services(
 @router.get(
     "/api/v1/{entity_did}/service", response_model=List[Service], tags=[Tags.services]
 )
-def get_service_by_did(
+async def get_service_by_did(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
@@ -58,7 +58,7 @@ def get_service_by_did(
 
 
 @router.delete("/api/v1/{entity_did}/service", tags=[Tags.services])
-def delete_service(
+async def delete_service(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
@@ -74,7 +74,7 @@ def delete_service(
 @router.get(
     "/api/v1/{entity_did}/clients", response_model=List[Service], tags=[Tags.clients]
 )
-def get_all_clients(
+async def get_all_clients(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
@@ -98,7 +98,7 @@ def get_all_clients(
     response_model=List[Service],
     tags=[Tags.repositories],
 )
-def get_all_repositories(
+async def get_all_repositories(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Service]:
     repositories = sql_crud.get_services(db, skip=skip, limit=limit)
@@ -111,14 +111,14 @@ def get_all_repositories(
 #                       #
 #########################
 @router.post("/api/v1/entity", response_model=Entity, tags=[Tags.entities])
-def create_entity(
+async def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
 ) -> EntityCreate:
     return sql_crud.create_entity(db, entity)
 
 
 @router.get("/api/v1/entities", response_model=List[Entity], tags=[Tags.entities])
-def get_all_entities(
+async def get_all_entities(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Entity]:
     entities = sql_crud.get_entities(db, skip=skip, limit=limit)
@@ -128,7 +128,7 @@ def get_all_entities(
 @router.get(
     "/api/v1/{entity_did}/entity", response_model=Optional[Entity], tags=[Tags.entities]
 )
-def get_entity_by_did(
+async def get_entity_by_did(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> Optional[sql_models.Entity]:
@@ -141,7 +141,7 @@ def get_entity_by_did(
     response_model=List[Entity],
     tags=[Tags.entities],
 )
-def get_attached_entities(
+async def get_attached_entities(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Entity]:
     entities = sql_crud.get_attached_entities(db, skip=skip, limit=limit)
@@ -196,7 +196,7 @@ def attach_entity_loc(db: Session, entity_did: str) -> None:
 
 
 @router.delete("/api/v1/{entity_did}/entity", tags=[Tags.entities])
-def delete_entity(
+async def delete_entity(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
@@ -214,7 +214,7 @@ def delete_entity(
 @router.get(
     "/api/v1/resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
 )
-def get_all_resolutions(
+async def get_all_resolutions(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[Resolution]:
     # TODO: Get resolutions from DLG entity
