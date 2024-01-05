@@ -22,7 +22,7 @@ class Machine(BaseModel):
 #########################
 class ServiceBase(BaseModel):
     uuid: str = "8e285c0c-4e40-430a-a477-26b3b81e30df"
-    service_name: str = "Carlo's Printing"
+    service_name: str = "Carlos Printing"
     service_type: str = "3D Printing"
     endpoint_url: str = "http://127.0.0.1:8000"
     status: str = "unknown"
@@ -49,7 +49,7 @@ class EntityBase(BaseModel):
     ip: str = "127.0.0.1"
     visible: bool = True
     other: dict = {
-        "network": "Carlo's Home Network",
+        "network": "Carlos Home Network",
         "roles": ["service repository", "service prosumer"],
     }
 

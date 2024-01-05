@@ -26,7 +26,7 @@ class ServiceCreate(BaseModel):
     ServiceCreate
     """
     uuid: Optional[StrictStr] = '8e285c0c-4e40-430a-a477-26b3b81e30df'
-    service_name: Optional[StrictStr] = 'Carlo's Printing'
+    service_name: Optional[StrictStr] = 'Carlos Printing'
     service_type: Optional[StrictStr] = '3D Printing'
     endpoint_url: Optional[StrictStr] = 'http://127.0.0.1:8000'
     status: Optional[StrictStr] = 'unknown'
@@ -71,7 +71,7 @@ class ServiceCreate(BaseModel):
 
         _obj = ServiceCreate.parse_obj({
             "uuid": obj.get("uuid") if obj.get("uuid") is not None else '8e285c0c-4e40-430a-a477-26b3b81e30df',
-            "service_name": obj.get("service_name") if obj.get("service_name") is not None else 'Carlo's Printing',
+            "service_name": obj.get("service_name") if obj.get("service_name") is not None else 'Carlos Printing',
             "service_type": obj.get("service_type") if obj.get("service_type") is not None else '3D Printing',
             "endpoint_url": obj.get("endpoint_url") if obj.get("endpoint_url") is not None else 'http://127.0.0.1:8000',
             "status": obj.get("status") if obj.get("status") is not None else 'unknown',
