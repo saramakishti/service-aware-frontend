@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+import argparse
+import json
+import sys
+from pathlib import Path
+import tempfile
+from uvicorn.importer import import_from_string
+import subprocess
+import shutil
+
+def main() -> None:
+    parser = argparse.ArgumentParser(prog="gen-openapi")
+    parser.add_argument(
+        "--app", help='App import string. Eg. "clan_cli.webui.app:app"', default="clan_cli.webui.app:app"
+    )
+    parser.add_argument("--app-dir", help="Directory containing the app", default=".")
+    parser.add_argument(
+        "--out", help="Output file ending in .json", default="tests", type=Path
+    )
+    args = parser.parse_args()
+
+    if args.app_dir is not None:
+        print(f"adding {args.app_dir} to sys.path")
+        sys.path.insert(0, args.app_dir)
+
+    print(f"importing app from {args.app}")
+    app = import_from_string(args.app)
+    openapi = app.openapi()
+    version = openapi.get("openapi", "unknown version")
+
+    print(f"writing openapi spec v{version}")
+    with tempfile.TemporaryDirectory() as tmpdirname:
+
+        tmp_dir = Path(tmpdirname)
+        openapi_p = tmp_dir / "openapi.json"
+        openapi_p.write_text(json.dumps(openapi, indent=2))
+
+        gen_code = tmp_dir / "gen_code"
+
+        print(f"generating python client to {args.out}")
+        if not args.out.is_dir():
+            raise Exception(f"{args.out} is not a directory")
+        args.out.mkdir(parents=True, exist_ok=True)
+
+        cmd = [
+            "openapi-generator-cli",
+            "generate",
+            "-g",
+            "python",
+            "-o",
+            f"{gen_code}",
+            "-i",
+            f"{openapi_p}",
+        ]
+        subprocess.run(cmd, check=True, text=True)
+
+        dest_client: Path = args.out / "openapi_client"
+        shutil.rmtree(dest_client, ignore_errors=True)
+        shutil.copytree(gen_code / "openapi_client", dest_client)
+
+
+if __name__ == "__main__":
+    main()
