@@ -13,12 +13,14 @@ from ..errors import ClanError
 from . import sql_models
 from .assets import asset_path
 from .error_handlers import clan_error_handler, sql_error_handler
-from .routers import health, root, socket_manager2, sql_connect  # sql router hinzufügen
+from .routers import endpoints, health, root, socket_manager2  # sql router hinzufügen
 from .sql_db import engine
 from .tags import tags_metadata
 
 origins = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://0.0.0.0:3000",
 ]
 # Logging setup
 log = logging.getLogger(__name__)
@@ -50,7 +52,7 @@ def setup_app() -> FastAPI:
 
     app.include_router(health.router)
     # sql methodes
-    app.include_router(sql_connect.router)
+    app.include_router(endpoints.router)
 
     app.include_router(socket_manager2.router)
 

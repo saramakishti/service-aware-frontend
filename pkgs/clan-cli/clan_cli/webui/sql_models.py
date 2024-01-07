@@ -19,7 +19,7 @@ class Entity(Base):
 
     ## Queryable body ##
     did = Column(String, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String, index=True, unique=True)
     ip = Column(String, index=True)
     attached = Column(Boolean, index=True)
     visible = Column(Boolean, index=True)

@@ -39,12 +39,16 @@ class TestResolution(unittest.TestCase):
                 requester_name = 'C1',
                 requester_did = 'did:sov:test:1122',
                 resolved_did = 'did:sov:test:1234',
-                other = openapi_client.models.other.Other(),
+                other = {test=test},
                 timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 id = 56
             )
         else:
             return Resolution(
+                requester_name = 'C1',
+                requester_did = 'did:sov:test:1122',
+                resolved_did = 'did:sov:test:1234',
+                other = {test=test},
                 timestamp = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 id = 56,
         )

@@ -2,13 +2,13 @@
 
 ## Properties
 
-| Name        | Type       | Description | Notes                                       |
-| ----------- | ---------- | ----------- | ------------------------------------------- |
-| **did**     | **str**    |             | [optional] [default to 'did:sov:test:1234'] |
-| **name**    | **str**    |             | [optional] [default to 'C1']                |
-| **ip**      | **str**    |             | [optional] [default to '127.0.0.1']         |
-| **visible** | **bool**   |             | [optional] [default to True]                |
-| **other**   | **object** |             | [optional]                                  |
+| Name        | Type       | Description | Notes |
+| ----------- | ---------- | ----------- | ----- |
+| **did**     | **str**    |             |
+| **name**    | **str**    |             |
+| **ip**      | **str**    |             |
+| **visible** | **bool**   |             |
+| **other**   | **object** |             |
 
 ## Example
 

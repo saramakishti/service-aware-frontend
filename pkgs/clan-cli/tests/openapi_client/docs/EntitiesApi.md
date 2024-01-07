@@ -11,6 +11,7 @@ All URIs are relative to _http://localhost_
 | [**get_all_entities**](EntitiesApi.md#get_all_entities)           | **GET** /api/v1/entities               | Get All Entities      |
 | [**get_attached_entities**](EntitiesApi.md#get_attached_entities) | **GET** /api/v1/attached_entities      | Get Attached Entities |
 | [**get_entity_by_did**](EntitiesApi.md#get_entity_by_did)         | **GET** /api/v1/{entity_did}/entity    | Get Entity By Did     |
+| [**get_entity_by_name**](EntitiesApi.md#get_entity_by_name)       | **GET** /api/v1/entity_by_name         | Get Entity By Name    |
 
 # **attach_entity**
 
@@ -462,6 +463,72 @@ with openapi_client.ApiClient(configuration) as api_client:
 | Name           | Type    | Description | Notes |
 | -------------- | ------- | ----------- | ----- |
 | **entity_did** | **str** |             |
+
+### Return type
+
+[**Entity**](Entity.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description         | Response headers |
+| ----------- | ------------------- | ---------------- |
+| **200**     | Successful Response | -                |
+| **422**     | Validation Error    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_by_name**
+
+> Entity get_entity_by_name(entity_name)
+
+Get Entity By Name
+
+### Example
+
+```python
+import time
+import os
+import openapi_client
+from openapi_client.models.entity import Entity
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.EntitiesApi(api_client)
+    entity_name = 'entity_name_example' # str |
+
+    try:
+        # Get Entity By Name
+        api_response = api_instance.get_entity_by_name(entity_name)
+        print("The response of EntitiesApi->get_entity_by_name:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EntitiesApi->get_entity_by_name: %s\n" % e)
+```
+
+### Parameters
+
+| Name            | Type    | Description | Notes |
+| --------------- | ------- | ----------- | ----- |
+| **entity_name** | **str** |             |
 
 ### Return type
 

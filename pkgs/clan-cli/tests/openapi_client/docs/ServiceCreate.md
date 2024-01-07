@@ -2,15 +2,15 @@
 
 ## Properties
 
-| Name             | Type       | Description | Notes                                                          |
-| ---------------- | ---------- | ----------- | -------------------------------------------------------------- |
-| **uuid**         | **str**    |             | [optional] [default to '8e285c0c-4e40-430a-a477-26b3b81e30df'] |
-| **service_name** | **str**    |             | [optional] [default to 'Carlos Printing']                      |
-| **service_type** | **str**    |             | [optional] [default to '3D Printing']                          |
-| **endpoint_url** | **str**    |             | [optional] [default to 'http://127.0.0.1:8000']                |
-| **status**       | **str**    |             | [optional] [default to 'unknown']                              |
-| **other**        | **object** |             | [optional]                                                     |
-| **entity_did**   | **str**    |             | [optional] [default to 'did:sov:test:1234']                    |
+| Name             | Type       | Description | Notes |
+| ---------------- | ---------- | ----------- | ----- |
+| **uuid**         | **str**    |             |
+| **service_name** | **str**    |             |
+| **service_type** | **str**    |             |
+| **endpoint_url** | **str**    |             |
+| **status**       | **str**    |             |
+| **other**        | **object** |             |
+| **entity_did**   | **str**    |             |
 
 ## Example
 

@@ -40,11 +40,16 @@ class TestEntity(unittest.TestCase):
                 name = 'C1',
                 ip = '127.0.0.1',
                 visible = True,
-                other = openapi_client.models.other.Other(),
+                other = {network=Carlos Home Network, roles=[service repository, service prosumer]},
                 attached = True
             )
         else:
             return Entity(
+                did = 'did:sov:test:1234',
+                name = 'C1',
+                ip = '127.0.0.1',
+                visible = True,
+                other = {network=Carlos Home Network, roles=[service repository, service prosumer]},
                 attached = True,
         )
         """

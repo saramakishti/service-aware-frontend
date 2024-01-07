@@ -45,13 +45,13 @@ class ClientsApi:
         self.api_client = api_client
 
     @validate_arguments
-    def get_all_clients(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> List[Service]:  # noqa: E501
-        """Get All Clients  # noqa: E501
+    def get_clients_by_did(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> List[Service]:  # noqa: E501
+        """Get Clients By Did  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_all_clients(entity_did, skip, limit, async_req=True)
+        >>> thread = api.get_clients_by_did(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
         :param entity_did: (required)
@@ -73,18 +73,18 @@ class ClientsApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the get_all_clients_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the get_clients_by_did_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_all_clients_with_http_info(entity_did, skip, limit, **kwargs)  # noqa: E501
+        return self.get_clients_by_did_with_http_info(entity_did, skip, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_all_clients_with_http_info(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """Get All Clients  # noqa: E501
+    def get_clients_by_did_with_http_info(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """Get Clients By Did  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_all_clients_with_http_info(entity_did, skip, limit, async_req=True)
+        >>> thread = api.get_clients_by_did_with_http_info(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
         :param entity_did: (required)
@@ -142,7 +142,7 @@ class ClientsApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_all_clients" % _key
+                    " to method get_clients_by_did" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']

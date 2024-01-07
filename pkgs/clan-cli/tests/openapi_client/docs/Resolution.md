@@ -2,12 +2,12 @@
 
 ## Properties
 
-| Name               | Type         | Description | Notes                                       |
-| ------------------ | ------------ | ----------- | ------------------------------------------- |
-| **requester_name** | **str**      |             | [optional] [default to 'C1']                |
-| **requester_did**  | **str**      |             | [optional] [default to 'did:sov:test:1122'] |
-| **resolved_did**   | **str**      |             | [optional] [default to 'did:sov:test:1234'] |
-| **other**          | **object**   |             | [optional]                                  |
+| Name               | Type         | Description | Notes |
+| ------------------ | ------------ | ----------- | ----- |
+| **requester_name** | **str**      |             |
+| **requester_did**  | **str**      |             |
+| **resolved_did**   | **str**      |             |
+| **other**          | **object**   |             |
 | **timestamp**      | **datetime** |             |
 | **id**             | **int**      |             |
 

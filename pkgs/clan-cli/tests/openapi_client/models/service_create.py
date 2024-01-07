@@ -18,20 +18,20 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
-from pydantic import BaseModel, StrictStr
+from typing import Any, Dict
+from pydantic import BaseModel, Field, StrictStr
 
 class ServiceCreate(BaseModel):
     """
     ServiceCreate
     """
-    uuid: Optional[StrictStr] = '8e285c0c-4e40-430a-a477-26b3b81e30df'
-    service_name: Optional[StrictStr] = 'Carlos Printing'
-    service_type: Optional[StrictStr] = '3D Printing'
-    endpoint_url: Optional[StrictStr] = 'http://127.0.0.1:8000'
-    status: Optional[StrictStr] = 'unknown'
-    other: Optional[Dict[str, Any]] = None
-    entity_did: Optional[StrictStr] = 'did:sov:test:1234'
+    uuid: StrictStr = Field(...)
+    service_name: StrictStr = Field(...)
+    service_type: StrictStr = Field(...)
+    endpoint_url: StrictStr = Field(...)
+    status: StrictStr = Field(...)
+    other: Dict[str, Any] = Field(...)
+    entity_did: StrictStr = Field(...)
     __properties = ["uuid", "service_name", "service_type", "endpoint_url", "status", "other", "entity_did"]
 
     class Config:
@@ -70,13 +70,13 @@ class ServiceCreate(BaseModel):
             return ServiceCreate.parse_obj(obj)
 
         _obj = ServiceCreate.parse_obj({
-            "uuid": obj.get("uuid") if obj.get("uuid") is not None else '8e285c0c-4e40-430a-a477-26b3b81e30df',
-            "service_name": obj.get("service_name") if obj.get("service_name") is not None else 'Carlos Printing',
-            "service_type": obj.get("service_type") if obj.get("service_type") is not None else '3D Printing',
-            "endpoint_url": obj.get("endpoint_url") if obj.get("endpoint_url") is not None else 'http://127.0.0.1:8000',
-            "status": obj.get("status") if obj.get("status") is not None else 'unknown',
+            "uuid": obj.get("uuid"),
+            "service_name": obj.get("service_name"),
+            "service_type": obj.get("service_type"),
+            "endpoint_url": obj.get("endpoint_url"),
+            "status": obj.get("status"),
             "other": obj.get("other"),
-            "entity_did": obj.get("entity_did") if obj.get("entity_did") is not None else 'did:sov:test:1234'
+            "entity_did": obj.get("entity_did")
         })
         return _obj
 

@@ -18,17 +18,17 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Resolution(BaseModel):
     """
     Resolution
     """
-    requester_name: Optional[StrictStr] = 'C1'
-    requester_did: Optional[StrictStr] = 'did:sov:test:1122'
-    resolved_did: Optional[StrictStr] = 'did:sov:test:1234'
-    other: Optional[Dict[str, Any]] = None
+    requester_name: StrictStr = Field(...)
+    requester_did: StrictStr = Field(...)
+    resolved_did: StrictStr = Field(...)
+    other: Dict[str, Any] = Field(...)
     timestamp: datetime = Field(...)
     id: StrictInt = Field(...)
     __properties = ["requester_name", "requester_did", "resolved_did", "other", "timestamp", "id"]
@@ -69,9 +69,9 @@ class Resolution(BaseModel):
             return Resolution.parse_obj(obj)
 
         _obj = Resolution.parse_obj({
-            "requester_name": obj.get("requester_name") if obj.get("requester_name") is not None else 'C1',
-            "requester_did": obj.get("requester_did") if obj.get("requester_did") is not None else 'did:sov:test:1122',
-            "resolved_did": obj.get("resolved_did") if obj.get("resolved_did") is not None else 'did:sov:test:1234',
+            "requester_name": obj.get("requester_name"),
+            "requester_did": obj.get("requester_did"),
+            "resolved_did": obj.get("resolved_did"),
             "other": obj.get("other"),
             "timestamp": obj.get("timestamp"),
             "id": obj.get("id")

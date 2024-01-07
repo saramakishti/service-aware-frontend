@@ -18,18 +18,18 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from pydantic import BaseModel, Field, StrictBool, StrictStr
 
 class Entity(BaseModel):
     """
     Entity
     """
-    did: Optional[StrictStr] = 'did:sov:test:1234'
-    name: Optional[StrictStr] = 'C1'
-    ip: Optional[StrictStr] = '127.0.0.1'
-    visible: Optional[StrictBool] = True
-    other: Optional[Dict[str, Any]] = None
+    did: StrictStr = Field(...)
+    name: StrictStr = Field(...)
+    ip: StrictStr = Field(...)
+    visible: StrictBool = Field(...)
+    other: Dict[str, Any] = Field(...)
     attached: StrictBool = Field(...)
     __properties = ["did", "name", "ip", "visible", "other", "attached"]
 
@@ -69,10 +69,10 @@ class Entity(BaseModel):
             return Entity.parse_obj(obj)
 
         _obj = Entity.parse_obj({
-            "did": obj.get("did") if obj.get("did") is not None else 'did:sov:test:1234',
-            "name": obj.get("name") if obj.get("name") is not None else 'C1',
-            "ip": obj.get("ip") if obj.get("ip") is not None else '127.0.0.1',
-            "visible": obj.get("visible") if obj.get("visible") is not None else True,
+            "did": obj.get("did"),
+            "name": obj.get("name"),
+            "ip": obj.get("ip"),
+            "visible": obj.get("visible"),
             "other": obj.get("other"),
             "attached": obj.get("attached")
         })

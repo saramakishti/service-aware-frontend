@@ -2,15 +2,15 @@
 
 All URIs are relative to _http://localhost_
 
-| Method                                               | HTTP request                         | Description     |
-| ---------------------------------------------------- | ------------------------------------ | --------------- |
-| [**get_all_clients**](ClientsApi.md#get_all_clients) | **GET** /api/v1/{entity_did}/clients | Get All Clients |
+| Method                                                     | HTTP request                         | Description        |
+| ---------------------------------------------------------- | ------------------------------------ | ------------------ |
+| [**get_clients_by_did**](ClientsApi.md#get_clients_by_did) | **GET** /api/v1/{entity_did}/clients | Get Clients By Did |
 
-# **get_all_clients**
+# **get_clients_by_did**
 
-> List[Service] get_all_clients(entity_did, skip=skip, limit=limit)
+> List[Service] get_clients_by_did(entity_did, skip=skip, limit=limit)
 
-Get All Clients
+Get Clients By Did
 
 ### Example
 
@@ -38,12 +38,12 @@ with openapi_client.ApiClient(configuration) as api_client:
     limit = 100 # int |  (optional) (default to 100)
 
     try:
-        # Get All Clients
-        api_response = api_instance.get_all_clients(entity_did, skip=skip, limit=limit)
-        print("The response of ClientsApi->get_all_clients:\n")
+        # Get Clients By Did
+        api_response = api_instance.get_clients_by_did(entity_did, skip=skip, limit=limit)
+        print("The response of ClientsApi->get_clients_by_did:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ClientsApi->get_all_clients: %s\n" % e)
+        print("Exception when calling ClientsApi->get_clients_by_did: %s\n" % e)
 ```
 
 ### Parameters

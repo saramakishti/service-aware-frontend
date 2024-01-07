@@ -75,6 +75,13 @@ class TestEntitiesApi(unittest.TestCase):
         """
         pass
 
+    def test_get_entity_by_name(self) -> None:
+        """Test case for get_entity_by_name
+
+        Get Entity By Name  # noqa: E501
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

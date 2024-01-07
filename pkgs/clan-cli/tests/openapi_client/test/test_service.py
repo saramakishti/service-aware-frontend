@@ -41,11 +41,32 @@ class TestService(unittest.TestCase):
                 service_type = '3D Printing',
                 endpoint_url = 'http://127.0.0.1:8000',
                 status = 'unknown',
-                other = openapi_client.models.other.Other(),
-                entity_did = 'did:sov:test:1234'
+                other = {action=[register, deregister, delete, create]},
+                entity_did = 'did:sov:test:1234',
+                entity = openapi_client.models.entity.Entity(
+                    did = 'did:sov:test:1234', 
+                    name = 'C1', 
+                    ip = '127.0.0.1', 
+                    visible = True, 
+                    other = {network=Carlos Home Network, roles=[service repository, service prosumer]}, 
+                    attached = True, )
             )
         else:
             return Service(
+                uuid = '8e285c0c-4e40-430a-a477-26b3b81e30df',
+                service_name = 'Carlos Printing',
+                service_type = '3D Printing',
+                endpoint_url = 'http://127.0.0.1:8000',
+                status = 'unknown',
+                other = {action=[register, deregister, delete, create]},
+                entity_did = 'did:sov:test:1234',
+                entity = openapi_client.models.entity.Entity(
+                    did = 'did:sov:test:1234', 
+                    name = 'C1', 
+                    ip = '127.0.0.1', 
+                    visible = True, 
+                    other = {network=Carlos Home Network, roles=[service repository, service prosumer]}, 
+                    attached = True, ),
         )
         """
 

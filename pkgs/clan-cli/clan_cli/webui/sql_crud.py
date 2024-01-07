@@ -81,6 +81,10 @@ def get_entity_by_did(db: Session, did: str) -> Optional[sql_models.Entity]:
     return db.query(sql_models.Entity).filter(sql_models.Entity.did == did).first()
 
 
+def get_entity_by_name(db: Session, name: str) -> Optional[sql_models.Entity]:
+    return db.query(sql_models.Entity).filter(sql_models.Entity.name == name).first()
+
+
 # get attached
 def get_attached_entities(
     db: Session, skip: int = 0, limit: int = 100

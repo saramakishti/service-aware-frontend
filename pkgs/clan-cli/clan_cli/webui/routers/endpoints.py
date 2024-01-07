@@ -15,6 +15,7 @@ from ..schemas import (
     Resolution,
     Service,
     ServiceCreate,
+    ServicesByName,
 )
 from ..tags import Tags
 
@@ -57,6 +58,24 @@ async def get_service_by_did(
     return service
 
 
+@router.get(
+    "/api/v1/services_by_entity_name",
+    response_model=ServicesByName,
+    tags=[Tags.services],
+)
+async def get_services_by_name(
+    entity_name: str,
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(sql_db.get_db),
+) -> ServicesByName:
+    entity = sql_crud.get_entity_by_name(db, name=entity_name)
+    if entity is None:
+        raise ClanError(f"Entity with name '{entity_name}' not found")
+    services = sql_crud.get_services_by_entity_did(db, entity_did=str(entity.did))
+    return ServicesByName(entity=entity, services=services)  # type: ignore
+
+
 @router.delete("/api/v1/{entity_did}/service", tags=[Tags.services])
 async def delete_service(
     entity_did: str = "did:sov:test:1234",
@@ -68,31 +87,9 @@ async def delete_service(
 
 #########################
 #                       #
-#         Client        #
-#                       #
-#########################
-@router.get(
-    "/api/v1/{entity_did}/clients", response_model=List[Service], tags=[Tags.clients]
-)
-async def get_all_clients(
-    entity_did: str = "did:sov:test:1234",
-    skip: int = 0,
-    limit: int = 100,
-    db: Session = Depends(sql_db.get_db),
-) -> List[sql_models.Service]:
-    clients = sql_crud.get_services_without_entity_id(
-        db, entity_did, skip=skip, limit=limit
-    )
-    return clients
-
-
-#########################
-#                       #
 #       REPOSITORY      #
 #                       #
 #########################
-
-
 @router.get(
     "/api/v1/repositories",
     response_model=List[Service],
@@ -115,6 +112,16 @@ async def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
 ) -> EntityCreate:
     return sql_crud.create_entity(db, entity)
+
+
+@router.get(
+    "/api/v1/entity_by_name", response_model=Optional[Entity], tags=[Tags.entities]
+)
+async def get_entity_by_name(
+    entity_name: str, db: Session = Depends(sql_db.get_db)
+) -> Optional[sql_models.Entity]:
+    entity = sql_crud.get_entity_by_name(db, name=entity_name)
+    return entity
 
 
 @router.get("/api/v1/entities", response_model=List[Entity], tags=[Tags.entities])

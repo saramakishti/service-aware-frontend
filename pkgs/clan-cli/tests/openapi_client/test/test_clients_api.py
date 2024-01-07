@@ -26,10 +26,10 @@ class TestClientsApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_get_all_clients(self) -> None:
-        """Test case for get_all_clients
+    def test_get_clients_by_did(self) -> None:
+        """Test case for get_clients_by_did
 
-        Get All Clients  # noqa: E501
+        Get Clients By Did  # noqa: E501
         """
         pass
 
