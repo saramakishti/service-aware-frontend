@@ -54,6 +54,13 @@ class TestServicesApi(unittest.TestCase):
         """
         pass
 
+    def test_get_services_by_name(self) -> None:
+        """Test case for get_services_by_name
+
+        Get Services By Name  # noqa: E501
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,7 +17,6 @@
 __version__ = "1.0.0"
 
 # import apis into sdk package
-from openapi_client.api.clients_api import ClientsApi
 from openapi_client.api.default_api import DefaultApi
 from openapi_client.api.entities_api import EntitiesApi
 from openapi_client.api.repositories_api import RepositoriesApi
@@ -43,6 +42,7 @@ from openapi_client.models.machine import Machine
 from openapi_client.models.resolution import Resolution
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate
+from openapi_client.models.services_by_name import ServicesByName
 from openapi_client.models.status import Status
 from openapi_client.models.validation_error import ValidationError
 from openapi_client.models.validation_error_loc_inner import ValidationErrorLocInner

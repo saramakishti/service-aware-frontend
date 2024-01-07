@@ -25,7 +25,7 @@ const CustomTable = ({ configuration, data, loading, key }: ICustomTable) => {
     render?: (param: any) => void | undefined,
   ) => {
     let renderedValue = value;
-    console.log(cellKey)
+    console.log(cellKey);
     // cover use case if the data is an array
     if (Array.isArray(value)) renderedValue = value.join(", ");
 
@@ -56,12 +56,18 @@ const CustomTable = ({ configuration, data, loading, key }: ICustomTable) => {
         <TableBody>
           {data.map((data: any, rowIndex: number) => (
             <StyledTableRow key={rowIndex}>
-              {configuration.map((column: CustomTableConfiguration, columnIndex: number) => {
-                const cellValue: any = data[column.key];
-                const cellKey =  key + ":" + column.key + ":" + rowIndex;
-                const renderComponent = column?.render;
-                return renderTableCell(cellValue, cellKey + ":" + columnIndex, renderComponent);
-              })}
+              {configuration.map(
+                (column: CustomTableConfiguration, columnIndex: number) => {
+                  const cellValue: any = data[column.key];
+                  const cellKey = key + ":" + column.key + ":" + rowIndex;
+                  const renderComponent = column?.render;
+                  return renderTableCell(
+                    cellValue,
+                    cellKey + ":" + columnIndex,
+                    renderComponent,
+                  );
+                },
+              )}
             </StyledTableRow>
           ))}
         </TableBody>
