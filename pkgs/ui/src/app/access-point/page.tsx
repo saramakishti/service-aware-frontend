@@ -65,6 +65,7 @@ export default function AccessPoint() {
           loading={loadingAttachements}
           data={APAttachementData?.data}
           configuration={APAttachmentsTableConfig}
+          tkey="attachment-table"
         />
       </div>
       <div>
@@ -73,6 +74,7 @@ export default function AccessPoint() {
           loading={laodingRepositories}
           data={APRepositories?.data}
           configuration={APServiceRepositoryTableConfig}
+          tkey="service-repository-table"
         />
       </div>
     </div>

@@ -41,7 +41,7 @@ export default function Client({
       });
     }
     return [];
-  }, [services]);
+  }, [services, entity?.did]);
 
   const onRefresh = () => {
     const entityKey =
@@ -52,7 +52,7 @@ export default function Client({
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +162,7 @@ export default function Client({
           loading={services_loading}
           data={clients}
           configuration={ClientTableConfig}
-          key="client-table"
+          tkey="client-table"
         />
       </div>
       <div>
@@ -171,7 +171,7 @@ export default function Client({
           loading={services_loading}
           data={services?.data?.services}
           configuration={ServiceTableConfig}
-          key="service-table"
+          tkey="service-table"
         />
       </div>
       <Snackbar

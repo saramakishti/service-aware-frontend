@@ -71,6 +71,7 @@ export const ServiceTableConfig = [
             ))}
           </>
         );
+      console.log("render", renderedValue);
       return renderedValue;
     },
   },

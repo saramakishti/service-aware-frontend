@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 500);
+    }, 5000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,6 +45,7 @@ export default function Home() {
           loading={data.loadingEntities}
           data={data?.allEntities}
           configuration={HomeTableConfig}
+          tkey="home_table"
         />
       </div>
 

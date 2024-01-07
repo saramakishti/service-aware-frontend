@@ -17,11 +17,19 @@ from .routers import endpoints, health, root, socket_manager2  # sql router hinz
 from .sql_db import engine
 from .tags import tags_metadata
 
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://0.0.0.0:3000",
+cors_url = [
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://0.0.0.0",
+    "http://[::]",
 ]
+cors_ports = [2979, 3000]
+cors_whitelist = []
+for u in cors_url:
+    for p in cors_ports:
+        cors_whitelist.append(f"{u}:{p}")
+
+
 # Logging setup
 log = logging.getLogger(__name__)
 
@@ -44,7 +52,7 @@ def setup_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan, swagger_ui_parameters={"tryItOutEnabled": True})
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=cors_whitelist,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

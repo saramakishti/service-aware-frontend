@@ -11,7 +11,7 @@ import { StyledTableCell, StyledTableRow } from "./style";
 import { ICustomTable, CustomTableConfiguration } from "@/types";
 import { Checkbox, Skeleton } from "@mui/material";
 
-const CustomTable = ({ configuration, data, loading, key }: ICustomTable) => {
+const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
   if (loading)
     return <Skeleton variant="rectangular" animation="wave" height={200} />;
 
@@ -25,7 +25,7 @@ const CustomTable = ({ configuration, data, loading, key }: ICustomTable) => {
     render?: (param: any) => void | undefined,
   ) => {
     let renderedValue = value;
-    console.log(cellKey);
+
     // cover use case if the data is an array
     if (Array.isArray(value)) renderedValue = value.join(", ");
 
@@ -36,6 +36,7 @@ const CustomTable = ({ configuration, data, loading, key }: ICustomTable) => {
     // cover use case if we want to render a component
     if (render) renderedValue = render(value);
 
+    console.log("renderTableCell key", cellKey);
     return (
       <StyledTableCell key={cellKey} align="left">
         {renderedValue}
@@ -59,7 +60,7 @@ const CustomTable = ({ configuration, data, loading, key }: ICustomTable) => {
               {configuration.map(
                 (column: CustomTableConfiguration, columnIndex: number) => {
                   const cellValue: any = data[column.key];
-                  const cellKey = key + ":" + column.key + ":" + rowIndex;
+                  const cellKey = tkey + ":" + column.key + ":" + rowIndex;
                   const renderComponent = column?.render;
                   return renderTableCell(
                     cellValue,
