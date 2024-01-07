@@ -3,8 +3,8 @@ from typing import Any, Dict, List
 
 
 class Tags(Enum):
-    producers = "producers"
-    consumers = "consumers"
+    services = "services"
+    clients = "clients"
     entities = "entities"
     repositories = "repositories"
     resolutions = "resolution"
@@ -15,12 +15,12 @@ class Tags(Enum):
 
 tags_metadata: List[Dict[str, Any]] = [
     {
-        "name": str(Tags.producers),
-        "description": "Operations on a producer.",
+        "name": str(Tags.services),
+        "description": "Operations on a service.",
     },
     {
-        "name": str(Tags.consumers),
-        "description": "Operations on a consumer.",
+        "name": str(Tags.clients),
+        "description": "Operations on a client.",
     },
     {
         "name": str(Tags.entities),

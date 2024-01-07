@@ -8,6 +8,7 @@ export interface ICustomTable {
   configuration: CustomTableConfiguration[];
   data: any;
   loading?: boolean;
+  tkey: string;
 }
 
 export interface EntityDetails {

@@ -1,4 +1,4 @@
-import { useGetEntities } from "@/api/entities/entities";
+import { useGetAllEntities } from "@/api/entities/entities";
 import { Entity } from "@/api/model";
 import { AxiosError } from "axios";
 import React, {
@@ -33,7 +33,7 @@ interface AppContextProviderProps {
 export const WithAppState = (props: AppContextProviderProps) => {
   const { children } = props;
 
-  const { data: entityData, swrKey: entitiesKeyFunc } = useGetEntities();
+  const { data: entityData, swrKey: entitiesKeyFunc } = useGetAllEntities();
 
   const isLoading = false;
   const error = undefined;

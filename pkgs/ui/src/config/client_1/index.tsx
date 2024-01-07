@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-export const Client1ConsumerTableConfig = [
+export const ClientTableConfig = [
   {
     key: "service_name",
     label: "Service name",
@@ -34,7 +34,7 @@ export const Client1ConsumerTableConfig = [
   // },
 ];
 
-export const Client1ProducerTableConfig = [
+export const ServiceTableConfig = [
   {
     key: "service_name",
     label: "Service name",
@@ -71,6 +71,7 @@ export const Client1ProducerTableConfig = [
             ))}
           </>
         );
+      console.log("render", renderedValue);
       return renderedValue;
     },
   },

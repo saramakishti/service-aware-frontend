@@ -8,7 +8,6 @@
       clan-cli = pkgs.python3.pkgs.callPackage ./default.nix {
         inherit (self'.packages) ui-assets;
         inherit (inputs) nixpkgs;
-        inherit (inputs.nixpkgs-for-iosl.legacyPackages.${system}.python3Packages) deal;
         inherit (inputs.nixpkgs-for-iosl.legacyPackages.${system}.python3Packages) broadcaster;
       };
       inherit (self'.packages.clan-cli) clan-openapi;

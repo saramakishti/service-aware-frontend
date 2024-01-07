@@ -1,4 +1,4 @@
-{ nix-unit, clan-cli, ui-assets, system, mkShell, writeScriptBin, openssh, ruff, python3 }:
+{ nix-unit, clan-cli, openapi-generator-cli, ui-assets, system, mkShell, writeScriptBin, openssh, ruff, python3 }:
 let
   checkScript = writeScriptBin "check" ''
     nix build .#checks.${system}.{treefmt,clan-pytest} -L "$@"
@@ -19,6 +19,7 @@ mkShell {
     openssh
     ruff
     clan-cli.checkPython
+    openapi-generator-cli
   ];
 
   shellHook = ''

@@ -25,6 +25,7 @@
       "pkgs/clan-cli".extraPythonPackages = self'.packages.clan-cli.pytestDependencies;
     };
 
+
     treefmt.settings.formatter.nix = {
       command = "sh";
       options = [
@@ -51,6 +52,7 @@
         "--" # this argument is ignored by bash
       ];
       includes = [ "*.py" ];
+      excludes = [ "**/tests/openapi_client/**" ];
     };
   };
 }

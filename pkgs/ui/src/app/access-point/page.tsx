@@ -2,7 +2,7 @@
 
 import { mutate } from "swr";
 import { useGetAttachedEntities } from "@/api/entities/entities";
-import { useGetRepositories } from "@/api/repositories/repositories";
+import { useGetAllRepositories } from "@/api/repositories/repositories";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
 import {
@@ -22,7 +22,7 @@ export default function AccessPoint() {
     data: APRepositories,
     isLoading: laodingRepositories,
     swrKey: repositoriesKeyFunc,
-  } = useGetRepositories();
+  } = useGetAllRepositories();
 
   const onRefresh = () => {
     const attachedEntitiesKey =
@@ -65,6 +65,7 @@ export default function AccessPoint() {
           loading={loadingAttachements}
           data={APAttachementData?.data}
           configuration={APAttachmentsTableConfig}
+          tkey="attachment-table"
         />
       </div>
       <div>
@@ -73,6 +74,7 @@ export default function AccessPoint() {
           loading={laodingRepositories}
           data={APRepositories?.data}
           configuration={APServiceRepositoryTableConfig}
+          tkey="service-repository-table"
         />
       </div>
     </div>

@@ -8,7 +8,7 @@ export const HomeTableConfig = [
     label: "Entity DID",
   },
   {
-    key: "other",
+    key: "network",
     label: "Network",
     render: (value: any) => {
       const renderedValue = typeof value === "object" ? value?.network : "-";
@@ -20,7 +20,7 @@ export const HomeTableConfig = [
     label: "IP address",
   },
   {
-    key: "other",
+    key: "roles",
     label: "Roles",
     render: (value: any) => {
       const renderedValue =

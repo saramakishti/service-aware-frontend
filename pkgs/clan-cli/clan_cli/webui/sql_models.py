@@ -2,15 +2,11 @@ from sqlalchemy import (
     JSON,
     Boolean,
     Column,
-    DateTime,
     ForeignKey,
-    Integer,
     String,
     Text,
-    UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
 
 from .sql_db import Base
 
@@ -23,7 +19,7 @@ class Entity(Base):
 
     ## Queryable body ##
     did = Column(String, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String, index=True, unique=True)
     ip = Column(String, index=True)
     attached = Column(Boolean, index=True)
     visible = Column(Boolean, index=True)
@@ -33,13 +29,10 @@ class Entity(Base):
     other = Column(JSON)
 
     ## Relations ##
-    producers = relationship("Producer", back_populates="entity")
-    consumers = relationship("Consumer", back_populates="entity")
-    repository = relationship("Repository", back_populates="entity")
-    # TODO maby refactor to repositories
+    services = relationship("Service", back_populates="entity")
 
 
-class ProducerAbstract(Base):
+class ServiceAbstract(Base):
     __abstract__ = True
 
     # Queryable body
@@ -54,58 +47,10 @@ class ProducerAbstract(Base):
     other = Column(JSON)
 
 
-class Producer(ProducerAbstract):
-    __tablename__ = "producers"
-
-    # Usage is the consumers column
+class Service(ServiceAbstract):
+    __tablename__ = "services"
 
     ## Relations ##
-    # One entity can have many producers
-    entity = relationship("Entity", back_populates="producers")
+    # One entity can have many services
+    entity = relationship("Entity", back_populates="services")
     entity_did = Column(String, ForeignKey("entities.did"))
-
-    # One producer has many consumers
-    consumers = relationship("Consumer", back_populates="producer")
-
-
-class Consumer(Base):
-    __tablename__ = "consumers"
-
-    ## Queryable body ##
-    id = Column(Integer, primary_key=True, index=True)
-
-    ## Non queryable body ##
-    other = Column(JSON)
-
-    ## Relations ##
-    # one entity can have many consumers
-    entity = relationship("Entity", back_populates="consumers")
-    entity_did = Column(String, ForeignKey("entities.did"))
-
-    # one consumer has one producer
-    producer = relationship("Producer", back_populates="consumers")
-    producer_uuid = Column(String, ForeignKey("producers.uuid"))
-
-    __table_args__ = (UniqueConstraint("producer_uuid", "entity_did"),)
-
-
-class Repository(ProducerAbstract):
-    __tablename__ = "repositories"
-
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
-
-    # one repository has one entity
-    entity = relationship("Entity", back_populates="repository")
-    entity_did = Column(Integer, ForeignKey("entities.did"))
-
-
-# TODO: Ask how this works exactly
-class Resolution(Base):
-    __tablename__ = "resolutions"
-
-    id = Column(Integer, primary_key=True)
-    requester_name = Column(String, index=True)
-    requester_did = Column(String, index=True)
-    resolved_did = Column(String, index=True)
-    other = Column(JSON)
-    timestamp = Column(DateTime(timezone=True), server_default=func.now())

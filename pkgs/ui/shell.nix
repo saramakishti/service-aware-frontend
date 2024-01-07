@@ -20,13 +20,13 @@ pkgs.mkShell {
     fi
 
     ln -sf ${pkgs.roboto}/share/fonts ./src
-    
+
     export PATH="$PATH:$(realpath ./node_modules)/.bin"
 
 
-    # re-generate the api code 
+    # re-generate the api code
     rm -rf src/api openapi.json
-    cp ${clanPkgs.clan-openapi}/openapi.json . 
+    cp ${clanPkgs.clan-openapi}/openapi.json .
     orval
   '';
 }

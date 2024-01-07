@@ -43,6 +43,7 @@ export default function DLG() {
           loading={loadingResolutions}
           data={resolutionData}
           configuration={DLGResolutionTableConfig}
+          tkey="resolution_table"
         />
       </div>
     </div>

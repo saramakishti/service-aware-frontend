@@ -1,70 +1,47 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import {
-  Client2ConsumerTableConfig,
-  Client2ProducerTableConfig,
-} from "@/config/client_2";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ClientTableConfig, ServiceTableConfig } from "@/config/client_1";
 import CustomTable from "@/components/table";
-import useGetEntityByName from "@/components/hooks/useGetEntityById";
 import {
+  Alert,
   Button,
   Card,
   CardContent,
   CardHeader,
-  Skeleton,
-  Typography,
   Snackbar,
-  Alert,
+  Typography,
 } from "@mui/material";
 import CopyToClipboard from "@/components/copy_to_clipboard";
-import { useGetEntity } from "@/api/entities/entities";
+import { useGetServicesByName } from "@/api/services/services";
+import { attachEntity, detachEntity } from "@/api/entities/entities";
 import { mutate } from "swr";
-import axios from "axios";
-import { BASE_URL } from "@/constants";
+import { Skeleton } from "@mui/material";
+import { Service } from "@/api/model";
 
-export default function Client2() {
-  const { entity } = useGetEntityByName("C2");
+export default function Client({
+  params,
+}: {
+  params: { client_name: string };
+}) {
+  const { client_name } = params;
+
   const {
-    data: client2,
-    isLoading,
+    data: services,
+    isLoading: services_loading,
     swrKey: entityKeyFunc,
-  } = useGetEntity({ entity_did: entity?.did });
-  const cardContentRef = useRef(null);
-  const [isAttached, setIsAttached] = useState(entity?.attached);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  } = useGetServicesByName({
+    entity_name: client_name,
+  });
 
-  const closeSnackBar = () => {
-    setSnackbarMessage("");
-    setSnackbarOpen(false);
-  };
-
-  const onAttachEntity = async () => {
-    try {
-      const response = await axios.post(`${BASE_URL}/attach`, {
-        entity_did: entity?.did,
+  const entity = services?.data?.entity;
+  const clients: Service[] = useMemo(() => {
+    if (services?.data?.services) {
+      return services.data.services.filter((service) => {
+        if (service.entity_did !== entity?.did) return true;
       });
-      alert(response.data.message);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsAttached(true);
     }
-  };
-
-  const onDetachEntity = async () => {
-    try {
-      const response = await axios.post(`${BASE_URL}/detach`, {
-        entity_did: entity?.did,
-      });
-      console.log("detach", response);
-      alert("Entity Detached Successfully.");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsAttached(false);
-    }
-  };
+    return [];
+  }, [services, entity?.did]);
 
   const onRefresh = () => {
     const entityKey =
@@ -75,13 +52,57 @@ export default function Client2() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) return <Skeleton height={500} />;
+  const cardContentRef = useRef(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [isAttached, setIsAttached] = useState(entity?.attached);
+
+  const closeSnackBar = () => {
+    setSnackbarMessage("");
+    setSnackbarOpen(false);
+  };
+
+  const onAttachEntity = async () => {
+    try {
+      if (entity) {
+        const response = await attachEntity(entity.did);
+        setSnackbarMessage(response.data.message);
+        setSnackbarOpen(true);
+      } else {
+        console.error("no entity");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsAttached(true);
+    }
+  };
+
+  const onDetachEntity = async () => {
+    try {
+      if (entity) {
+        const response = await detachEntity(entity.did);
+        console.log(response);
+        setSnackbarMessage("Entity detached successfully.");
+        setSnackbarOpen(true);
+      } else {
+        console.error("no entity");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsAttached(false);
+    }
+  };
+
+  if (services_loading) return <Skeleton height={500} />;
+  if (!services) return <Alert severity="error">Client not found</Alert>;
 
   return (
     <div className="m-10">
@@ -92,7 +113,7 @@ export default function Client2() {
           justifyContent: "space-between",
         }}
       >
-        <h2>Client 2</h2>
+        <h2>Client 1</h2>
         <div>
           {isAttached === false ? (
             <Button
@@ -111,6 +132,7 @@ export default function Client2() {
               Detach
             </Button>
           )}
+
           <Button onClick={onRefresh} variant="contained">
             Refresh
           </Button>
@@ -124,30 +146,32 @@ export default function Client2() {
         />
         <CardContent ref={cardContentRef}>
           <Typography color="text.primary" gutterBottom>
-            DID: <code>{client2?.data?.did}</code>
+            DID: <code>{entity?.did}</code>
           </Typography>
           <Typography color="text.primary" gutterBottom>
-            IP: <code>{client2?.data?.ip}</code>
+            IP: <code>{entity?.ip}</code>
           </Typography>
           <Typography color="text.primary" gutterBottom>
-            Network: <code>{client2?.data?.other?.network}</code>
+            Network: <code>{entity?.other?.network}</code>
           </Typography>
         </CardContent>
       </Card>
       <div>
-        <h4>Consumer View</h4>
+        <h4>Client View</h4>
         <CustomTable
-          loading={isLoading}
-          data={client2?.data?.producers}
-          configuration={Client2ConsumerTableConfig}
+          loading={services_loading}
+          data={clients}
+          configuration={ClientTableConfig}
+          tkey="client-table"
         />
       </div>
       <div>
-        <h4>Producer View</h4>
+        <h4>Service View</h4>
         <CustomTable
-          loading={isLoading}
-          data={client2?.data?.producers}
-          configuration={Client2ProducerTableConfig}
+          loading={services_loading}
+          data={services?.data?.services}
+          configuration={ServiceTableConfig}
+          tkey="service-table"
         />
       </div>
       <Snackbar
