@@ -165,7 +165,7 @@ export function Sidebar(props: SidebarProps) {
                     >
                       <ListItemIcon
                         color="inherit"
-                        className="justify-center overflow-hidden text-white lg:justify-normal"
+                        className="overflow-hidden text-white lg:justify-normal"
                       >
                         {menuEntry.icon}
                       </ListItemIcon>
@@ -179,7 +179,7 @@ export function Sidebar(props: SidebarProps) {
                       {collapseMenuOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse
-                      in={collapseMenuOpen}
+                      in={collapseMenuOpen && show}
                       timeout="auto"
                       unmountOnExit
                     >
@@ -188,7 +188,7 @@ export function Sidebar(props: SidebarProps) {
                           <ListItemButton
                             key={idx}
                             sx={{ pl: 4 }}
-                            className="justify-center lg:justify-normal"
+                            className="lg:justify-normal"
                             LinkComponent={Link}
                             href={menuEntry.to}
                             disabled={menuEntry.disabled}
@@ -197,7 +197,7 @@ export function Sidebar(props: SidebarProps) {
                           >
                             <ListItemIcon
                               color="inherit"
-                              className="justify-center overflow-hidden text-white lg:justify-normal"
+                              className="overflow-hidden text-white lg:justify-normal"
                             >
                               {menuEntry.icon}
                             </ListItemIcon>
