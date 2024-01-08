@@ -79,6 +79,7 @@ export default function RootLayout({
                           <div className="grid grid-cols-3">
                             <div className="col-span-1">
                               <IconButton
+                                style={{padding: '12px'}}
                                 hidden={true}
                                 onClick={() => setShowSidebar((c) => !c)}
                               >
