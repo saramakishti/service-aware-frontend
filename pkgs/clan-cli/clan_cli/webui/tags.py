@@ -7,6 +7,7 @@ class Tags(Enum):
     entities = "entities"
     repositories = "repositories"
     resolutions = "resolution"
+    eventmessages = "eventmessages"
 
     def __str__(self) -> str:
         return self.value
@@ -28,5 +29,9 @@ tags_metadata: List[Dict[str, Any]] = [
     {
         "name": str(Tags.resolutions),
         "description": "Operations on a resolution.",
+    },
+    {
+        "name": str(Tags.eventmessages),
+        "description": "Operations for event messages.",
     },
 ]

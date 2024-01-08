@@ -104,3 +104,30 @@ class Resolution(ResolutionCreate):
 
     class Config:
         orm_mode = True
+
+
+#########################
+#                       #
+#      Eventmessage     #
+#                       #
+#########################
+class EventmessageBase(BaseModel):
+    id: int = Field(..., example=123456)
+    timestamp: int = Field(..., example=1234123413)
+    group: int = Field(..., example=1)  # event group type (for the label)
+    group_id: int = Field(
+        ..., example=12345
+    )  # specific to one group needed to enable visually nested groups
+    msg_type: int = Field(..., example=1)  # message type for the label
+    src_did: str = Field(..., example="did:sov:test:2234")
+    des_did: str = Field(..., example="did:sov:test:1234")
+
+
+class EventmessageCreate(EventmessageBase):
+    msg: dict = Field(..., example={"optinal": "values"})  # optional
+    pass
+
+
+class Eventmessage(EventmessageCreate):
+    class Config:
+        orm_mode = True
