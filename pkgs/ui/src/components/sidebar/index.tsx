@@ -6,7 +6,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import React, { ReactNode } from "react";
