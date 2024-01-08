@@ -9,10 +9,10 @@ import pytest
 import uvicorn
 from fastapi.testclient import TestClient
 from openapi_client import ApiClient, Configuration
+from ports import PortFunction
 
 from clan_cli.webui.app import app
 
-from ports import PortFunction
 
 @pytest.fixture(scope="session")
 def test_client() -> TestClient:
