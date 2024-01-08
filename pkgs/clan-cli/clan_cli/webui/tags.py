@@ -4,7 +4,6 @@ from typing import Any, Dict, List
 
 class Tags(Enum):
     services = "services"
-    clients = "clients"
     entities = "entities"
     repositories = "repositories"
     resolutions = "resolution"
@@ -17,10 +16,6 @@ tags_metadata: List[Dict[str, Any]] = [
     {
         "name": str(Tags.services),
         "description": "Operations on a service.",
-    },
-    {
-        "name": str(Tags.clients),
-        "description": "Operations on a client.",
     },
     {
         "name": str(Tags.entities),

@@ -54,10 +54,10 @@ class TestServicesApi(unittest.TestCase):
         """
         pass
 
-    def test_get_services_by_name(self) -> None:
-        """Test case for get_services_by_name
+    def test_get_services_without_entity(self) -> None:
+        """Test case for get_services_without_entity
 
-        Get Services By Name  # noqa: E501
+        Get Services Without Entity  # noqa: E501
         """
         pass
 

@@ -42,7 +42,6 @@ from openapi_client.models.machine import Machine
 from openapi_client.models.resolution import Resolution
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate
-from openapi_client.models.services_by_name import ServicesByName
 from openapi_client.models.status import Status
 from openapi_client.models.validation_error import ValidationError
 from openapi_client.models.validation_error_loc_inner import ValidationErrorLocInner

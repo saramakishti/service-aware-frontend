@@ -46,7 +46,7 @@ class EntitiesApi:
         self.api_client = api_client
 
     @validate_arguments
-    def attach_entity(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> Dict[str, str]:  # noqa: E501
+    def attach_entity(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> Dict[str, str]:  # noqa: E501
         """Attach Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -55,7 +55,7 @@ class EntitiesApi:
         >>> thread = api.attach_entity(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param skip:
         :type skip: int
@@ -79,7 +79,7 @@ class EntitiesApi:
         return self.attach_entity_with_http_info(entity_did, skip, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def attach_entity_with_http_info(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def attach_entity_with_http_info(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Attach Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -88,7 +88,7 @@ class EntitiesApi:
         >>> thread = api.attach_entity_with_http_info(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param skip:
         :type skip: int
@@ -152,12 +152,12 @@ class EntitiesApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['entity_did']:
-            _path_params['entity_did'] = _params['entity_did']
-
 
         # process the query parameters
         _query_params = []
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
+
         if _params.get('skip') is not None:  # noqa: E501
             _query_params.append(('skip', _params['skip']))
 
@@ -184,7 +184,7 @@ class EntitiesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/{entity_did}/attach', 'POST',
+            '/api/v1/attach', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -347,7 +347,7 @@ class EntitiesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def delete_entity(self, entity_did : StrictStr, **kwargs) -> Dict[str, str]:  # noqa: E501
+    def delete_entity(self, entity_did : Optional[StrictStr] = None, **kwargs) -> Dict[str, str]:  # noqa: E501
         """Delete Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -356,7 +356,7 @@ class EntitiesApi:
         >>> thread = api.delete_entity(entity_did, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
@@ -376,7 +376,7 @@ class EntitiesApi:
         return self.delete_entity_with_http_info(entity_did, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_entity_with_http_info(self, entity_did : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def delete_entity_with_http_info(self, entity_did : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Delete Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -385,7 +385,7 @@ class EntitiesApi:
         >>> thread = api.delete_entity_with_http_info(entity_did, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
@@ -443,12 +443,12 @@ class EntitiesApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['entity_did']:
-            _path_params['entity_did'] = _params['entity_did']
-
 
         # process the query parameters
         _query_params = []
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
@@ -469,7 +469,7 @@ class EntitiesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/{entity_did}/entity', 'DELETE',
+            '/api/v1/entity', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -486,7 +486,7 @@ class EntitiesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def detach_entity(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> Entity:  # noqa: E501
+    def detach_entity(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> Entity:  # noqa: E501
         """Detach Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -495,7 +495,7 @@ class EntitiesApi:
         >>> thread = api.detach_entity(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param skip:
         :type skip: int
@@ -519,7 +519,7 @@ class EntitiesApi:
         return self.detach_entity_with_http_info(entity_did, skip, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def detach_entity_with_http_info(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def detach_entity_with_http_info(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Detach Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -528,7 +528,7 @@ class EntitiesApi:
         >>> thread = api.detach_entity_with_http_info(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param skip:
         :type skip: int
@@ -592,12 +592,12 @@ class EntitiesApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['entity_did']:
-            _path_params['entity_did'] = _params['entity_did']
-
 
         # process the query parameters
         _query_params = []
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
+
         if _params.get('skip') is not None:  # noqa: E501
             _query_params.append(('skip', _params['skip']))
 
@@ -624,7 +624,7 @@ class EntitiesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/{entity_did}/detach', 'POST',
+            '/api/v1/detach', 'POST',
             _path_params,
             _query_params,
             _header_params,
@@ -935,7 +935,7 @@ class EntitiesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_entity_by_did(self, entity_did : StrictStr, **kwargs) -> Entity:  # noqa: E501
+    def get_entity_by_did(self, entity_did : Optional[StrictStr] = None, **kwargs) -> Entity:  # noqa: E501
         """Get Entity By Did  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -944,7 +944,7 @@ class EntitiesApi:
         >>> thread = api.get_entity_by_did(entity_did, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
@@ -964,7 +964,7 @@ class EntitiesApi:
         return self.get_entity_by_did_with_http_info(entity_did, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_entity_by_did_with_http_info(self, entity_did : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_entity_by_did_with_http_info(self, entity_did : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Get Entity By Did  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -973,7 +973,7 @@ class EntitiesApi:
         >>> thread = api.get_entity_by_did_with_http_info(entity_did, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
@@ -1031,12 +1031,12 @@ class EntitiesApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['entity_did']:
-            _path_params['entity_did'] = _params['entity_did']
-
 
         # process the query parameters
         _query_params = []
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
@@ -1057,7 +1057,7 @@ class EntitiesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/{entity_did}/entity', 'GET',
+            '/api/v1/entity', 'GET',
             _path_params,
             _query_params,
             _header_params,

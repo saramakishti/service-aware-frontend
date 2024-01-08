@@ -1,17 +1,17 @@
 # Service
 
-## Properties
 
-| Name             | Type                    | Description | Notes |
-| ---------------- | ----------------------- | ----------- | ----- |
-| **uuid**         | **str**                 |             |
-| **service_name** | **str**                 |             |
-| **service_type** | **str**                 |             |
-| **endpoint_url** | **str**                 |             |
-| **status**       | **str**                 |             |
-| **other**        | **object**              |             |
-| **entity_did**   | **str**                 |             |
-| **entity**       | [**Entity**](Entity.md) |             |
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**uuid** | **str** |  | 
+**service_name** | **str** |  | 
+**service_type** | **str** |  | 
+**endpoint_url** | **str** |  | 
+**status** | **str** |  | 
+**other** | **object** |  | 
+**entity_did** | **str** |  | 
+**entity** | [**Entity**](Entity.md) |  | 
 
 ## Example
 
@@ -30,5 +30,6 @@ service_dict = service_instance.to_dict()
 # create an instance of Service from a dict
 service_form_dict = service.from_dict(service_dict)
 ```
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

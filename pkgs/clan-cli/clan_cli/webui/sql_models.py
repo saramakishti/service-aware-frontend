@@ -23,6 +23,7 @@ class Entity(Base):
     ip = Column(String, index=True)
     attached = Column(Boolean, index=True)
     visible = Column(Boolean, index=True)
+    stop_health_task = Column(Boolean)
 
     ## Non queryable body ##
     # In here we deposit: Network, Roles, Visible, etc.

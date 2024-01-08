@@ -45,7 +45,7 @@ export default function AccessPoint() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps

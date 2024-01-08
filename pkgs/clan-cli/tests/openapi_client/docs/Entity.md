@@ -1,15 +1,15 @@
 # Entity
 
-## Properties
 
-| Name         | Type       | Description | Notes |
-| ------------ | ---------- | ----------- | ----- |
-| **did**      | **str**    |             |
-| **name**     | **str**    |             |
-| **ip**       | **str**    |             |
-| **visible**  | **bool**   |             |
-| **other**    | **object** |             |
-| **attached** | **bool**   |             |
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**did** | **str** |  | 
+**name** | **str** |  | 
+**ip** | **str** |  | 
+**visible** | **bool** |  | 
+**other** | **object** |  | 
+**attached** | **bool** |  | 
 
 ## Example
 
@@ -28,5 +28,6 @@ entity_dict = entity_instance.to_dict()
 # create an instance of Entity from a dict
 entity_form_dict = entity.from_dict(entity_dict)
 ```
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
