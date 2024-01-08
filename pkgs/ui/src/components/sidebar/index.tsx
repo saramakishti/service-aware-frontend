@@ -96,9 +96,7 @@ export function Sidebar(props: SidebarProps) {
   };
 
   const handleCollapseClick = () => {
-    if (isSmallerScreen) {
-      setCollapseMenuOpen(!collapseMenuOpen);
-    }
+    setCollapseMenuOpen(!collapseMenuOpen);
   };
 
   React.useEffect(() => {
