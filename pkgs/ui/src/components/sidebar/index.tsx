@@ -113,16 +113,16 @@ export function Sidebar(props: SidebarProps) {
             priority
           />
         </div>
+        <div className="absolute top-0 right-0">
+          <IconButton size="large" className="text-white" onClick={onClose}>
+            <ChevronLeftIcon fontSize="inherit" />
+          </IconButton>
+        </div>
       </div>
       <Divider
         flexItem
         className="mx-8 mb-4 mt-9 hidden bg-neutral-40 lg:block"
       />
-      <div className="flex w-full justify-center">
-        <IconButton size="large" className="text-white" onClick={onClose}>
-          <ChevronLeftIcon fontSize="inherit" />
-        </IconButton>
-      </div>
       <div className="flex flex-col overflow-hidden overflow-y-auto">
         <List className="mb-14 px-0 pb-4 text-white lg:mt-1 lg:px-4">
           {menuEntries.map((menuEntry, idx) => {
