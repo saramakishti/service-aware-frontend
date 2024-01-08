@@ -14,7 +14,7 @@ from ports import PortFunction
 from clan_cli.webui.app import app
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def test_client() -> TestClient:
     return TestClient(app)
 
@@ -31,7 +31,7 @@ def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | 
 
 
 # Pytest fixture to run the server in a separate process
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def server_url(unused_tcp_port: PortFunction) -> Generator[str, None, None]:
     port = unused_tcp_port()
     host = "127.0.0.1"
@@ -52,7 +52,7 @@ def server_url(unused_tcp_port: PortFunction) -> Generator[str, None, None]:
     proc.terminate()
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def api_client(server_url: str) -> Generator[ApiClient, None, None]:
     configuration = Configuration(host=server_url)
 
