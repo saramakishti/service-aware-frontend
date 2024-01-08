@@ -6,9 +6,11 @@ app = FastAPI()
 
 # bash tests: curl localhost:8000/ap_list_of_services
 
+
 @app.get("/health")
 async def healthcheck() -> str:
     return "200 OK"
+
 
 @app.get("/consume_service_from_other_entity", response_class=HTMLResponse)
 async def consume_service_from_other_entity() -> HTMLResponse:
@@ -21,9 +23,10 @@ async def consume_service_from_other_entity() -> HTMLResponse:
     """
     return HTMLResponse(content=html_content, status_code=200)
 
+
 @app.get("/ap_list_of_services", response_class=HTMLResponse)
 async def ap_list_of_services() -> HTMLResponse:
-    html_content = b'''HTTP/1.1 200 OK\r\n\r\n[[
+    html_content = b"""HTTP/1.1 200 OK\r\n\r\n[[
   {
     "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
     "service_name": "Carlos Printing",
@@ -104,12 +107,13 @@ async def ap_list_of_services() -> HTMLResponse:
     },
     "entity_did": "did:sov:test:1238"
   }
-]]'''
+]]"""
     return HTMLResponse(content=html_content, status_code=200)
+
 
 @app.get("/dlg_list_of_did_resolutions", response_class=HTMLResponse)
 async def dlg_list_of_did_resolutions() -> HTMLResponse:
-    html_content = b'''HTTP/1.1 200 OK\r\n\r\n
+    html_content = b"""HTTP/1.1 200 OK\r\n\r\n
 [
   {
     "did": "did:sov:test:1234",
@@ -139,7 +143,8 @@ async def dlg_list_of_did_resolutions() -> HTMLResponse:
       ]
     }
   }
-]'''
+]"""
     return HTMLResponse(content=html_content, status_code=200)
+
 
 uvicorn.run(app, host="localhost", port=8000)
