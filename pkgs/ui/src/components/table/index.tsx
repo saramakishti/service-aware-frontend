@@ -36,7 +36,6 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
     // cover use case if we want to render a component
     if (render) renderedValue = render(value);
 
-    console.log("renderTableCell key", cellKey);
     return (
       <StyledTableCell key={cellKey} align="left">
         {renderedValue}

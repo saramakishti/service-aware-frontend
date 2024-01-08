@@ -15,7 +15,6 @@ from ..schemas import (
     Resolution,
     Service,
     ServiceCreate,
-    ServicesByName,
 )
 from ..tags import Tags
 
@@ -30,7 +29,7 @@ log = logging.getLogger(__name__)
 #                       #
 #########################
 @router.post("/api/v1/service", response_model=Service, tags=[Tags.services])
-async def create_service(
+def create_service(
     service: ServiceCreate, db: Session = Depends(sql_db.get_db)
 ) -> Service:
     # todo checken ob schon da ...
@@ -38,17 +37,15 @@ async def create_service(
 
 
 @router.get("/api/v1/services", response_model=List[Service], tags=[Tags.services])
-async def get_all_services(
+def get_all_services(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Service]:
     services = sql_crud.get_services(db, skip=skip, limit=limit)
     return services
 
 
-@router.get(
-    "/api/v1/{entity_did}/service", response_model=List[Service], tags=[Tags.services]
-)
-async def get_service_by_did(
+@router.get("/api/v1/service", response_model=List[Service], tags=[Tags.services])
+def get_service_by_did(
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
@@ -59,25 +56,22 @@ async def get_service_by_did(
 
 
 @router.get(
-    "/api/v1/services_by_entity_name",
-    response_model=ServicesByName,
+    "/api/v1/services_without_entity",
+    response_model=List[Service],
     tags=[Tags.services],
 )
-async def get_services_by_name(
-    entity_name: str,
+def get_services_without_entity(
+    entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
-) -> ServicesByName:
-    entity = sql_crud.get_entity_by_name(db, name=entity_name)
-    if entity is None:
-        raise ClanError(f"Entity with name '{entity_name}' not found")
-    services = sql_crud.get_services_by_entity_did(db, entity_did=str(entity.did))
-    return ServicesByName(entity=entity, services=services)  # type: ignore
+) -> List[sql_models.Service]:
+    service = sql_crud.get_services_without_entity_id(db, entity_did=entity_did)
+    return service
 
 
-@router.delete("/api/v1/{entity_did}/service", tags=[Tags.services])
-async def delete_service(
+@router.delete("/api/v1/service", tags=[Tags.services])
+def delete_service(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
@@ -95,7 +89,7 @@ async def delete_service(
     response_model=List[Service],
     tags=[Tags.repositories],
 )
-async def get_all_repositories(
+def get_all_repositories(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Service]:
     repositories = sql_crud.get_services(db, skip=skip, limit=limit)
@@ -108,7 +102,7 @@ async def get_all_repositories(
 #                       #
 #########################
 @router.post("/api/v1/entity", response_model=Entity, tags=[Tags.entities])
-async def create_entity(
+def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
 ) -> EntityCreate:
     return sql_crud.create_entity(db, entity)
@@ -117,7 +111,7 @@ async def create_entity(
 @router.get(
     "/api/v1/entity_by_name", response_model=Optional[Entity], tags=[Tags.entities]
 )
-async def get_entity_by_name(
+def get_entity_by_name(
     entity_name: str, db: Session = Depends(sql_db.get_db)
 ) -> Optional[sql_models.Entity]:
     entity = sql_crud.get_entity_by_name(db, name=entity_name)
@@ -125,17 +119,15 @@ async def get_entity_by_name(
 
 
 @router.get("/api/v1/entities", response_model=List[Entity], tags=[Tags.entities])
-async def get_all_entities(
+def get_all_entities(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Entity]:
     entities = sql_crud.get_entities(db, skip=skip, limit=limit)
     return entities
 
 
-@router.get(
-    "/api/v1/{entity_did}/entity", response_model=Optional[Entity], tags=[Tags.entities]
-)
-async def get_entity_by_did(
+@router.get("/api/v1/entity", response_model=Optional[Entity], tags=[Tags.entities])
+def get_entity_by_did(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
 ) -> Optional[sql_models.Entity]:
@@ -148,61 +140,97 @@ async def get_entity_by_did(
     response_model=List[Entity],
     tags=[Tags.entities],
 )
-async def get_attached_entities(
+def get_attached_entities(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Entity]:
     entities = sql_crud.get_attached_entities(db, skip=skip, limit=limit)
     return entities
 
 
-@router.post("/api/v1/{entity_did}/detach", response_model=Entity, tags=[Tags.entities])
-async def detach_entity(
-    background_tasks: BackgroundTasks,
-    entity_did: str = "did:sov:test:1234",
-    skip: int = 0,
-    limit: int = 100,
-    db: Session = Depends(sql_db.get_db),
-) -> sql_models.Entity:
-    entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
-    return entity
-
-
-@router.post("/api/v1/{entity_did}/attach", tags=[Tags.entities])
-async def attach_entity(
+@router.post("/api/v1/detach", tags=[Tags.entities])
+def detach_entity(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
-    if sql_crud.get_entity_by_did(db, entity_did) is None:
+    entity = sql_crud.get_entity_by_did(db, did=entity_did)
+    if entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+    sql_crud.set_stop_health_task(db, entity_did, True)
+    return {"message": f"Detached {entity_did} successfully"}
+
+
+@router.post("/api/v1/attach", tags=[Tags.entities])
+def attach_entity(
+    background_tasks: BackgroundTasks,
+    entity_did: str = "did:sov:test:1234",
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(sql_db.get_db),
+) -> dict[str, str]:
+    entity = sql_crud.get_entity_by_did(db, did=entity_did)
+    if entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+    url = f"http://{entity.ip}"
+    sql_crud.set_stop_health_task(db, entity_did, False)
+    print("Start health query at", url)
+    background_tasks.add_task(attach_entity_loc, db, entity_did)
+    return {"message": f"Started attachment task for {entity.name}"}
+
+
+@router.get("/api/v1/is_attached", tags=[Tags.entities])
+def is_attached(
+    entity_did: str = "did:sov:test:1234", db: Session = Depends(sql_db.get_db)
+) -> dict[str, str]:
+    entity = sql_crud.get_entity_by_did(db, did=entity_did)
+
+    if entity is None:
         raise ClanError(f"Entity with did '{entity_did}' not found")
 
-    background_tasks.add_task(attach_entity_loc, db, entity_did)
-    return {"message": "Attaching in the background"}
+    timer = 0.0
+    timeout = 2
+    while not entity.attached:
+        time.sleep(0.1)
+
+        timer += 0.1
+        if timer > timeout:
+            url = f"http://{entity.ip}"
+            raise ClanError(f"Entity at {url} not reachable")
+
+        db.refresh(entity)
+    return {"message": f"Attached to {entity.name} successfully"}
 
 
 def attach_entity_loc(db: Session, entity_did: str) -> None:
-    db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, True)
+    entity = sql_crud.get_entity_by_did(db, did=entity_did)
     try:
-        while db_entity.attached:
-            # query status endpoint
-            # https://www.python-httpx.org/
-            response = httpx.get(f"http://{db_entity.ip}", timeout=2)
-            print(response)
-            # test with:
-            #  while true ; do printf 'HTTP/1.1 200 OK\r\n\r\ncool, thanks' | nc -l -N localhost 5555 ; done
-            # client test (apt install python3-httpx):
-            #  httpx http://localhost:5555
-            # except not reached set false
+        assert entity is not None
+        url = f"http://{entity.ip}"
+
+        while entity.stop_health_task is False:
+            response = httpx.get(url, timeout=2)
+            if response.status_code != 200:
+                raise ClanError(
+                    f"Entity with did '{entity_did}' returned {response.status_code}"
+                )
+
+            if entity.attached is False:
+                sql_crud.set_attached_by_entity_did(db, entity_did, True)
+            if entity is None:
+                raise ClanError(f"Entity with did '{entity_did}' has been deleted")
+
             time.sleep(1)
+            db.refresh(entity)
     except Exception:
-        log.warning(f"Entity {entity_did} not reachable. Setting attached to false")
+        print(f"Entity {entity_did} not reachable at {url}")
+    finally:
+        sql_crud.set_attached_by_entity_did(db, entity_did, False)
+        sql_crud.set_stop_health_task(db, entity_did, False)
 
-        db_entity = sql_crud.set_attached_by_entity_did(db, entity_did, False)
 
-
-@router.delete("/api/v1/{entity_did}/entity", tags=[Tags.entities])
+@router.delete("/api/v1/entity", tags=[Tags.entities])
 async def delete_entity(
     entity_did: str = "did:sov:test:1234",
     db: Session = Depends(sql_db.get_db),
@@ -216,8 +244,6 @@ async def delete_entity(
 #      Resolution       #
 #                       #
 #########################
-
-
 @router.get(
     "/api/v1/resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
 )

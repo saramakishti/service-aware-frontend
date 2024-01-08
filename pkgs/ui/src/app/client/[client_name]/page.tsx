@@ -10,13 +10,100 @@ import {
   CardHeader,
   Snackbar,
   Typography,
+  CircularProgress,
+  IconButton,
 } from "@mui/material";
 import CopyToClipboard from "@/components/copy_to_clipboard";
-import { useGetServicesByName } from "@/api/services/services";
-import { attachEntity, detachEntity } from "@/api/entities/entities";
+import {
+  attachEntity,
+  detachEntity,
+  isAttached,
+} from "@/api/entities/entities";
 import { mutate } from "swr";
 import { Skeleton } from "@mui/material";
-import { Service } from "@/api/model";
+import { Entity, Service } from "@/api/model";
+import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid";
+import { useGetAllServices } from "@/api/services/services";
+import axios from "axios";
+import CloseIcon from "@mui/icons-material/Close";
+
+interface SnackMessage {
+  message: string;
+  severity: "success" | "error";
+}
+
+type AttachButtonProps = {
+  entity?: Entity;
+  setSnackbarMessage: (message: SnackMessage) => void;
+  setSnackbarOpen: (open: boolean) => void;
+};
+
+const AttachButton = ({
+  entity,
+  setSnackbarMessage,
+  setSnackbarOpen,
+}: AttachButtonProps) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async () => {
+    setLoading(true);
+    // Call the attach or detach function depending on the isAttached value
+    // and await for the result
+    try {
+      let response = await (entity?.attached
+        ? detachEntity({ entity_did: entity?.did })
+        : attachEntity({ entity_did: entity?.did }));
+
+      if (!entity?.attached) {
+        console.log("calling isAttached");
+        response = await isAttached({ entity_did: entity?.did });
+        console.log("response: ", response);
+      }
+      const msg = {
+        message: response.data.message,
+        severity: "success",
+      } as SnackMessage;
+      setSnackbarMessage(msg);
+      setSnackbarOpen(true);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Extract the error message from the error object
+        const errorMessage = error.response?.data.detail[0].msg;
+
+        const msg = {
+          message: `${errorMessage}`,
+          severity: "error",
+        } as SnackMessage;
+        setSnackbarMessage(msg);
+        setSnackbarOpen(true);
+      } else {
+        console.error("error: ", error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <Button
+        onClick={handleClick}
+        className="mr-6"
+        variant="contained"
+        // Disable the button while loading
+        disabled={loading}
+      >
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : entity?.attached ? (
+          "Detach"
+        ) : (
+          "Attach"
+        )}
+      </Button>
+    </>
+  );
+};
 
 export default function Client({
   params,
@@ -25,18 +112,16 @@ export default function Client({
 }) {
   const { client_name } = params;
 
+  const { entity: entity } = useGetEntityByNameOrDid(client_name);
   const {
     data: services,
     isLoading: services_loading,
     swrKey: entityKeyFunc,
-  } = useGetServicesByName({
-    entity_name: client_name,
-  });
+  } = useGetAllServices();
 
-  const entity = services?.data?.entity;
   const clients: Service[] = useMemo(() => {
-    if (services?.data?.services) {
-      return services.data.services.filter((service) => {
+    if (services?.data) {
+      return services.data.filter((service) => {
         if (service.entity_did !== entity?.did) return true;
       });
     }
@@ -60,45 +145,13 @@ export default function Client({
 
   const cardContentRef = useRef(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [isAttached, setIsAttached] = useState(entity?.attached);
+  const [snackbarMessage, setSnackbarMessage] = useState<
+    SnackMessage | undefined
+  >(undefined);
 
   const closeSnackBar = () => {
-    setSnackbarMessage("");
+    setSnackbarMessage(undefined);
     setSnackbarOpen(false);
-  };
-
-  const onAttachEntity = async () => {
-    try {
-      if (entity) {
-        const response = await attachEntity(entity.did);
-        setSnackbarMessage(response.data.message);
-        setSnackbarOpen(true);
-      } else {
-        console.error("no entity");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsAttached(true);
-    }
-  };
-
-  const onDetachEntity = async () => {
-    try {
-      if (entity) {
-        const response = await detachEntity(entity.did);
-        console.log(response);
-        setSnackbarMessage("Entity detached successfully.");
-        setSnackbarOpen(true);
-      } else {
-        console.error("no entity");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsAttached(false);
-    }
   };
 
   if (services_loading) return <Skeleton height={500} />;
@@ -113,25 +166,13 @@ export default function Client({
           justifyContent: "space-between",
         }}
       >
-        <h2>Client 1</h2>
+        <h2>Entity {entity?.name}</h2>
         <div>
-          {isAttached === false ? (
-            <Button
-              onClick={onAttachEntity}
-              className="mr-6"
-              variant="contained"
-            >
-              Attach
-            </Button>
-          ) : (
-            <Button
-              onClick={onDetachEntity}
-              className="mr-6"
-              variant="contained"
-            >
-              Detach
-            </Button>
-          )}
+          <AttachButton
+            entity={entity}
+            setSnackbarMessage={setSnackbarMessage}
+            setSnackbarOpen={setSnackbarOpen}
+          ></AttachButton>
 
           <Button onClick={onRefresh} variant="contained">
             Refresh
@@ -169,7 +210,7 @@ export default function Client({
         <h4>Service View</h4>
         <CustomTable
           loading={services_loading}
-          data={services?.data?.services}
+          data={services?.data}
           configuration={ServiceTableConfig}
           tkey="service-table"
         />
@@ -178,10 +219,25 @@ export default function Client({
         onClose={closeSnackBar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={snackbarOpen}
-        autoHideDuration={1000}
+        autoHideDuration={5000}
       >
-        <Alert severity="success" sx={{ width: "100%" }}>
-          {snackbarMessage}
+        <Alert
+          severity={snackbarMessage?.severity}
+          // Add some margin or padding to the Alert component
+          sx={{ width: "100%", margin: 1, padding: 2 }}
+          // Add an IconButton component with a CloseIcon inside the Alert component
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={closeSnackBar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        >
+          {snackbarMessage?.message}
         </Alert>
       </Snackbar>
     </div>

@@ -2,14 +2,15 @@
 
 ## Properties
 
-| Name         | Type       | Description | Notes |
-| ------------ | ---------- | ----------- | ----- |
-| **did**      | **str**    |             |
-| **name**     | **str**    |             |
-| **ip**       | **str**    |             |
-| **visible**  | **bool**   |             |
-| **other**    | **object** |             |
-| **attached** | **bool**   |             |
+| Name                 | Type       | Description | Notes |
+| -------------------- | ---------- | ----------- | ----- |
+| **did**              | **str**    |             |
+| **name**             | **str**    |             |
+| **ip**               | **str**    |             |
+| **visible**          | **bool**   |             |
+| **other**            | **object** |             |
+| **attached**         | **bool**   |             |
+| **stop_health_task** | **bool**   |             |
 
 ## Example
 

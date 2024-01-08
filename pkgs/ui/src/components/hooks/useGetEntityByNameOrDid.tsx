@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "./useAppContext";
 
-const useGetEntityByName = (nameOrDid: string) => {
+const useGetEntityByNameOrDid = (nameOrDid: string) => {
   const { data } = useContext(AppContext);
   const allEntities = data.allEntities;
 
@@ -16,4 +16,4 @@ const useGetEntityByName = (nameOrDid: string) => {
   return { entity, isLoading: false };
 };
 
-export default useGetEntityByName;
+export default useGetEntityByNameOrDid;

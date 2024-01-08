@@ -80,6 +80,8 @@ def main() -> None:
         replacement = "from typing import Any, List, Optional, Dict"
         replace_in_directory(directory_path=src_client, pattern=pattern, replacement=replacement)
 
+        src_clients_tests = src_client / "test"
+        shutil.rmtree(src_clients_tests)
         dst_client: Path = args.out / "openapi_client"
         shutil.rmtree(dst_client, ignore_errors=True)
         shutil.copytree(src_client, dst_client)

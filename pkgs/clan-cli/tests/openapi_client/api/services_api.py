@@ -24,7 +24,6 @@ from typing import Any, List, Optional, Dict
 
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate
-from openapi_client.models.services_by_name import ServicesByName
 
 from openapi_client.api_client import ApiClient
 from openapi_client.api_response import ApiResponse
@@ -193,7 +192,7 @@ class ServicesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def delete_service(self, entity_did : StrictStr, **kwargs) -> Dict[str, str]:  # noqa: E501
+    def delete_service(self, entity_did : Optional[StrictStr] = None, **kwargs) -> Dict[str, str]:  # noqa: E501
         """Delete Service  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -202,7 +201,7 @@ class ServicesApi:
         >>> thread = api.delete_service(entity_did, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
@@ -222,7 +221,7 @@ class ServicesApi:
         return self.delete_service_with_http_info(entity_did, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_service_with_http_info(self, entity_did : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def delete_service_with_http_info(self, entity_did : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Delete Service  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -231,7 +230,7 @@ class ServicesApi:
         >>> thread = api.delete_service_with_http_info(entity_did, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
@@ -289,12 +288,12 @@ class ServicesApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['entity_did']:
-            _path_params['entity_did'] = _params['entity_did']
-
 
         # process the query parameters
         _query_params = []
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters
@@ -315,7 +314,7 @@ class ServicesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/{entity_did}/service', 'DELETE',
+            '/api/v1/service', 'DELETE',
             _path_params,
             _query_params,
             _header_params,
@@ -479,7 +478,7 @@ class ServicesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_service_by_did(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> List[Service]:  # noqa: E501
+    def get_service_by_did(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> List[Service]:  # noqa: E501
         """Get Service By Did  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -488,7 +487,7 @@ class ServicesApi:
         >>> thread = api.get_service_by_did(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param skip:
         :type skip: int
@@ -512,7 +511,7 @@ class ServicesApi:
         return self.get_service_by_did_with_http_info(entity_did, skip, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_service_by_did_with_http_info(self, entity_did : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_service_by_did_with_http_info(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Get Service By Did  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -521,7 +520,7 @@ class ServicesApi:
         >>> thread = api.get_service_by_did_with_http_info(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_did: (required)
+        :param entity_did:
         :type entity_did: str
         :param skip:
         :type skip: int
@@ -585,12 +584,12 @@ class ServicesApi:
 
         # process the path parameters
         _path_params = {}
-        if _params['entity_did']:
-            _path_params['entity_did'] = _params['entity_did']
-
 
         # process the query parameters
         _query_params = []
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
+
         if _params.get('skip') is not None:  # noqa: E501
             _query_params.append(('skip', _params['skip']))
 
@@ -617,7 +616,7 @@ class ServicesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/{entity_did}/service', 'GET',
+            '/api/v1/service', 'GET',
             _path_params,
             _query_params,
             _header_params,
@@ -634,17 +633,17 @@ class ServicesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_services_by_name(self, entity_name : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ServicesByName:  # noqa: E501
-        """Get Services By Name  # noqa: E501
+    def get_services_without_entity(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> List[Service]:  # noqa: E501
+        """Get Services Without Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_services_by_name(entity_name, skip, limit, async_req=True)
+        >>> thread = api.get_services_without_entity(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_name: (required)
-        :type entity_name: str
+        :param entity_did:
+        :type entity_did: str
         :param skip:
         :type skip: int
         :param limit:
@@ -658,26 +657,26 @@ class ServicesApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: ServicesByName
+        :rtype: List[Service]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the get_services_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the get_services_without_entity_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_services_by_name_with_http_info(entity_name, skip, limit, **kwargs)  # noqa: E501
+        return self.get_services_without_entity_with_http_info(entity_did, skip, limit, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_services_by_name_with_http_info(self, entity_name : StrictStr, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
-        """Get Services By Name  # noqa: E501
+    def get_services_without_entity_with_http_info(self, entity_did : Optional[StrictStr] = None, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> ApiResponse:  # noqa: E501
+        """Get Services Without Entity  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_services_by_name_with_http_info(entity_name, skip, limit, async_req=True)
+        >>> thread = api.get_services_without_entity_with_http_info(entity_did, skip, limit, async_req=True)
         >>> result = thread.get()
 
-        :param entity_name: (required)
-        :type entity_name: str
+        :param entity_did:
+        :type entity_did: str
         :param skip:
         :type skip: int
         :param limit:
@@ -704,13 +703,13 @@ class ServicesApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(ServicesByName, status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(List[Service], status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
 
         _all_params = [
-            'entity_name',
+            'entity_did',
             'skip',
             'limit'
         ]
@@ -731,7 +730,7 @@ class ServicesApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_services_by_name" % _key
+                    " to method get_services_without_entity" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -743,8 +742,8 @@ class ServicesApi:
 
         # process the query parameters
         _query_params = []
-        if _params.get('entity_name') is not None:  # noqa: E501
-            _query_params.append(('entity_name', _params['entity_name']))
+        if _params.get('entity_did') is not None:  # noqa: E501
+            _query_params.append(('entity_did', _params['entity_did']))
 
         if _params.get('skip') is not None:  # noqa: E501
             _query_params.append(('skip', _params['skip']))
@@ -767,12 +766,12 @@ class ServicesApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "ServicesByName",
+            '200': "List[Service]",
             '422': "HTTPValidationError",
         }
 
         return self.api_client.call_api(
-            '/api/v1/services_by_entity_name', 'GET',
+            '/api/v1/services_without_entity', 'GET',
             _path_params,
             _query_params,
             _header_params,

@@ -41,6 +41,7 @@ class EntityCreate(EntityBase):
 
 class Entity(EntityCreate):
     attached: bool = Field(...)
+    stop_health_task: bool = Field(...)
 
     class Config:
         orm_mode = True

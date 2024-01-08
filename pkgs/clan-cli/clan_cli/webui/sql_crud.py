@@ -64,7 +64,9 @@ def get_services_without_entity_id(
 #                       #
 #########################
 def create_entity(db: Session, entity: schemas.EntityCreate) -> sql_models.Entity:
-    db_entity = sql_models.Entity(**entity.dict(), attached=False)
+    db_entity = sql_models.Entity(
+        **entity.dict(), attached=False, stop_health_task=False
+    )
     db.add(db_entity)
     db.commit()
     db.refresh(db_entity)
@@ -100,20 +102,30 @@ def get_attached_entities(
 
 
 # Returns same entity if setting didnt changed something
-def set_attached_by_entity_did(
-    db: Session, entity_did: str, value: bool
-) -> sql_models.Entity:
+def set_stop_health_task(db: Session, entity_did: str, value: bool) -> None:
     db_entity = get_entity_by_did(db, entity_did)
     if db_entity is None:
         raise ClanError(f"Entity with did '{entity_did}' not found")
 
-    setattr(db_entity, "attached", value)
+    setattr(db_entity, "stop_health_task", value)
 
     # save changes in db
     db.add(db_entity)
     db.commit()
     db.refresh(db_entity)
-    return db_entity
+
+
+def set_attached_by_entity_did(db: Session, entity_did: str, attached: bool) -> None:
+    db_entity = get_entity_by_did(db, entity_did)
+    if db_entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+
+    setattr(db_entity, "attached", attached)
+
+    # save changes in db
+    db.add(db_entity)
+    db.commit()
+    db.refresh(db_entity)
 
 
 def delete_entity_by_did(db: Session, did: str) -> None:

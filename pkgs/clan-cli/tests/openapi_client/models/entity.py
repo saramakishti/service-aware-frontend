@@ -31,7 +31,8 @@ class Entity(BaseModel):
     visible: StrictBool = Field(...)
     other: Dict[str, Any] = Field(...)
     attached: StrictBool = Field(...)
-    __properties = ["did", "name", "ip", "visible", "other", "attached"]
+    stop_health_task: StrictBool = Field(...)
+    __properties = ["did", "name", "ip", "visible", "other", "attached", "stop_health_task"]
 
     class Config:
         """Pydantic configuration"""
@@ -74,7 +75,8 @@ class Entity(BaseModel):
             "ip": obj.get("ip"),
             "visible": obj.get("visible"),
             "other": obj.get("other"),
-            "attached": obj.get("attached")
+            "attached": obj.get("attached"),
+            "stop_health_task": obj.get("stop_health_task")
         })
         return _obj
 

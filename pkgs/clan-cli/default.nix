@@ -8,7 +8,6 @@
 , openssh
 , pytest
 , pytest-cov
-, pytest-xdist
 , pytest-subprocess
 , pytest-timeout
 , remote-pdb
@@ -56,7 +55,6 @@ let
     pytest
     pytest-cov
     pytest-subprocess
-    pytest-xdist
     pytest-timeout
     remote-pdb
     ipdb
