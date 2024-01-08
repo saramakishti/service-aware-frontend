@@ -12,6 +12,8 @@ from .. import sql_crud, sql_db, sql_models
 from ..schemas import (
     Entity,
     EntityCreate,
+    Eventmessage,
+    EventmessageCreate,
     Resolution,
     Service,
     ServiceCreate,
@@ -262,3 +264,29 @@ async def get_all_resolutions(
             id=1,
         )
     ]
+
+
+#########################
+#                       #
+#      Eventmessage     #
+#                       #
+#########################
+
+
+@router.post("/api/v1/send_msg", response_model=Eventmessage, tags=[Tags.eventmessages])
+async def create_eventmessage(
+    eventmsg: EventmessageCreate, db: Session = Depends(sql_db.get_db)
+) -> EventmessageCreate:
+    return sql_crud.create_eventmessage(db, eventmsg)
+
+
+@router.get(
+    "/api/v1/event_messages",
+    response_model=List[Eventmessage],
+    tags=[Tags.eventmessages],
+)
+async def get_all_eventmessages(
+    skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
+) -> List[sql_models.Eventmessage]:
+    eventmessages = sql_crud.get_eventmessages(db, skip=skip, limit=limit)
+    return eventmessages

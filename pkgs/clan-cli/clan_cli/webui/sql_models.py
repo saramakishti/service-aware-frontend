@@ -1,11 +1,4 @@
-from sqlalchemy import (
-    JSON,
-    Boolean,
-    Column,
-    ForeignKey,
-    String,
-    Text,
-)
+from sqlalchemy import JSON, Boolean, Column, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from .sql_db import Base
@@ -55,3 +48,23 @@ class Service(ServiceAbstract):
     # One entity can have many services
     entity = relationship("Entity", back_populates="services")
     entity_did = Column(String, ForeignKey("entities.did"))
+
+
+class Eventmessage(Base):
+    __tablename__ = "eventmessages"
+
+    ## Queryable body ##
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(Integer, unique=True, index=True)
+    group = Column(Integer, index=True)
+    group_id = Column(Integer, index=True)
+    msg_type = Column(Integer, index=True)  # message type for the label
+    src_did = Column(String, index=True)
+    des_did = Column(String, index=True)
+
+    ## Non queryable body ##
+    # In here we deposit: Network, Roles, Visible, etc.
+    msg = Column(JSON)
+
+    ## Relations ##
+    # One entity can send many messages

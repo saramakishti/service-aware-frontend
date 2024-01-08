@@ -136,3 +136,26 @@ def delete_entity_by_did(db: Session, did: str) -> None:
 def delete_entity_by_did_recursive(db: Session, did: str) -> None:
     delete_service_by_entity_did(db, did)
     delete_entity_by_did(db, did)
+
+
+#########################
+#                       #
+#      Eventmessage     #
+#                       #
+#########################
+
+
+def create_eventmessage(
+    db: Session, eventmsg: schemas.EventmessageCreate
+) -> sql_models.Eventmessage:
+    db_eventmessage = sql_models.Eventmessage(**eventmsg.dict())
+    db.add(db_eventmessage)
+    db.commit()
+    db.refresh(db_eventmessage)
+    return db_eventmessage
+
+
+def get_eventmessages(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Eventmessage]:
+    return db.query(sql_models.Eventmessage).offset(skip).limit(limit).all()
