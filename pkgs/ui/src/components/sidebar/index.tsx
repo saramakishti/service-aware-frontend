@@ -6,6 +6,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useMediaQuery
 } from "@mui/material";
 import Image from "next/image";
 import React, { ReactNode } from "react";
@@ -88,13 +89,25 @@ export function Sidebar(props: SidebarProps) {
   );
   const [collapseMenuOpen, setCollapseMenuOpen] = React.useState(true);
 
-  const handleCollapseClick = () => {
-    setCollapseMenuOpen(!collapseMenuOpen);
-  };
+  const isSmallerScreen = useMediaQuery("(max-width: 1025px)");
 
   const handleMenuItemClick = (path: string) => {
     setActiveMenuItem(path);
   };
+
+  const handleCollapseClick = () => {
+    if (isSmallerScreen) {
+      setCollapseMenuOpen(!collapseMenuOpen);
+    }
+  };
+
+  React.useEffect(() => {
+    if (isSmallerScreen) {
+      setCollapseMenuOpen(false);
+    } else {
+      setCollapseMenuOpen(true);
+    }
+  }, [isSmallerScreen]);
 
   return (
     <aside
