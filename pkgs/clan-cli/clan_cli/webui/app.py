@@ -33,6 +33,7 @@ for u in cors_url:
 # Logging setup
 log = logging.getLogger(__name__)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> Any:
     await socket_manager2.brd.connect()

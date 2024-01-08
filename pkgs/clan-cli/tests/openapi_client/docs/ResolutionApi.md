@@ -1,13 +1,13 @@
 # openapi_client.ResolutionApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**get_all_resolutions**](ResolutionApi.md#get_all_resolutions) | **GET** /api/v1/resolutions | Get All Resolutions
-
+| Method                                                          | HTTP request                | Description         |
+| --------------------------------------------------------------- | --------------------------- | ------------------- |
+| [**get_all_resolutions**](ResolutionApi.md#get_all_resolutions) | **GET** /api/v1/resolutions | Get All Resolutions |
 
 # **get_all_resolutions**
+
 > List[Resolution] get_all_resolutions(skip=skip, limit=limit)
 
 Get All Resolutions
@@ -45,14 +45,12 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling ResolutionApi->get_all_resolutions: %s\n" % e)
 ```
 
-
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **skip** | **int**|  | [optional] [default to 0]
- **limit** | **int**|  | [optional] [default to 100]
+| Name      | Type    | Description | Notes                       |
+| --------- | ------- | ----------- | --------------------------- |
+| **skip**  | **int** |             | [optional] [default to 0]   |
+| **limit** | **int** |             | [optional] [default to 100] |
 
 ### Return type
 
@@ -64,14 +62,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+
+| Status code | Description         | Response headers |
+| ----------- | ------------------- | ---------------- |
+| **200**     | Successful Response | -                |
+| **422**     | Validation Error    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
