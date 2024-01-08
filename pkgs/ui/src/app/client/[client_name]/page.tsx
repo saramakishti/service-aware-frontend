@@ -25,24 +25,12 @@ import { Entity, Service } from "@/api/model";
 import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid";
 import { useGetAllServices } from "@/api/services/services";
 import axios from "axios";
-import { NoDataOverlay } from "@/components/noDataOverlay";
-import { DashboardCard } from "@/components/card";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface SnackMessage {
   message: string;
   severity: "success" | "error";
 }
-
-export const RecentActivity = (entity: Entity) => {
-  return (
-    <DashboardCard title="Recent Activity">
-      <div className="flex w-full justify-center align-middle">
-        <NoDataOverlay label="No Activity yet" />
-      </div>
-    </DashboardCard>
-  );
-};
 
 type AttachButtonProps = {
   entity?: Entity;
