@@ -82,6 +82,13 @@ class TestEntitiesApi(unittest.TestCase):
         """
         pass
 
+    def test_is_attached(self) -> None:
+        """Test case for is_attached
+
+        Is Attached  # noqa: E501
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

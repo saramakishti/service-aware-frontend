@@ -41,7 +41,8 @@ class TestEntity(unittest.TestCase):
                 ip = '127.0.0.1',
                 visible = True,
                 other = {network=Carlos Home Network, roles=[service repository, service prosumer]},
-                attached = True
+                attached = True,
+                stop_health_task = True
             )
         else:
             return Entity(
@@ -51,6 +52,7 @@ class TestEntity(unittest.TestCase):
                 visible = True,
                 other = {network=Carlos Home Network, roles=[service repository, service prosumer]},
                 attached = True,
+                stop_health_task = True,
         )
         """
 

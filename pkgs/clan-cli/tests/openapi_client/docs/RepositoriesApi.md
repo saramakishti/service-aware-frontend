@@ -1,13 +1,13 @@
 # openapi_client.RepositoriesApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://localhost*
 
-| Method                                                              | HTTP request                 | Description          |
-| ------------------------------------------------------------------- | ---------------------------- | -------------------- |
-| [**get_all_repositories**](RepositoriesApi.md#get_all_repositories) | **GET** /api/v1/repositories | Get All Repositories |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**get_all_repositories**](RepositoriesApi.md#get_all_repositories) | **GET** /api/v1/repositories | Get All Repositories
+
 
 # **get_all_repositories**
-
 > List[Service] get_all_repositories(skip=skip, limit=limit)
 
 Get All Repositories
@@ -45,12 +45,14 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling RepositoriesApi->get_all_repositories: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name      | Type    | Description | Notes                       |
-| --------- | ------- | ----------- | --------------------------- |
-| **skip**  | **int** |             | [optional] [default to 0]   |
-| **limit** | **int** |             | [optional] [default to 100] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **skip** | **int**|  | [optional] [default to 0]
+ **limit** | **int**|  | [optional] [default to 100]
 
 ### Return type
 
@@ -62,14 +64,14 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description         | Response headers |
-| ----------- | ------------------- | ---------------- |
-| **200**     | Successful Response | -                |
-| **422**     | Validation Error    | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
