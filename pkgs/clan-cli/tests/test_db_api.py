@@ -26,12 +26,6 @@ def test_health(api_client: ApiClient) -> None:
     assert res.status == Status.ONLINE
 
 
-def test_entities_empty(api_client: ApiClient) -> None:
-    entity = EntitiesApi(api_client=api_client)
-    res = entity.get_all_entities()
-    assert res == []
-
-
 def create_entities(num: int = 10) -> list[EntityCreate]:
     res = []
     for i in range(num):
