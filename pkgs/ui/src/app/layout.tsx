@@ -85,15 +85,6 @@ export default function RootLayout({
                                 {!showSidebar && <MenuIcon />}
                               </IconButton>
                             </div>
-                            <div className="col-span-1 block w-full bg-fixed text-center font-semibold dark:invert lg:hidden">
-                              <Image
-                                src="/tub-favicon.png"
-                                alt="TU Berlin Logo"
-                                width={58}
-                                height={58}
-                                priority
-                              />
-                            </div>
                           </div>
 
                           <div className="px-1">
