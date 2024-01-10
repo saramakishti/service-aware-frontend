@@ -123,7 +123,7 @@ def start_server(args: argparse.Namespace) -> None:
 
             import subprocess
 
-            cmd = ["pytest", "-s", "-n0", str(test_db_api)]
+            cmd = ["pytest", "-s", str(test_db_api)]
             subprocess.run(cmd, check=True)
 
         uvicorn.run(
