@@ -14,14 +14,8 @@ from ports import PortFunction
 from clan_cli.webui.app import app
 
 import emulate_fastapi
+import config
 
-
-# TODO config file
-#is linked to the emulate_fastapi.py and api.py
-host = "127.0.0.1"
-port_dlg = 6000
-port_ap = 6600
-port_client_base = 7000
 
 @pytest.fixture(scope="session")
 def test_client() -> TestClient:
@@ -44,7 +38,7 @@ def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | 
 @pytest.fixture(scope="session")
 def server_url(unused_tcp_port: PortFunction) -> Generator[str, None, None]:
     port = unused_tcp_port()
-    host = host
+    host = config.host
     proc = Process(
         target=uvicorn.run,
         args=(app,),
