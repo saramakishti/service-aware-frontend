@@ -126,6 +126,27 @@ def start_server(args: argparse.Namespace) -> None:
             cmd = ["pytest", "-s", str(test_db_api)]
             subprocess.run(cmd, check=True)
 
+        if args.emulate:
+            # todo move emu
+            from .emulate_fastapi import (app_dlg, app_ap, app_c1, app_c2)
+            from .api import (get_health, port_dlg, port_ap, port_client_base)
+            import multiprocessing as mp
+            port = port_dlg
+            host = host
+            # server
+            proc = mp.Process(
+                target=uvicorn.run,
+                args=(app_dlg,),
+                kwargs={"host": host, "port": port, "log_level": "info"},
+                daemon=True,
+            )
+            proc.start()
+
+            url = f"http://{host}:{port}"
+            res = get_health(url=url + "/health")
+            if res is None:
+                raise Exception(f"Couldn't reach {url} after starting server")
+
         uvicorn.run(
             "clan_cli.webui.app:app",
             host=args.host,

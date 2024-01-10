@@ -1,6 +1,7 @@
-from sqlalchemy import JSON, Boolean, Column, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Boolean, Column, ForeignKey, Integer, String, Text, Enum
 from sqlalchemy.orm import relationship
 
+from .schemas import Roles
 from .sql_db import Base
 
 # Relationsship example
@@ -14,12 +15,14 @@ class Entity(Base):
     did = Column(String, primary_key=True, index=True)
     name = Column(String, index=True, unique=True)
     ip = Column(String, index=True)
+    network = Column(String, index=True)
+    role = Column(Enum(Roles), index=True)
     attached = Column(Boolean, index=True)
     visible = Column(Boolean, index=True)
     stop_health_task = Column(Boolean)
 
     ## Non queryable body ##
-    # In here we deposit: Network, Roles, Visible, etc.
+    # In here we deposit: Not yet defined stuff
     other = Column(JSON)
 
     ## Relations ##

@@ -1,6 +1,7 @@
 import random
 import time
 import uuid
+import api
 
 from openapi_client import ApiClient
 from openapi_client.api import DefaultApi
@@ -15,10 +16,16 @@ from openapi_client.models import (
     Machine,
     ServiceCreate,
     Status,
+    Roles,
 )
 
 random.seed(42)
 
+#is linked to the emulate_fastapi.py and api.py
+host = api.host
+port_dlg = api.port_dlg
+port_ap = api.port_ap
+port_client_base = api.port_client_base
 
 num_uuids = 100
 uuids = [str(uuid.UUID(int=random.getrandbits(128))) for i in range(num_uuids)]
@@ -36,11 +43,33 @@ def create_entities(num: int = 10) -> list[EntityCreate]:
         en = EntityCreate(
             did=f"did:sov:test:12{i}",
             name=f"C{i}",
-            ip=f"127.0.0.1:{7000+i}",
+            ip=f"{host}:{port_client_base+i}",
+            network=f"255.255.0.0",
+            role=Roles("service_prosumer"),
             visible=True,
             other={},
         )
         res.append(en)
+    dlg = EntityCreate(
+        did=f"did:sov:test:{port_dlg}",
+        name=f"DLG",
+        ip=f"{host}:{port_dlg}/health",
+        network=f"255.255.0.0",
+        role=Roles("DLG"),
+        visible=True,
+        other={},
+    )
+    res.append(dlg)
+    ap = EntityCreate(
+        did=f"did:sov:test:{port_ap}",
+        name=f"AP",
+        ip=f"{host}:{port_ap}/health",
+        network=f"255.255.0.0",
+        role=Roles("AP"),
+        visible=True,
+        other={},
+    )
+    res.append(ap)
     return res
 
 

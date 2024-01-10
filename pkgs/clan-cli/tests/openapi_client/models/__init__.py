@@ -21,6 +21,7 @@ from openapi_client.models.eventmessage_create import EventmessageCreate
 from openapi_client.models.http_validation_error import HTTPValidationError
 from openapi_client.models.machine import Machine
 from openapi_client.models.resolution import Resolution
+from openapi_client.models.roles import Roles
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate
 from openapi_client.models.status import Status
