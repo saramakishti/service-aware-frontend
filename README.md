@@ -78,6 +78,8 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
    - The server will automatically restart if any Python files change.
    - The `--populate` flag will automatically populate the database with dummy data
 
+   - To emulate some distributed system behavior run `python3 tests/emulate_fastapi.py`
+
 8. **Build the Frontend**:
 
    - In a different shell, navigate to the `pkgs/ui` directory and execute:
