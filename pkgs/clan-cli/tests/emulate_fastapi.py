@@ -1,3 +1,5 @@
+import time
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -21,6 +23,7 @@ async def consume_service_from_other_entity() -> HTMLResponse:
         </body>
     </html>
     """
+    time.sleep(3)
     return HTMLResponse(content=html_content, status_code=200)
 
 
