@@ -141,7 +141,6 @@ def start_server(args: argparse.Namespace) -> None:
             urls = list()
             # start servers as processes (dlg, ap, c1 and c2 for tests)
             for app, port in app_ports:
-                breakpoint()
                 proc = mp.Process(
                     target=uvicorn.run,
                     args=(app,),
