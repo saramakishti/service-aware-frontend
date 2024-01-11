@@ -1,18 +1,18 @@
 # Entity
 
-
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**did** | **str** |  | 
-**name** | **str** |  | 
-**ip** | **str** |  | 
-**network** | **str** |  | 
-**role** | [**Roles**](Roles.md) |  | 
-**visible** | **bool** |  | 
-**other** | **object** |  | 
-**attached** | **bool** |  | 
-**stop_health_task** | **bool** |  | 
+
+| Name                 | Type                  | Description | Notes |
+| -------------------- | --------------------- | ----------- | ----- |
+| **did**              | **str**               |             |
+| **name**             | **str**               |             |
+| **ip**               | **str**               |             |
+| **network**          | **str**               |             |
+| **role**             | [**Roles**](Roles.md) |             |
+| **visible**          | **bool**              |             |
+| **other**            | **object**            |             |
+| **attached**         | **bool**              |             |
+| **stop_health_task** | **bool**              |             |
 
 ## Example
 
@@ -31,6 +31,5 @@ entity_dict = entity_instance.to_dict()
 # create an instance of Entity from a dict
 entity_form_dict = entity.from_dict(entity_dict)
 ```
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

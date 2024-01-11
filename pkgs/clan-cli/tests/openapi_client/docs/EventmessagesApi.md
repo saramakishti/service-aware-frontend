@@ -1,14 +1,14 @@
 # openapi_client.EventmessagesApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**create_eventmessage**](EventmessagesApi.md#create_eventmessage) | **POST** /api/v1/send_msg | Create Eventmessage
-[**get_all_eventmessages**](EventmessagesApi.md#get_all_eventmessages) | **GET** /api/v1/event_messages | Get All Eventmessages
-
+| Method                                                                 | HTTP request                   | Description           |
+| ---------------------------------------------------------------------- | ------------------------------ | --------------------- |
+| [**create_eventmessage**](EventmessagesApi.md#create_eventmessage)     | **POST** /api/v1/send_msg      | Create Eventmessage   |
+| [**get_all_eventmessages**](EventmessagesApi.md#get_all_eventmessages) | **GET** /api/v1/event_messages | Get All Eventmessages |
 
 # **create_eventmessage**
+
 > Eventmessage create_eventmessage(eventmessage_create)
 
 Create Eventmessage
@@ -35,7 +35,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.EventmessagesApi(api_client)
-    eventmessage_create = openapi_client.EventmessageCreate() # EventmessageCreate | 
+    eventmessage_create = openapi_client.EventmessageCreate() # EventmessageCreate |
 
     try:
         # Create Eventmessage
@@ -46,13 +46,11 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling EventmessagesApi->create_eventmessage: %s\n" % e)
 ```
 
-
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **eventmessage_create** | [**EventmessageCreate**](EventmessageCreate.md)|  | 
+| Name                    | Type                                            | Description | Notes |
+| ----------------------- | ----------------------------------------------- | ----------- | ----- |
+| **eventmessage_create** | [**EventmessageCreate**](EventmessageCreate.md) |             |
 
 ### Return type
 
@@ -64,18 +62,20 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+
+| Status code | Description         | Response headers |
+| ----------- | ------------------- | ---------------- |
+| **200**     | Successful Response | -                |
+| **422**     | Validation Error    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_eventmessages**
+
 > List[Eventmessage] get_all_eventmessages(skip=skip, limit=limit)
 
 Get All Eventmessages
@@ -113,14 +113,12 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling EventmessagesApi->get_all_eventmessages: %s\n" % e)
 ```
 
-
-
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **skip** | **int**|  | [optional] [default to 0]
- **limit** | **int**|  | [optional] [default to 100]
+| Name      | Type    | Description | Notes                       |
+| --------- | ------- | ----------- | --------------------------- |
+| **skip**  | **int** |             | [optional] [default to 0]   |
+| **limit** | **int** |             | [optional] [default to 100] |
 
 ### Return type
 
@@ -132,14 +130,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+
+| Status code | Description         | Response headers |
+| ----------- | ------------------- | ---------------- |
+| **200**     | Successful Response | -                |
+| **422**     | Validation Error    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

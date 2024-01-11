@@ -127,25 +127,34 @@ def start_server(args: argparse.Namespace) -> None:
             subprocess.run(cmd, check=True)
 
         if args.emulate:
-            # todo move emu
-            from .emulate_fastapi import (app_dlg, app_ap, app_c1, app_c2)
-            from .api import (get_health, port_dlg, port_ap, port_client_base)
             import multiprocessing as mp
-            port = port_dlg
-            host = host
-            # server
-            proc = mp.Process(
-                target=uvicorn.run,
-                args=(app_dlg,),
-                kwargs={"host": host, "port": port, "log_level": "info"},
-                daemon=True,
-            )
-            proc.start()
 
-            url = f"http://{host}:{port}"
-            res = get_health(url=url + "/health")
-            if res is None:
-                raise Exception(f"Couldn't reach {url} after starting server")
+            from config import host, port_ap, port_client_base, port_dlg
+            from emulate_fastapi import app_ap, app_c1, app_c2, app_dlg, get_health
+
+            app_ports = [
+                (app_dlg, port_dlg),
+                (app_ap, port_ap),
+                (app_c1, port_client_base),
+                (app_c2, port_client_base + 1),
+            ]
+            urls = list()
+            # start servers as processes (dlg, ap, c1 and c2 for tests)
+            for app, port in app_ports:
+                breakpoint()
+                proc = mp.Process(
+                    target=uvicorn.run,
+                    args=(app,),
+                    kwargs={"host": host, "port": port, "log_level": "info"},
+                    daemon=True,
+                )
+                proc.start()
+                urls.append(f"http://{host}:{port}")
+            # check server health
+            for url in urls:
+                res = get_health(url=url + "/health")
+                if res is None:
+                    raise Exception(f"Couldn't reach {url} after starting server")
 
         uvicorn.run(
             "clan_cli.webui.app:app",

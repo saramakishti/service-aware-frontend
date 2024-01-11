@@ -1,4 +1,4 @@
-from sqlalchemy import JSON, Boolean, Column, ForeignKey, Integer, String, Text, Enum
+from sqlalchemy import JSON, Boolean, Column, Enum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from .schemas import Roles
@@ -16,7 +16,8 @@ class Entity(Base):
     name = Column(String, index=True, unique=True)
     ip = Column(String, index=True)
     network = Column(String, index=True)
-    role = Column(Enum(Roles), index=True)
+    role = Column(Enum(Roles), index=True, nullable=False)  # type: ignore
+    # role = Column(String, index=True, nullable=False)
     attached = Column(Boolean, index=True)
     visible = Column(Boolean, index=True)
     stop_health_task = Column(Boolean)
