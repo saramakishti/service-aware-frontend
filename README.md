@@ -73,12 +73,11 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
 
    - To start the backend server, execute:
      ```bash
-     clan webui --reload --no-open --log-level debug --populate
+     clan webui --reload --no-open --log-level debug --populate --emulate
      ```
    - The server will automatically restart if any Python files change.
    - The `--populate` flag will automatically populate the database with dummy data
-
-   - To emulate some distributed system behavior run `python3 tests/emulate_fastapi.py`
+   - The `--emulate` flag will automatically run servers the database with dummy data for the fronted to communicate with (ap, dlg, c1 and c2)
 
 8. **Build the Frontend**:
 
