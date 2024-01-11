@@ -13,12 +13,20 @@ from openapi_client.models import (
     Eventmessage,
     EventmessageCreate,
     Machine,
+    Roles,
     ServiceCreate,
     Status,
 )
 
+import config
+
 random.seed(42)
 
+
+host = config.host
+port_dlg = config.port_dlg
+port_ap = config.port_ap
+port_client_base = config.port_client_base
 
 num_uuids = 100
 uuids = [str(uuid.UUID(int=random.getrandbits(128))) for i in range(num_uuids)]
@@ -36,11 +44,33 @@ def create_entities(num: int = 10) -> list[EntityCreate]:
         en = EntityCreate(
             did=f"did:sov:test:12{i}",
             name=f"C{i}",
-            ip=f"127.0.0.1:{7000+i}",
+            ip=f"{host}:{port_client_base+i}",
+            network="255.255.0.0",
+            role=Roles("service_prosumer"),
             visible=True,
             other={},
         )
         res.append(en)
+    dlg = EntityCreate(
+        did=f"did:sov:test:{port_dlg}",
+        name="DLG",
+        ip=f"{host}:{port_dlg}/health",
+        network="255.255.0.0",
+        role=Roles("DLG"),
+        visible=True,
+        other={},
+    )
+    res.append(dlg)
+    ap = EntityCreate(
+        did=f"did:sov:test:{port_ap}",
+        name="AP",
+        ip=f"{host}:{port_ap}/health",
+        network="255.255.0.0",
+        role=Roles("AP"),
+        visible=True,
+        other={},
+    )
+    res.append(ap)
     return res
 
 

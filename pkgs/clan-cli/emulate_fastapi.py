@@ -1,21 +1,60 @@
+import sys
 import time
+import urllib
 
-import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-app = FastAPI()
+app_dlg = FastAPI()
+app_ap = FastAPI()
+app_c1 = FastAPI()
+app_c2 = FastAPI()
 
-# bash tests: curl localhost:8000/ap_list_of_services
+# bash tests: curl localhost:6600/ap_list_of_services
+# curl localhost:7001/consume_service_from_other_entity
 
 
-@app.get("/health")
-async def healthcheck() -> str:
+#### HEALTH
+
+
+@app_c1.get("/health")
+async def healthcheck_c1() -> str:
     return "200 OK"
 
 
-@app.get("/consume_service_from_other_entity", response_class=HTMLResponse)
-async def consume_service_from_other_entity() -> HTMLResponse:
+@app_c2.get("/health")
+async def healthcheck_c2() -> str:
+    return "200 OK"
+
+
+@app_dlg.get("/health")
+async def healthcheck_dlg() -> str:
+    return "200 OK"
+
+
+@app_ap.get("/health")
+async def healthcheck_ap() -> str:
+    return "200 OK"
+
+
+def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | None:
+    for attempt in range(max_retries):
+        try:
+            with urllib.request.urlopen(url) as response:
+                return response.read()
+        except urllib.error.URLError as e:
+            print(f"Attempt {attempt + 1} failed: {e.reason}", file=sys.stderr)
+            time.sleep(delay)
+    return None
+
+
+#### CONSUME SERVICE
+
+# TODO send_msg???
+
+
+@app_c1.get("/consume_service_from_other_entity", response_class=HTMLResponse)
+async def consume_service_from_other_entity_c1() -> HTMLResponse:
     html_content = """
     <html>
         <body>
@@ -27,7 +66,23 @@ async def consume_service_from_other_entity() -> HTMLResponse:
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app.get("/ap_list_of_services", response_class=HTMLResponse)
+@app_c2.get("/consume_service_from_other_entity", response_class=HTMLResponse)
+async def consume_service_from_other_entity_c2() -> HTMLResponse:
+    html_content = """
+    <html>
+        <body>
+            <div style="width:480px"><iframe allow="fullscreen" frameBorder="0" height="270" src="https://giphy.com/embed/IOWD3uknMxYyh7CsgN/video" width="480"></iframe></div>
+        </body>
+    </html>
+    """
+    time.sleep(3)
+    return HTMLResponse(content=html_content, status_code=200)
+
+
+#### ap_list_of_services
+
+
+@app_ap.get("/ap_list_of_services", response_class=HTMLResponse)
 async def ap_list_of_services() -> HTMLResponse:
     html_content = b"""HTTP/1.1 200 OK\r\n\r\n[[
   {
@@ -114,7 +169,7 @@ async def ap_list_of_services() -> HTMLResponse:
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app.get("/dlg_list_of_did_resolutions", response_class=HTMLResponse)
+@app_dlg.get("/dlg_list_of_did_resolutions", response_class=HTMLResponse)
 async def dlg_list_of_did_resolutions() -> HTMLResponse:
     html_content = b"""HTTP/1.1 200 OK\r\n\r\n
 [
@@ -148,6 +203,3 @@ async def dlg_list_of_did_resolutions() -> HTMLResponse:
   }
 ]"""
     return HTMLResponse(content=html_content, status_code=200)
-
-
-uvicorn.run(app, host="localhost", port=8000)

@@ -20,6 +20,7 @@ import json
 
 from typing import Any, Dict
 from pydantic import BaseModel, Field, StrictBool, StrictStr
+from openapi_client.models.roles import Roles
 
 class EntityCreate(BaseModel):
     """
@@ -28,9 +29,11 @@ class EntityCreate(BaseModel):
     did: StrictStr = Field(...)
     name: StrictStr = Field(...)
     ip: StrictStr = Field(...)
+    network: StrictStr = Field(...)
+    role: Roles = Field(...)
     visible: StrictBool = Field(...)
     other: Dict[str, Any] = Field(...)
-    __properties = ["did", "name", "ip", "visible", "other"]
+    __properties = ["did", "name", "ip", "network", "role", "visible", "other"]
 
     class Config:
         """Pydantic configuration"""
@@ -71,6 +74,8 @@ class EntityCreate(BaseModel):
             "did": obj.get("did"),
             "name": obj.get("name"),
             "ip": obj.get("ip"),
+            "network": obj.get("network"),
+            "role": obj.get("role"),
             "visible": obj.get("visible"),
             "other": obj.get("other")
         })

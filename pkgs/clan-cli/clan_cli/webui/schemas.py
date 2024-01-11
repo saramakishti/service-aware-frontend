@@ -11,6 +11,12 @@ class Status(Enum):
     UNKNOWN = "unknown"
 
 
+class Roles(Enum):
+    PROSUMER = "service_prosumer"
+    AP = "AP"
+    DLG = "DLG"
+
+
 class Machine(BaseModel):
     name: str
     status: Status
@@ -25,6 +31,10 @@ class EntityBase(BaseModel):
     did: str = Field(..., example="did:sov:test:1234")
     name: str = Field(..., example="C1")
     ip: str = Field(..., example="127.0.0.1")
+    network: str = Field(..., example="255.255.0.0")
+    role: Roles = Field(
+        ..., example=Roles("service_prosumer")
+    )  # roles are needed for UI to show the correct view
     visible: bool = Field(..., example=True)
     other: dict = Field(
         ...,

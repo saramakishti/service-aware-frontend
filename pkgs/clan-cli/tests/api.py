@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 from openapi_client import ApiClient, Configuration
 from ports import PortFunction
 
+import config
 from clan_cli.webui.app import app
 
 
@@ -31,10 +32,11 @@ def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | 
 
 
 # Pytest fixture to run the server in a separate process
+# server
 @pytest.fixture(scope="session")
 def server_url(unused_tcp_port: PortFunction) -> Generator[str, None, None]:
     port = unused_tcp_port()
-    host = "127.0.0.1"
+    host = config.host
     proc = Process(
         target=uvicorn.run,
         args=(app,),
