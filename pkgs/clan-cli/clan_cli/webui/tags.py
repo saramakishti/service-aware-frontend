@@ -23,10 +23,6 @@ tags_metadata: List[Dict[str, Any]] = [
         "description": "Operations on an entity.",
     },
     {
-        "name": str(Tags.repositories),
-        "description": "Operations on a repository.",
-    },
-    {
         "name": str(Tags.resolutions),
         "description": "Operations on a resolution.",
     },

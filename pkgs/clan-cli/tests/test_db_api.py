@@ -38,7 +38,7 @@ def test_health(api_client: ApiClient) -> None:
     assert res.status == Status.ONLINE
 
 
-def create_entities(num: int = 10) -> list[EntityCreate]:
+def create_entities(num: int = 10, role: str = "entity") -> list[EntityCreate]:
     res = []
     for i in range(num):
         en = EntityCreate(
@@ -90,6 +90,7 @@ def create_service(idx: int, entity: Entity) -> ServiceCreate:
 
 def test_create_entities(api_client: ApiClient) -> None:
     api = EntitiesApi(api_client=api_client)
+
     for own_entity in create_entities():
         res: Entity = api.create_entity(own_entity)
         assert res.did == own_entity.did

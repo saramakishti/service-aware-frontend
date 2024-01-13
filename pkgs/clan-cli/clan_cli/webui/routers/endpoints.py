@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 
 import httpx
-from fastapi import APIRouter, BackgroundTasks, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends, Query
 from sqlalchemy.orm import Session
 
 from ...errors import ClanError
@@ -15,6 +15,7 @@ from ..schemas import (
     Eventmessage,
     EventmessageCreate,
     Resolution,
+    Role,
     Service,
     ServiceCreate,
 )
@@ -83,40 +84,35 @@ def delete_service(
 
 #########################
 #                       #
-#       REPOSITORY      #
-#                       #
-#########################
-@router.get(
-    "/api/v1/repositories",
-    response_model=List[Service],
-    tags=[Tags.repositories],
-)
-def get_all_repositories(
-    skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Service]:
-    repositories = sql_crud.get_services(db, skip=skip, limit=limit)
-    return repositories
-
-
-#########################
-#                       #
 #        Entity         #
 #                       #
 #########################
 @router.post("/api/v1/entity", response_model=Entity, tags=[Tags.entities])
 def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
-) -> EntityCreate:
+) -> sql_models.Entity:
     return sql_crud.create_entity(db, entity)
 
 
 @router.get(
-    "/api/v1/entity_by_name", response_model=Optional[Entity], tags=[Tags.entities]
+    "/api/v1/entity_by_name_or_did",
+    response_model=Optional[Entity],
+    tags=[Tags.entities],
 )
-def get_entity_by_name(
-    entity_name: str, db: Session = Depends(sql_db.get_db)
+def get_entity_by_name_or_did(
+    entity_name_or_did: str = "C1", db: Session = Depends(sql_db.get_db)
 ) -> Optional[sql_models.Entity]:
-    entity = sql_crud.get_entity_by_name(db, name=entity_name)
+    entity = sql_crud.get_entity_by_name_or_did(db, name=entity_name_or_did)
+    return entity
+
+
+@router.get(
+    "/api/v1/entity_by_roles", response_model=List[Entity], tags=[Tags.entities]
+)
+def get_entity_by_roles(
+    roles: List[Role] = Query(...), db: Session = Depends(sql_db.get_db)
+) -> List[sql_models.Entity]:
+    entity = sql_crud.get_entity_by_role(db, roles=roles)
     return entity
 
 
@@ -149,7 +145,7 @@ def get_attached_entities(
     return entities
 
 
-@router.post("/api/v1/detach", tags=[Tags.entities])
+@router.put("/api/v1/detach", tags=[Tags.entities])
 def detach_entity(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
@@ -164,7 +160,7 @@ def detach_entity(
     return {"message": f"Detached {entity_did} successfully"}
 
 
-@router.post("/api/v1/attach", tags=[Tags.entities])
+@router.put("/api/v1/attach", tags=[Tags.entities])
 def attach_entity(
     background_tasks: BackgroundTasks,
     entity_did: str = "did:sov:test:1234",
@@ -175,7 +171,7 @@ def attach_entity(
     entity = sql_crud.get_entity_by_did(db, did=entity_did)
     if entity is None:
         raise ClanError(f"Entity with did '{entity_did}' not found")
-    url = f"http://{entity.ip}"
+    url = f"http://{entity.ip}/health"
     sql_crud.set_stop_health_task(db, entity_did, False)
     print("Start health query at", url)
     background_tasks.add_task(attach_entity_loc, db, entity_did)
@@ -209,7 +205,7 @@ def attach_entity_loc(db: Session, entity_did: str) -> None:
     entity = sql_crud.get_entity_by_did(db, did=entity_did)
     try:
         assert entity is not None
-        url = f"http://{entity.ip}"
+        url = f"http://{entity.ip}/health"
 
         while entity.stop_health_task is False:
             response = httpx.get(url, timeout=2)
@@ -273,7 +269,9 @@ async def get_all_resolutions(
 #########################
 
 
-@router.post("/api/v1/send_msg", response_model=Eventmessage, tags=[Tags.eventmessages])
+@router.post(
+    "/api/v1/event_message", response_model=Eventmessage, tags=[Tags.eventmessages]
+)
 async def create_eventmessage(
     eventmsg: EventmessageCreate, db: Session = Depends(sql_db.get_db)
 ) -> EventmessageCreate:

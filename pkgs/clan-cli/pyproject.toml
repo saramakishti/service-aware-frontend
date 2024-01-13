@@ -68,7 +68,7 @@ ignore_missing_imports = true
 [tool.ruff]
 line-length = 88
 select = [ "E", "F", "I", "N"]
-ignore = [ "E501" ]
+ignore = [ "E501", "N805" ]
 exclude = ["tests/openapi_client"]
 
 [tool.black]

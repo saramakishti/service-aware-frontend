@@ -1,8 +1,11 @@
+import logging
 from datetime import datetime
 from enum import Enum
 from typing import List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
+
+log = logging.getLogger(__name__)
 
 
 class Status(Enum):
@@ -11,7 +14,7 @@ class Status(Enum):
     UNKNOWN = "unknown"
 
 
-class Roles(Enum):
+class Role(Enum):
     PROSUMER = "service_prosumer"
     AP = "AP"
     DLG = "DLG"
@@ -27,34 +30,50 @@ class Machine(BaseModel):
 #        Entity         #
 #                       #
 #########################
+class EntityRolesBase(BaseModel):
+    role: Role = Field(..., example=Role("service_prosumer"))
+
+
+class EntityRolesCreate(EntityRolesBase):
+    id: int = Field(...)
+    entity_did: str = Field(...)
+
+
+class EntityRoles(EntityRolesBase):
+    class Config:
+        orm_mode = True
+
+
 class EntityBase(BaseModel):
     did: str = Field(..., example="did:sov:test:1234")
     name: str = Field(..., example="C1")
     ip: str = Field(..., example="127.0.0.1")
     network: str = Field(..., example="255.255.0.0")
-    role: Roles = Field(
-        ..., example=Roles("service_prosumer")
-    )  # roles are needed for UI to show the correct view
     visible: bool = Field(..., example=True)
     other: dict = Field(
         ...,
         example={
             "network": "Carlos Home Network",
-            "roles": ["service repository", "service prosumer"],
         },
     )
 
 
 class EntityCreate(EntityBase):
-    pass
+    roles: List[Role] = Field(..., example=[Role("service_prosumer"), Role("AP")])
 
 
-class Entity(EntityCreate):
+class Entity(EntityBase):
     attached: bool = Field(...)
     stop_health_task: bool = Field(...)
+    roles: List[Role]
 
     class Config:
         orm_mode = True
+
+    # define a custom getter function for roles
+    @validator("roles", pre=True)
+    def get_roles(cls, v: List[EntityRoles]) -> List[Role]:
+        return [x.role for x in v]
 
 
 #########################
@@ -122,7 +141,6 @@ class Resolution(ResolutionCreate):
 #                       #
 #########################
 class EventmessageBase(BaseModel):
-    id: int = Field(..., example=123456)
     timestamp: int = Field(..., example=1234123413)
     group: int = Field(..., example=1)  # event group type (for the label)
     group_id: int = Field(
@@ -135,9 +153,10 @@ class EventmessageBase(BaseModel):
 
 class EventmessageCreate(EventmessageBase):
     msg: dict = Field(..., example={"optinal": "values"})  # optional
-    pass
 
 
 class Eventmessage(EventmessageCreate):
+    id: int = Field(...)
+
     class Config:
         orm_mode = True
