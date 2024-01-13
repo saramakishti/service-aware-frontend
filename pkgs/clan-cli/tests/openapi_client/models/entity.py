@@ -18,9 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
-from pydantic import BaseModel, Field, StrictBool, StrictStr
-from openapi_client.models.roles import Roles
+from typing import Any, Dict, List
+from pydantic import BaseModel, Field, StrictBool, StrictStr, conlist
+from openapi_client.models.role import Role
 
 class Entity(BaseModel):
     """
@@ -30,12 +30,12 @@ class Entity(BaseModel):
     name: StrictStr = Field(...)
     ip: StrictStr = Field(...)
     network: StrictStr = Field(...)
-    role: Roles = Field(...)
     visible: StrictBool = Field(...)
     other: Dict[str, Any] = Field(...)
     attached: StrictBool = Field(...)
     stop_health_task: StrictBool = Field(...)
-    __properties = ["did", "name", "ip", "network", "role", "visible", "other", "attached", "stop_health_task"]
+    roles: conlist(Role) = Field(...)
+    __properties = ["did", "name", "ip", "network", "visible", "other", "attached", "stop_health_task", "roles"]
 
     class Config:
         """Pydantic configuration"""
@@ -77,11 +77,11 @@ class Entity(BaseModel):
             "name": obj.get("name"),
             "ip": obj.get("ip"),
             "network": obj.get("network"),
-            "role": obj.get("role"),
             "visible": obj.get("visible"),
             "other": obj.get("other"),
             "attached": obj.get("attached"),
-            "stop_health_task": obj.get("stop_health_task")
+            "stop_health_task": obj.get("stop_health_task"),
+            "roles": obj.get("roles")
         })
         return _obj
 

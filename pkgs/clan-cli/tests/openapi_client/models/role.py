@@ -21,7 +21,7 @@ from aenum import Enum, no_arg
 
 
 
-class Roles(str, Enum):
+class Role(str, Enum):
     """
     An enumeration.
     """
@@ -34,8 +34,8 @@ class Roles(str, Enum):
     DLG = 'DLG'
 
     @classmethod
-    def from_json(cls, json_str: str) -> Roles:
-        """Create an instance of Roles from a JSON string"""
-        return Roles(json.loads(json_str))
+    def from_json(cls, json_str: str) -> Role:
+        """Create an instance of Role from a JSON string"""
+        return Role(json.loads(json_str))
 
 

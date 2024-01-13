@@ -2,17 +2,18 @@
 
 All URIs are relative to _http://localhost_
 
-| Method                                                            | HTTP request                      | Description           |
-| ----------------------------------------------------------------- | --------------------------------- | --------------------- |
-| [**attach_entity**](EntitiesApi.md#attach_entity)                 | **POST** /api/v1/attach           | Attach Entity         |
-| [**create_entity**](EntitiesApi.md#create_entity)                 | **POST** /api/v1/entity           | Create Entity         |
-| [**delete_entity**](EntitiesApi.md#delete_entity)                 | **DELETE** /api/v1/entity         | Delete Entity         |
-| [**detach_entity**](EntitiesApi.md#detach_entity)                 | **POST** /api/v1/detach           | Detach Entity         |
-| [**get_all_entities**](EntitiesApi.md#get_all_entities)           | **GET** /api/v1/entities          | Get All Entities      |
-| [**get_attached_entities**](EntitiesApi.md#get_attached_entities) | **GET** /api/v1/attached_entities | Get Attached Entities |
-| [**get_entity_by_did**](EntitiesApi.md#get_entity_by_did)         | **GET** /api/v1/entity            | Get Entity By Did     |
-| [**get_entity_by_name**](EntitiesApi.md#get_entity_by_name)       | **GET** /api/v1/entity_by_name    | Get Entity By Name    |
-| [**is_attached**](EntitiesApi.md#is_attached)                     | **GET** /api/v1/is_attached       | Is Attached           |
+| Method                                                                    | HTTP request                          | Description               |
+| ------------------------------------------------------------------------- | ------------------------------------- | ------------------------- |
+| [**attach_entity**](EntitiesApi.md#attach_entity)                         | **PUT** /api/v1/attach                | Attach Entity             |
+| [**create_entity**](EntitiesApi.md#create_entity)                         | **POST** /api/v1/entity               | Create Entity             |
+| [**delete_entity**](EntitiesApi.md#delete_entity)                         | **DELETE** /api/v1/entity             | Delete Entity             |
+| [**detach_entity**](EntitiesApi.md#detach_entity)                         | **PUT** /api/v1/detach                | Detach Entity             |
+| [**get_all_entities**](EntitiesApi.md#get_all_entities)                   | **GET** /api/v1/entities              | Get All Entities          |
+| [**get_attached_entities**](EntitiesApi.md#get_attached_entities)         | **GET** /api/v1/attached_entities     | Get Attached Entities     |
+| [**get_entity_by_did**](EntitiesApi.md#get_entity_by_did)                 | **GET** /api/v1/entity                | Get Entity By Did         |
+| [**get_entity_by_name_or_did**](EntitiesApi.md#get_entity_by_name_or_did) | **GET** /api/v1/entity_by_name_or_did | Get Entity By Name Or Did |
+| [**get_entity_by_roles**](EntitiesApi.md#get_entity_by_roles)             | **GET** /api/v1/entity_by_roles       | Get Entity By Roles       |
+| [**is_attached**](EntitiesApi.md#is_attached)                             | **GET** /api/v1/is_attached           | Is Attached               |
 
 # **attach_entity**
 
@@ -486,11 +487,11 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_entity_by_name**
+# **get_entity_by_name_or_did**
 
-> Entity get_entity_by_name(entity_name)
+> Entity get_entity_by_name_or_did(entity_name_or_did=entity_name_or_did)
 
-Get Entity By Name
+Get Entity By Name Or Did
 
 ### Example
 
@@ -513,26 +514,93 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.EntitiesApi(api_client)
-    entity_name = 'entity_name_example' # str |
+    entity_name_or_did = 'C1' # str |  (optional) (default to 'C1')
 
     try:
-        # Get Entity By Name
-        api_response = api_instance.get_entity_by_name(entity_name)
-        print("The response of EntitiesApi->get_entity_by_name:\n")
+        # Get Entity By Name Or Did
+        api_response = api_instance.get_entity_by_name_or_did(entity_name_or_did=entity_name_or_did)
+        print("The response of EntitiesApi->get_entity_by_name_or_did:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling EntitiesApi->get_entity_by_name: %s\n" % e)
+        print("Exception when calling EntitiesApi->get_entity_by_name_or_did: %s\n" % e)
 ```
 
 ### Parameters
 
-| Name            | Type    | Description | Notes |
-| --------------- | ------- | ----------- | ----- |
-| **entity_name** | **str** |             |
+| Name                   | Type    | Description | Notes                                |
+| ---------------------- | ------- | ----------- | ------------------------------------ |
+| **entity_name_or_did** | **str** |             | [optional] [default to &#39;C1&#39;] |
 
 ### Return type
 
 [**Entity**](Entity.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description         | Response headers |
+| ----------- | ------------------- | ---------------- |
+| **200**     | Successful Response | -                |
+| **422**     | Validation Error    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_entity_by_roles**
+
+> List[Entity] get_entity_by_roles(roles)
+
+Get Entity By Roles
+
+### Example
+
+```python
+import time
+import os
+import openapi_client
+from openapi_client.models.entity import Entity
+from openapi_client.models.role import Role
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.EntitiesApi(api_client)
+    roles = [openapi_client.Role()] # List[Role] |
+
+    try:
+        # Get Entity By Roles
+        api_response = api_instance.get_entity_by_roles(roles)
+        print("The response of EntitiesApi->get_entity_by_roles:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EntitiesApi->get_entity_by_roles: %s\n" % e)
+```
+
+### Parameters
+
+| Name      | Type                      | Description | Notes |
+| --------- | ------------------------- | ----------- | ----- |
+| **roles** | [**List[Role]**](Role.md) |             |
+
+### Return type
+
+[**List[Entity]**](Entity.md)
 
 ### Authorization
 

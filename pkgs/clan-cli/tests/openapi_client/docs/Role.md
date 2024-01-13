@@ -1,4 +1,4 @@
-# Roles
+# Role
 
 An enumeration.
 

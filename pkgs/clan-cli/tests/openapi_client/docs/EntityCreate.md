@@ -2,15 +2,15 @@
 
 ## Properties
 
-| Name        | Type                  | Description | Notes |
-| ----------- | --------------------- | ----------- | ----- |
-| **did**     | **str**               |             |
-| **name**    | **str**               |             |
-| **ip**      | **str**               |             |
-| **network** | **str**               |             |
-| **role**    | [**Roles**](Roles.md) |             |
-| **visible** | **bool**              |             |
-| **other**   | **object**            |             |
+| Name        | Type                      | Description | Notes |
+| ----------- | ------------------------- | ----------- | ----- |
+| **did**     | **str**                   |             |
+| **name**    | **str**                   |             |
+| **ip**      | **str**                   |             |
+| **network** | **str**                   |             |
+| **visible** | **bool**                  |             |
+| **other**   | **object**                |             |
+| **roles**   | [**List[Role]**](Role.md) |             |
 
 ## Example
 
