@@ -185,7 +185,7 @@ export function Sidebar(props: SidebarProps) {
                         primaryTypographyProps={{
                           color: "inherit",
                         }}
-                        className="lg:block mr-4 hidden"
+                        className="hidden mr-4 lg:block"
                       />
                       {collapseMenuOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
