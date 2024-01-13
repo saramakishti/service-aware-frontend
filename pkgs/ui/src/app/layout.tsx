@@ -11,7 +11,6 @@ import {
 import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
 import localFont from "next/font/local";
-import Image from "next/image";
 import * as React from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
