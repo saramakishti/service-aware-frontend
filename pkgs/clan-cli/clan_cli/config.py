@@ -1,12 +1,8 @@
-import dataclasses
-
-
-@dataclasses.dataclass
-class Config:
-    host: str
-    port_dlg: int
-    port_ap: int
-    port_client_base: int
-
-
-config = Config(host="127.0.0.1", port_dlg=6000, port_ap=6600, port_client_base=7000)
+host = "127.0.0.1"
+port_dlg = 7000
+port_ap = 7500
+port_client_base = 8000
+dlg_url = f"http://{host}:{port_dlg}/docs"
+ap_url = f"http://{host}:{port_ap}/docs"
+c1_url = f"http://{host}:{port_client_base}/docs"
+c2_url = f"http://{host}:{port_client_base + 1}/docs"

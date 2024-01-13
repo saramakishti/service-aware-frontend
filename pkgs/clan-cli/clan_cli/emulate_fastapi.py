@@ -6,14 +6,13 @@ from datetime import datetime
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 
+import clan_cli.config as config
 from clan_cli.webui.schemas import Resolution
 
-from .config import config
-
-app_dlg = FastAPI()
-app_ap = FastAPI()
-app_c1 = FastAPI()
-app_c2 = FastAPI()
+app_dlg = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
+app_ap = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
+app_c1 = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
+app_c2 = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 
 apps = [
     (app_dlg, config.port_dlg),
@@ -24,9 +23,19 @@ apps = [
 
 
 #### HEALTHCHECK
+@app_c1.get("/")
+async def root_c1() -> str:
+    return "C1 is alive"
+
+
 @app_c1.get("/health")
 async def healthcheck_c1() -> str:
     return "200 OK"
+
+
+@app_c2.get("/")
+async def root_c2() -> str:
+    return "C2 is alive"
 
 
 @app_c2.get("/health")
@@ -34,9 +43,19 @@ async def healthcheck_c2() -> str:
     return "200 OK"
 
 
+@app_dlg.get("/")
+async def root_dlg() -> str:
+    return "DLG is alive"
+
+
 @app_dlg.get("/health")
 async def healthcheck_dlg() -> str:
     return "200 OK"
+
+
+@app_ap.get("/")
+async def root_ap() -> str:
+    return "AP is alive"
 
 
 @app_ap.get("/health")

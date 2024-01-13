@@ -15,6 +15,7 @@ import uvicorn
 from pydantic import AnyUrl, IPvAnyAddress
 from pydantic.tools import parse_obj_as
 
+import clan_cli.config as config
 from clan_cli.emulate_fastapi import apps, get_health
 from clan_cli.errors import ClanError
 
@@ -128,8 +129,8 @@ def start_server(args: argparse.Namespace) -> None:
             cmd = ["pytest", "-s", str(test_db_api)]
             subprocess.run(cmd, check=True)
 
+        config.host = args.host
         if args.emulate:
-            urls = list()
             # start servers as processes (dlg, ap, c1 and c2 for tests)
             for app, port in apps:
                 proc = mp.Process(
@@ -143,9 +144,7 @@ def start_server(args: argparse.Namespace) -> None:
                     daemon=True,
                 )
                 proc.start()
-                urls.append(f"http://{args.host}:{port}")
-            # check server health
-            for url in urls:
+                url = f"http://{args.host}:{port}"
                 res = get_health(url=url + "/health")
                 if res is None:
                     raise Exception(f"Couldn't reach {url} after starting server")

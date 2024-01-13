@@ -4,6 +4,7 @@ from typing import List, Optional
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, Query
+from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 
 from ...errors import ClanError
@@ -291,3 +292,31 @@ def get_all_eventmessages(
 ) -> List[sql_models.Eventmessage]:
     eventmessages = sql_crud.get_eventmessages(db, skip=skip, limit=limit)
     return eventmessages
+
+
+##############################
+#                            #
+#   EMULATED API ENDPOINTS   #
+#                            #
+##############################
+@router.get("/emulate", response_class=HTMLResponse)
+@router.get("/emu", response_class=HTMLResponse)
+def get_emulated_enpoints() -> HTMLResponse:
+    from clan_cli.config import ap_url, c1_url, c2_url, dlg_url
+
+    html_content = f"""
+    <html>
+        <head>
+            <title>Emulated API</title>
+        </head>
+        <body>
+            <h1>Emulated API</h1>
+            <p>Emulated API endpoints for testing purposes.</p>
+            <p>DLG: <a href="{dlg_url}" >{dlg_url} </a></p>
+            <p>AP: <a href="{ap_url}">{ap_url}</a></p>
+            <p>C1: <a href="{c1_url}">{c1_url} </a></p>
+            <p>C2: <a href="{c2_url}">{c2_url}</a></p>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
