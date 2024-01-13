@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import true
 
@@ -107,9 +108,21 @@ def get_entity_by_name_or_did(db: Session, name: str) -> Optional[sql_models.Ent
 def get_entity_by_role(
     db: Session, roles: List[schemas.Role]
 ) -> List[sql_models.Entity]:
+    # create a subquery to count the matching roles for each entity
+    subquery = (
+        db.query(
+            sql_models.EntityRoles.entity_did,
+            func.count(sql_models.EntityRoles.role).label("role_count"),
+        )
+        .filter(sql_models.EntityRoles.role.in_(roles))
+        .group_by(sql_models.EntityRoles.entity_did)
+        .subquery()
+    )
+    # join the subquery with the entity table and filter by the role count
     return (
         db.query(sql_models.Entity)
-        .filter(sql_models.Entity.roles.any(sql_models.EntityRoles.role.in_(roles)))
+        .join(subquery, sql_models.Entity.did == subquery.c.entity_did)
+        .filter(subquery.c.role_count == len(roles))
         .all()
     )
 
