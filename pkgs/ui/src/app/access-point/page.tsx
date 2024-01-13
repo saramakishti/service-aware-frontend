@@ -1,34 +1,80 @@
 "use client";
 
+import { mutate } from "swr";
+import { useGetAttachedEntities } from "@/api/entities/entities";
+import { useGetAllRepositories } from "@/api/repositories/repositories";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
 import {
   APSummaryDetails,
-  APAttachmentsDummyData,
   APAttachmentsTableConfig,
-  APServiceRepositoryDummyData,
   APServiceRepositoryTableConfig,
-} from "@/mock/access_point";
+} from "@/config/access_point";
+import { useEffect } from "react";
 
 export default function AccessPoint() {
+  const {
+    data: APAttachementData,
+    isLoading: loadingAttachements,
+    swrKey: attachedEntitiesKeyFunc,
+  } = useGetAttachedEntities();
+  const {
+    data: APRepositories,
+    isLoading: laodingRepositories,
+    swrKey: repositoriesKeyFunc,
+  } = useGetAllRepositories();
+
+  const onRefresh = () => {
+    const attachedEntitiesKey =
+      typeof attachedEntitiesKeyFunc === "function"
+        ? attachedEntitiesKeyFunc()
+        : attachedEntitiesKeyFunc;
+    const repositoriesKey =
+      typeof repositoriesKeyFunc === "function"
+        ? repositoriesKeyFunc()
+        : repositoriesKeyFunc;
+
+    if (attachedEntitiesKey) {
+      mutate(attachedEntitiesKey);
+    }
+    if (repositoriesKey) {
+      mutate(repositoriesKey);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      onRefresh();
+    }, 5000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="m-10">
       <SummaryDetails
+        fake
         hasRefreshButton
+        onRefresh={onRefresh}
         entity={{ name: "Access Point", details: APSummaryDetails }}
       />
       <div>
         <h4>Attachment View</h4>
         <CustomTable
-          data={APAttachmentsDummyData}
+          loading={loadingAttachements}
+          data={APAttachementData?.data}
           configuration={APAttachmentsTableConfig}
+          tkey="attachment-table"
         />
       </div>
       <div>
         <h4>Service Repository View </h4>
         <CustomTable
-          data={APServiceRepositoryDummyData}
+          loading={laodingRepositories}
+          data={APRepositories?.data}
           configuration={APServiceRepositoryTableConfig}
+          tkey="service-repository-table"
         />
       </div>
     </div>

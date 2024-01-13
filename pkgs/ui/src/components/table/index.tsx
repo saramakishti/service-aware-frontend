@@ -9,9 +9,12 @@ import Paper from "@mui/material/Paper";
 import { NoDataOverlay } from "@/components/noDataOverlay";
 import { StyledTableCell, StyledTableRow } from "./style";
 import { ICustomTable, CustomTableConfiguration } from "@/types";
-import { Checkbox } from "@mui/material";
+import { Checkbox, Skeleton } from "@mui/material";
 
-const CustomTable = ({ configuration, data }: ICustomTable) => {
+const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
+  if (loading)
+    return <Skeleton variant="rectangular" animation="wave" height={200} />;
+
   // display empty icon in case there is no data
   if (!data || data.length === 0)
     return <NoDataOverlay label="No Activity yet" />;
@@ -53,12 +56,18 @@ const CustomTable = ({ configuration, data }: ICustomTable) => {
         <TableBody>
           {data.map((data: any, rowIndex: number) => (
             <StyledTableRow key={rowIndex}>
-              {configuration.map((column: CustomTableConfiguration) => {
-                const cellValue: any = data[column.key];
-                const cellKey = column.key;
-                const renderComponent = column?.render;
-                return renderTableCell(cellValue, cellKey, renderComponent);
-              })}
+              {configuration.map(
+                (column: CustomTableConfiguration, columnIndex: number) => {
+                  const cellValue: any = data[column.key];
+                  const cellKey = tkey + ":" + column.key + ":" + rowIndex;
+                  const renderComponent = column?.render;
+                  return renderTableCell(
+                    cellValue,
+                    cellKey + ":" + columnIndex,
+                    renderComponent,
+                  );
+                },
+              )}
             </StyledTableRow>
           ))}
         </TableBody>

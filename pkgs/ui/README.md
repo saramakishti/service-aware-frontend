@@ -25,3 +25,5 @@ Than run this command:
 ```
 GITEA_TOKEN=<YOUR_TOKEN> nix run .#update-ui-assets
 ```
+
+.

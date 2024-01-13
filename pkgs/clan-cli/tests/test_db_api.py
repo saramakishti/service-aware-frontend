@@ -1,283 +1,172 @@
-import urllib.parse as url
-from typing import Any
+import random
+import time
+import uuid
 
-from api import TestClient
+from openapi_client import ApiClient
+from openapi_client.api import DefaultApi
+from openapi_client.api.entities_api import EntitiesApi
+from openapi_client.api.eventmessages_api import EventmessagesApi
+from openapi_client.api.services_api import ServicesApi
+from openapi_client.models import (
+    Entity,
+    EntityCreate,
+    Eventmessage,
+    EventmessageCreate,
+    Machine,
+    Roles,
+    ServiceCreate,
+    Status,
+)
 
-default_entity_did_url = "entity_did=did%3Asov%3Atest%3A1234"
-default_entity_did = "did:sov:test:1234"
-default_entity_did2 = "did:sov:test:1235"
-default_entity_did3 = "did:sov:test:1236"
-default_entity_did4 = "did:sov:test:1237"
-default_entity_did5 = "did:sov:test:1238"
+import config
 
-
-def assert_extra_info(
-    infos: list[str],
-    request_body: dict[str, Any],
-    response: dict[str, str],
-) -> None:
-    # print(type())
-    for info in infos:
-        assert info in response.keys()
-        # TODO maybe check the content of the extra info ...
-        response.pop(info)
-    assert response == request_body
+random.seed(42)
 
 
-def make_test_post_and_get(
-    api: TestClient,
-    request_body: dict[str, Any],
-    paramter: str,
-    get_request: str = default_entity_did_url,
-    apiversion: str = "v1",
-) -> None:
-    # test post
-    response = api.post(
-        f"/api/{apiversion}/create_{paramter}",
-        json=request_body,
-        headers={"Content-Type": "application/json"},
-    )
-    assert response.status_code == 200
-    if paramter == "repository":
-        assert_extra_info(["time_created"], request_body, response.json())
-    elif paramter == "consumer":
-        assert_extra_info(["id"], request_body, response.json())
-    elif paramter == "entity":
-        assert_extra_info(
-            ["consumers", "producers", "repository"], request_body, response.json()
+host = config.host
+port_dlg = config.port_dlg
+port_ap = config.port_ap
+port_client_base = config.port_client_base
+
+num_uuids = 100
+uuids = [str(uuid.UUID(int=random.getrandbits(128))) for i in range(num_uuids)]
+
+
+def test_health(api_client: ApiClient) -> None:
+    default = DefaultApi(api_client=api_client)
+    res: Machine = default.health()
+    assert res.status == Status.ONLINE
+
+
+def create_entities(num: int = 10) -> list[EntityCreate]:
+    res = []
+    for i in range(num):
+        en = EntityCreate(
+            did=f"did:sov:test:12{i}",
+            name=f"C{i}",
+            ip=f"{host}:{port_client_base+i}",
+            network="255.255.0.0",
+            role=Roles("service_prosumer"),
+            visible=True,
+            other={},
         )
-    else:
-        assert response.json() == request_body
-    # test get
-    response = api.get(
-        f"api/{apiversion}/get_{paramter}?{get_request}&skip=0&limit=100"
+        res.append(en)
+    dlg = EntityCreate(
+        did=f"did:sov:test:{port_dlg}",
+        name="DLG",
+        ip=f"{host}:{port_dlg}/health",
+        network="255.255.0.0",
+        role=Roles("DLG"),
+        visible=True,
+        other={},
     )
-    assert response.status_code == 200
-    if paramter == "repository":
-        assert_extra_info(["time_created"], request_body, response.json()[0])
-    elif paramter == "consumer":
-        assert_extra_info(["id"], request_body, response.json()[0])
-    elif paramter == "entity":
-        assert_extra_info(
-            ["consumers", "producers", "repository"], request_body, response.json()
+    res.append(dlg)
+    ap = EntityCreate(
+        did=f"did:sov:test:{port_ap}",
+        name="AP",
+        ip=f"{host}:{port_ap}/health",
+        network="255.255.0.0",
+        role=Roles("AP"),
+        visible=True,
+        other={},
+    )
+    res.append(ap)
+    return res
+
+
+def create_service(idx: int, entity: Entity) -> ServiceCreate:
+    se = ServiceCreate(
+        uuid=uuids[idx],
+        service_name=f"Carlos Printing{idx}",
+        service_type="3D Printing",
+        endpoint_url=f"{entity.ip}/v1/print_daemon{idx}",
+        status="unknown",
+        other={"action": ["register", "deregister", "delete", "create"]},
+        entity_did=entity.did,
+    )
+
+    return se
+
+
+def test_create_entities(api_client: ApiClient) -> None:
+    api = EntitiesApi(api_client=api_client)
+    for own_entity in create_entities():
+        res: Entity = api.create_entity(own_entity)
+        assert res.did == own_entity.did
+        assert res.attached is False
+
+
+def test_create_services(api_client: ApiClient) -> None:
+    sapi = ServicesApi(api_client=api_client)
+    eapi = EntitiesApi(api_client=api_client)
+    for midx, entity in enumerate(eapi.get_all_entities()):
+        for idx in range(4):
+            service_obj = create_service(idx + 4 * midx, entity)
+            service = sapi.create_service(service_obj)
+            assert service.uuid == service_obj.uuid
+
+
+random.seed(77)
+
+
+def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
+    res = []
+    starttime = int(time.time())
+    for i in range(num):
+        group_id = i % 5 + random.getrandbits(6)
+        em_req_send = EventmessageCreate(
+            id=random.getrandbits(18),
+            timestamp=starttime + i * 10,
+            group=i % 5,
+            group_id=group_id,
+            msg_type=1,
+            src_did=f"did:sov:test:12{i}",
+            des_did=f"did:sov:test:12{i+1}",
+            msg={},
         )
-    else:
-        assert response.json() == [request_body]
+        res.append(em_req_send)
+        em_req_rec = EventmessageCreate(
+            id=random.getrandbits(18),
+            timestamp=starttime + (i * 10) + 2,
+            group=i % 5,
+            group_id=group_id,
+            msg_type=2,
+            src_did=f"did:sov:test:12{i}",
+            des_did=f"did:sov:test:12{i+1}",
+            msg={},
+        )
+        res.append(em_req_rec)
+        group_id = i % 5 + random.getrandbits(6)
+        em_res_send = EventmessageCreate(
+            id=random.getrandbits(18),
+            timestamp=starttime + i * 10 + 4,
+            group=i % 5,
+            group_id=group_id,
+            msg_type=3,
+            src_did=f"did:sov:test:12{i+1}",
+            des_did=f"did:sov:test:12{i}",
+            msg={},
+        )
+        res.append(em_res_send)
+        em_res_rec = EventmessageCreate(
+            id=random.getrandbits(6),
+            timestamp=starttime + (i * 10) + 8,
+            group=i % 5,
+            group_id=group_id,
+            msg_type=4,
+            src_did=f"did:sov:test:12{i+1}",
+            des_did=f"did:sov:test:12{i}",
+            msg={},
+        )
+        res.append(em_res_rec)
+    return res
 
 
-#########################
-#                       #
-#       Producer        #
-#                       #
-#########################
-def test_producer(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
-        "service_name": "Carlo'''s Printing",
-        "service_type": "3D Printing",
-        "endpoint_url": "http://127.0.0.1:8000",
-        "status": "unknown",
-        "other": {"test": "test"},
-        "entity_did": default_entity_did,
-    }
-    paramter = "producer"
-    # get_request = "entity_did=did%3Asov%3Atest%3A1234"
-    make_test_post_and_get(api, request_body, paramter)
-
-
-def test_producer2(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d1",
-        "service_name": "Luis'''s Fax",
-        "service_type": "Fax",
-        "endpoint_url": "http://127.0.0.1:8001",
-        "status": "unknown",
-        "other": {"faxen": "dicke"},
-        "entity_did": default_entity_did2,
-    }
-    paramter = "producer"
-    get_request = "entity_did=" + url.quote(default_entity_did2)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-def test_producer3(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d2",
-        "service_name": "Erdem'''s VR-Stream",
-        "service_type": "VR-Stream",
-        "endpoint_url": "http://127.0.0.1:8002",
-        "status": "unknown",
-        "other": {"oculos": "rift"},
-        "entity_did": default_entity_did3,
-    }
-    paramter = "producer"
-    get_request = "entity_did=" + url.quote(default_entity_did3)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-def test_producer4(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d3",
-        "service_name": "Onur'''s gallary",
-        "service_type": "gallary",
-        "endpoint_url": "http://127.0.0.1:8003",
-        "status": "unknown",
-        "other": {"nice": "pics"},
-        "entity_did": default_entity_did4,
-    }
-    paramter = "producer"
-    get_request = "entity_did=" + url.quote(default_entity_did4)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-def test_producer5(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
-        "service_name": "Sara'''s Game-Shop",
-        "service_type": "Game-Shop",
-        "endpoint_url": "http://127.0.0.1:8004",
-        "status": "unknown",
-        "other": {"war": "games"},
-        "entity_did": default_entity_did5,
-    }
-    paramter = "producer"
-    get_request = "entity_did=" + url.quote(default_entity_did5)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-#########################
-#                       #
-#       Consumer        #
-#                       #
-#########################
-def test_consumer(api: TestClient) -> None:
-    request_body = {
-        "entity_did": default_entity_did,
-        "producer_uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
-        "other": {"test": "test"},
-    }
-    paramter = "consumer"
-    # get_request = "entity_did=did%3Asov%3Atest%3A1234"
-    make_test_post_and_get(api, request_body, paramter)
-
-
-def test_consumer2(api: TestClient) -> None:
-    request_body = {
-        "entity_did": default_entity_did2,
-        "producer_uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
-        "other": {"war": "games"},
-    }
-    paramter = "consumer"
-    get_request = "entity_did=" + url.quote(default_entity_did2)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-#########################
-#                       #
-#       REPOSITORY      #
-#                       #
-#########################
-def test_repository(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
-        "service_name": "Carlo'''s Printing",
-        "service_type": "3D Printing",
-        "endpoint_url": "http://127.0.0.1:8000",
-        "status": "unknown",
-        "other": {"test": "test"},
-        "entity_did": default_entity_did,
-    }
-    paramter = "repository"
-    # get_request = "entity_did=did%3Asov%3Atest%3A1234"
-    make_test_post_and_get(api, request_body, paramter)
-
-
-def test_repository2(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d1",
-        "service_name": "Luis'''s Fax",
-        "service_type": "Fax",
-        "endpoint_url": "http://127.0.0.1:8001",
-        "status": "unknown",
-        "other": {"faxen": "dicke"},
-        "entity_did": default_entity_did2,
-    }
-    paramter = "repository"
-    get_request = "entity_did=" + url.quote(default_entity_did2)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-def test_repository3(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d2",
-        "service_name": "Erdem'''s VR-Stream",
-        "service_type": "VR-Stream",
-        "endpoint_url": "http://127.0.0.1:8002",
-        "status": "unknown",
-        "other": {"oculos": "rift"},
-        "entity_did": default_entity_did3,
-    }
-    paramter = "repository"
-    get_request = "entity_did=" + url.quote(default_entity_did3)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-def test_repository4(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d3",
-        "service_name": "Onur'''s gallary",
-        "service_type": "gallary",
-        "endpoint_url": "http://127.0.0.1:8003",
-        "status": "unknown",
-        "other": {"nice": "pics"},
-        "entity_did": default_entity_did4,
-    }
-    paramter = "repository"
-    get_request = "entity_did=" + url.quote(default_entity_did4)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-def test_repository5(api: TestClient) -> None:
-    request_body = {
-        "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
-        "service_name": "Sara'''s Game-Shop",
-        "service_type": "Game-Shop",
-        "endpoint_url": "http://127.0.0.2:8004",
-        "status": "unknown",
-        "other": {"war": "games"},
-        "entity_did": default_entity_did5,
-    }
-    paramter = "repository"
-    get_request = "entity_did=" + url.quote(default_entity_did5)
-    make_test_post_and_get(api, request_body, paramter, get_request)
-
-
-#########################
-#                       #
-#        Entity         #
-#                       #
-#########################
-def test_entity(api: TestClient) -> None:
-    request_body = {
-        "did": default_entity_did,
-        "name": "C1",
-        "ip": "127.0.0.1",
-        "attached": False,
-        "other": {"test": "test"},
-    }
-    paramter = "entity"
-    # get_request = "entity_did=did%3Asov%3Atest%3A1234"
-    make_test_post_and_get(api, request_body, paramter)
-
-
-def test_entity2(api: TestClient) -> None:
-    request_body = {
-        "did": default_entity_did2,
-        "name": "C2",
-        "ip": "127.0.0.2",
-        "attached": False,
-        "other": {"test": "test"},
-    }
-    paramter = "entity"
-    get_request = "entity_did=" + url.quote(default_entity_did2)
-    make_test_post_and_get(api, request_body, paramter, get_request)
+def test_create_eventmessages(api_client: ApiClient) -> None:
+    api = EventmessagesApi(api_client=api_client)
+    assert [] == api.get_all_eventmessages()
+    for own_eventmsg in create_eventmessages():
+        res: Eventmessage = api.create_eventmessage(own_eventmsg)
+        # breakpoint()
+        assert res.id == own_eventmsg.id
+    assert [] != api.get_all_eventmessages()

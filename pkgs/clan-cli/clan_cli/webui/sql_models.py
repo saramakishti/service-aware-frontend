@@ -1,17 +1,7 @@
-from sqlalchemy import (
-    JSON,
-    Boolean,
-    Column,
-    DateTime,
-    ForeignKey,
-    Integer,
-    String,
-    Text,
-    UniqueConstraint,
-)
+from sqlalchemy import JSON, Boolean, Column, Enum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
 
+from .schemas import Roles
 from .sql_db import Base
 
 # Relationsship example
@@ -23,22 +13,24 @@ class Entity(Base):
 
     ## Queryable body ##
     did = Column(String, primary_key=True, index=True)
-    name = Column(String, index=True)
+    name = Column(String, index=True, unique=True)
     ip = Column(String, index=True)
+    network = Column(String, index=True)
+    role = Column(Enum(Roles), index=True, nullable=False)  # type: ignore
+    # role = Column(String, index=True, nullable=False)
     attached = Column(Boolean, index=True)
+    visible = Column(Boolean, index=True)
+    stop_health_task = Column(Boolean)
 
     ## Non queryable body ##
-    # In here we deposit: Network, Roles, Visible, etc.
+    # In here we deposit: Not yet defined stuff
     other = Column(JSON)
 
     ## Relations ##
-    producers = relationship("Producer", back_populates="entity")
-    consumers = relationship("Consumer", back_populates="entity")
-    repository = relationship("Repository", back_populates="entity")
-    # TODO maby refactor to repositories
+    services = relationship("Service", back_populates="entity")
 
 
-class ProducerAbstract(Base):
+class ServiceAbstract(Base):
     __abstract__ = True
 
     # Queryable body
@@ -53,57 +45,30 @@ class ProducerAbstract(Base):
     other = Column(JSON)
 
 
-class Producer(ProducerAbstract):
-    __tablename__ = "producers"
-
-    # Usage is the consumers column
+class Service(ServiceAbstract):
+    __tablename__ = "services"
 
     ## Relations ##
-    # One entity can have many producers
-    entity = relationship("Entity", back_populates="producers")
+    # One entity can have many services
+    entity = relationship("Entity", back_populates="services")
     entity_did = Column(String, ForeignKey("entities.did"))
 
-    # One producer has many consumers
-    consumers = relationship("Consumer", back_populates="producer")
 
-
-class Consumer(Base):
-    __tablename__ = "consumers"
+class Eventmessage(Base):
+    __tablename__ = "eventmessages"
 
     ## Queryable body ##
     id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(Integer, unique=True, index=True)
+    group = Column(Integer, index=True)
+    group_id = Column(Integer, index=True)
+    msg_type = Column(Integer, index=True)  # message type for the label
+    src_did = Column(String, index=True)
+    des_did = Column(String, index=True)
 
     ## Non queryable body ##
-    other = Column(JSON)
+    # In here we deposit: Network, Roles, Visible, etc.
+    msg = Column(JSON)
 
     ## Relations ##
-    # one entity can have many consumers
-    entity = relationship("Entity", back_populates="consumers")
-    entity_did = Column(String, ForeignKey("entities.did"))
-
-    # one consumer has one producer
-    producer = relationship("Producer", back_populates="consumers")
-    producer_uuid = Column(String, ForeignKey("producers.uuid"))
-
-    __table_args__ = (UniqueConstraint("producer_uuid", "entity_did"),)
-
-
-class Repository(ProducerAbstract):
-    __tablename__ = "repositories"
-
-    time_created = Column(DateTime(timezone=True), server_default=func.now())
-
-    # one repository has one entity
-    entity = relationship("Entity", back_populates="repository")
-    entity_did = Column(Integer, ForeignKey("entities.did"))
-
-
-# TODO: Ask how this works exactly
-class Resolution(Base):
-    __tablename__ = "resolutions"
-
-    id = Column(Integer, primary_key=True)
-    requester_name = Column(String, index=True)
-    requester_did = Column(String, index=True)
-    resolved_did = Column(String, index=True)
-    timestamp = Column(DateTime, index=True)
+    # One entity can send many messages

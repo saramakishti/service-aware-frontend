@@ -8,7 +8,6 @@
 , openssh
 , pytest
 , pytest-cov
-, pytest-xdist
 , pytest-subprocess
 , pytest-timeout
 , remote-pdb
@@ -36,8 +35,10 @@
 , mypy
 , sqlalchemy
 , websockets
-, deal
 , broadcaster
+, aenum
+, dateutil
+, urllib3
 }:
 let
 
@@ -48,14 +49,12 @@ let
     sqlalchemy
     websockets
     broadcaster
-    deal
   ];
 
   pytestDependencies = runtimeDependencies ++ dependencies ++ [
     pytest
     pytest-cov
     pytest-subprocess
-    pytest-xdist
     pytest-timeout
     remote-pdb
     ipdb
@@ -63,6 +62,10 @@ let
     git
     gnupg
     stdenv.cc
+    # openapi client deps
+    dateutil
+    aenum
+    urllib3
   ];
 
   # Optional dependencies for clan cli, we re-expose them here to make sure they all build.

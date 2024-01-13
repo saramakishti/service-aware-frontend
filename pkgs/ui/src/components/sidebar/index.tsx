@@ -36,13 +36,13 @@ const menuEntityEntries: MenuEntry[] = [
   {
     icon: <PersonIcon />,
     label: "C1",
-    to: "/client-1",
+    to: "/client/C1",
     disabled: false,
   },
   {
     icon: <PersonIcon />,
     label: "C2",
-    to: "/client-2",
+    to: "/client/C2",
     disabled: false,
   },
 ];

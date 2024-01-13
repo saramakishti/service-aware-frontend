@@ -25,7 +25,7 @@ def sql_error_handler(request: Request, exc: SQLAlchemyError) -> JSONResponse:
 
 
 def clan_error_handler(request: Request, exc: ClanError) -> JSONResponse:
-    log.error("ClanError: %s", exc)
+    log.exception(exc)
     detail = [
         {
             "loc": [],

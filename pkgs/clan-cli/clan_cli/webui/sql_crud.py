@@ -3,113 +3,55 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import true
 
+from ..errors import ClanError
 from . import schemas, sql_models
 
 #########################
 #                       #
-#       Producer        #
+#       service         #
 #                       #
 #########################
 
 
-def create_producer(
-    db: Session, producer: schemas.ProducerCreate
-) -> sql_models.Producer:
-    db_producer = sql_models.Producer(**producer.dict())
-    db.add(db_producer)
+def create_service(db: Session, service: schemas.ServiceCreate) -> sql_models.Service:
+    db_service = sql_models.Service(**service.dict())
+    db.add(db_service)
     db.commit()
-    db.refresh(db_producer)
-    return db_producer
+    db.refresh(db_service)
+    return db_service
 
 
-def get_producers(
+def get_services(
     db: Session, skip: int = 0, limit: int = 100
-) -> List[sql_models.Producer]:
-    return db.query(sql_models.Producer).offset(skip).limit(limit).all()
+) -> List[sql_models.Service]:
+    return db.query(sql_models.Service).offset(skip).limit(limit).all()
 
 
-def get_producers_by_entity_did(
+def get_services_by_entity_did(
     db: Session, entity_did: str, skip: int = 0, limit: int = 100
-) -> List[sql_models.Producer]:
+) -> List[sql_models.Service]:
     return (
-        db.query(sql_models.Producer)
-        .filter(sql_models.Producer.entity_did == entity_did)
+        db.query(sql_models.Service)
+        .filter(sql_models.Service.entity_did == entity_did)
         .offset(skip)
         .limit(limit)
         .all()
     )
 
 
-#########################
-#                       #
-#       Consumer        #
-#                       #
-#########################
-
-
-def create_consumer(
-    db: Session, consumer: schemas.ConsumerCreate
-) -> sql_models.Consumer:
-    db_consumer = sql_models.Consumer(**consumer.dict())
-    db.add(db_consumer)
+def delete_service_by_entity_did(db: Session, entity_did: str) -> None:
+    db.query(sql_models.Service).filter(
+        sql_models.Service.entity_did == entity_did
+    ).delete()
     db.commit()
-    db.refresh(db_consumer)
-    return db_consumer
 
 
-def get_consumers(
-    db: Session, skip: int = 0, limit: int = 100
-) -> List[sql_models.Consumer]:
-    return db.query(sql_models.Consumer).offset(skip).limit(limit).all()
-
-
-def get_consumers_by_entity_did(
+def get_services_without_entity_id(
     db: Session, entity_did: str, skip: int = 0, limit: int = 100
-) -> List[sql_models.Consumer]:
+) -> List[sql_models.Service]:
     return (
-        db.query(sql_models.Consumer)
-        .filter(sql_models.Consumer.entity_did == entity_did)
-        .offset(skip)
-        .limit(limit)
-        .all()
-    )
-
-
-#########################
-#                       #
-#       REPOSITORY      #
-#                       #
-#########################
-def create_repository(
-    db: Session, repository: schemas.RepositoryCreate
-) -> sql_models.Repository:
-    db_repository = sql_models.Repository(**repository.dict())
-    db.add(db_repository)
-    db.commit()
-    db.refresh(db_repository)
-    return db_repository
-
-
-def get_repositories(
-    db: Session, skip: int = 0, limit: int = 100
-) -> List[sql_models.Repository]:
-    return db.query(sql_models.Repository).offset(skip).limit(limit).all()
-
-
-def get_repository_by_uuid(db: Session, uuid: str) -> Optional[sql_models.Repository]:
-    return (
-        db.query(sql_models.Repository)
-        .filter(sql_models.Repository.uuid == uuid)
-        .first()
-    )
-
-
-def get_repository_by_did(
-    db: Session, did: str, skip: int = 0, limit: int = 100
-) -> List[sql_models.Repository]:
-    return (
-        db.query(sql_models.Repository)
-        .filter(sql_models.Repository.entity_did == did)
+        db.query(sql_models.Service)
+        .filter(sql_models.Service.entity_did != entity_did)
         .offset(skip)
         .limit(limit)
         .all()
@@ -122,7 +64,9 @@ def get_repository_by_did(
 #                       #
 #########################
 def create_entity(db: Session, entity: schemas.EntityCreate) -> sql_models.Entity:
-    db_entity = sql_models.Entity(**entity.dict())
+    db_entity = sql_models.Entity(
+        **entity.dict(), attached=False, stop_health_task=False
+    )
     db.add(db_entity)
     db.commit()
     db.refresh(db_entity)
@@ -139,6 +83,10 @@ def get_entity_by_did(db: Session, did: str) -> Optional[sql_models.Entity]:
     return db.query(sql_models.Entity).filter(sql_models.Entity.did == did).first()
 
 
+def get_entity_by_name(db: Session, name: str) -> Optional[sql_models.Entity]:
+    return db.query(sql_models.Entity).filter(sql_models.Entity.name == name).first()
+
+
 # get attached
 def get_attached_entities(
     db: Session, skip: int = 0, limit: int = 100
@@ -153,21 +101,61 @@ def get_attached_entities(
     )
 
 
-# set attached
-# None if did not found
 # Returns same entity if setting didnt changed something
-def set_attached_by_entity_did(
-    db: Session, entity_did: str, value: bool
-) -> Optional[sql_models.Entity]:
-    # ste attached to true
+def set_stop_health_task(db: Session, entity_did: str, value: bool) -> None:
     db_entity = get_entity_by_did(db, entity_did)
-    if db_entity is not None:
-        # db_entity.attached = Column(True)
-        setattr(db_entity, "attached", value)
-        # save changes in db
-        db.add(db_entity)
-        db.commit()
-        db.refresh(db_entity)
-        return db_entity
-    else:
-        return db_entity
+    if db_entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+
+    setattr(db_entity, "stop_health_task", value)
+
+    # save changes in db
+    db.add(db_entity)
+    db.commit()
+    db.refresh(db_entity)
+
+
+def set_attached_by_entity_did(db: Session, entity_did: str, attached: bool) -> None:
+    db_entity = get_entity_by_did(db, entity_did)
+    if db_entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
+
+    setattr(db_entity, "attached", attached)
+
+    # save changes in db
+    db.add(db_entity)
+    db.commit()
+    db.refresh(db_entity)
+
+
+def delete_entity_by_did(db: Session, did: str) -> None:
+    db.query(sql_models.Entity).filter(sql_models.Entity.did == did).delete()
+    db.commit()
+
+
+def delete_entity_by_did_recursive(db: Session, did: str) -> None:
+    delete_service_by_entity_did(db, did)
+    delete_entity_by_did(db, did)
+
+
+#########################
+#                       #
+#      Eventmessage     #
+#                       #
+#########################
+
+
+def create_eventmessage(
+    db: Session, eventmsg: schemas.EventmessageCreate
+) -> sql_models.Eventmessage:
+    db_eventmessage = sql_models.Eventmessage(**eventmsg.dict())
+    db.add(db_eventmessage)
+    db.commit()
+    db.refresh(db_eventmessage)
+    return db_eventmessage
+
+
+def get_eventmessages(
+    db: Session, skip: int = 0, limit: int = 100
+) -> List[sql_models.Eventmessage]:
+    return db.query(sql_models.Eventmessage).offset(skip).limit(limit).all()

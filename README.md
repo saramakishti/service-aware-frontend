@@ -1,6 +1,6 @@
-# 1Service Aware Network Project Repo
+# Service Aware Network Project Repo
 
-Welcome to our website repository! This repo is designed to help you and your team build high-quality websites efficiently. We've carefully chosen the technologies to make development smooth and enjoyable. Here's what you can expect from this template:
+Welcome to our website repository! This repo is designed to build high-quality websites efficiently. We've carefully chosen the technologies to make development smooth and enjoyable.
 
 **Frontend**: Our frontend is powered by [React NextJS](https://nextjs.org/), a popular and versatile framework for building web applications.
 
@@ -26,6 +26,12 @@ Let's get your development environment up and running:
      curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
      ```
 
+On Windows Subsystem for Linux (WSL) the installer will fail and tell you what to do. Execute the command from the error message and then afterwards execute:
+
+```bash
+sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
+```
+
 2. **Install direnv**:
 
    - Download the direnv package from [here](https://direnv.net/docs/installation.html) or run the following command:
@@ -45,6 +51,7 @@ Let's get your development environment up and running:
 4. **Clone the Repository and Navigate**:
 
    - Clone this repository and navigate to it.
+   - If you are under Windows Subystem For Linux (WSL) please clone the repository to the home folder of your Linux. Do NOT clone it onto your Windows machine!
 
 5. **Allow .envrc**:
 
@@ -66,9 +73,11 @@ Let's get your development environment up and running:
 
    - To start the backend server, execute:
      ```bash
-     clan webui --reload --no-open --log-level debug
+     clan webui --reload --no-open --log-level debug --populate --emulate
      ```
    - The server will automatically restart if any Python files change.
+   - The `--populate` flag will automatically populate the database with dummy data
+   - The `--emulate` flag will automatically run servers the database with dummy data for the fronted to communicate with (ap, dlg, c1 and c2)
 
 8. **Build the Frontend**:
 
@@ -95,19 +104,19 @@ Let's set up your Git workflow to collaborate effectively:
      ```bash
      tea login add
      ```
+   - Go to https://gitea.gchq.icu/user/settings/applications and create token with all privileges
    - Fill out the prompt as follows:
      - URL of Gitea instance: `https://gitea.gchq.icu`
      - Name of new Login [gitea.gchq.icu]: `gitea.gchq.icu:7171`
-     - Do you have an access token? No
-     - Username: YourUsername
-     - Password: YourPassword
+     - Do you have an access token? Yes
+     - Token: \***\*\*\*\***
      - Set Optional settings: No
 
 2. **Git Workflow**:
 
    1. Add your changes to Git using `git add <file1> <file2>`.
-   2. Run `nix fmt` to lint your files.
-   3. Commit your changes with a descriptive message: `git commit -a -m "My descriptive commit message"`.
+   2. Run `nix fmt` to lint your files. This will format your files and make changes!
+   3. Commit your changes and those of nix fmt with a descriptive message: `git commit -a -m "My descriptive commit message"`.
    4. Make sure your branch has the latest changes from upstream by executing:
       ```bash
       git fetch && git rebase origin/main --autostash
@@ -188,8 +197,8 @@ If you need to inspect the Nix sandbox while running tests, follow these steps:
 2. Use `cntr` and `psgrep` to attach to the Nix sandbox. This allows you to interactively debug your code while it's paused. For example:
 
    ```bash
-   cntr exec -w your_sandbox_name
    psgrep -a -x your_python_process_name
+   cntr attach <pid>
    ```
 
 These debugging and testing methods will help you identify and fix issues in your backend code efficiently, ensuring the reliability and robustness of your application.

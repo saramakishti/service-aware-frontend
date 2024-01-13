@@ -13,13 +13,23 @@ from ..errors import ClanError
 from . import sql_models
 from .assets import asset_path
 from .error_handlers import clan_error_handler, sql_error_handler
-from .routers import health, root, socket_manager2, sql_connect  # sql router hinzufügen
+from .routers import endpoints, health, root, socket_manager2  # sql router hinzufügen
 from .sql_db import engine
 from .tags import tags_metadata
 
-origins = [
-    "http://localhost:3000",
+cors_url = [
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://0.0.0.0",
+    "http://[::]",
 ]
+cors_ports = [2979, 3000]
+cors_whitelist = []
+for u in cors_url:
+    for p in cors_ports:
+        cors_whitelist.append(f"{u}:{p}")
+
+
 # Logging setup
 log = logging.getLogger(__name__)
 
@@ -35,13 +45,14 @@ def setup_app() -> FastAPI:
     # bind sql engine
     # TODO comment aut and add flag to run with pupulated data rm *.sql run pytest with marked then start clan webui
     # https://docs.pytest.org/en/7.1.x/example/markers.html
-    sql_models.Base.metadata.drop_all(engine)
+    # sql_models.Base.metadata.drop_all(engine)
+
     sql_models.Base.metadata.create_all(bind=engine)
 
-    app = FastAPI(lifespan=lifespan)
+    app = FastAPI(lifespan=lifespan, swagger_ui_parameters={"tryItOutEnabled": True})
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=cors_whitelist,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -49,7 +60,7 @@ def setup_app() -> FastAPI:
 
     app.include_router(health.router)
     # sql methodes
-    app.include_router(sql_connect.router)
+    app.include_router(endpoints.router)
 
     app.include_router(socket_manager2.router)
 

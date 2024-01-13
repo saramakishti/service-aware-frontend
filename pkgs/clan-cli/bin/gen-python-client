@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+
+import argparse
+import json
+import sys
+from pathlib import Path
+import tempfile
+from uvicorn.importer import import_from_string
+import subprocess
+import shutil
+
+import os
+import re
+
+def replace_line_in_file(file_path: Path, pattern: str, replacement: str) -> None:
+    with open(file_path, 'r') as file:
+            content = file.read()
+    updated_content = re.sub(pattern, replacement, content)
+    with open(file_path, 'w') as file:
+        file.write(updated_content)
+
+def replace_in_directory(*, directory_path: Path, pattern: str, replacement: str) -> None:
+    for root, dirs, files in os.walk(directory_path):
+        for file in files:
+            file_path = Path(os.path.join(root, file))
+            replace_line_in_file(file_path, pattern, replacement)
+
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(prog="gen-openapi")
+    parser.add_argument(
+        "--app", help='App import string. Eg. "clan_cli.webui.app:app"', default="clan_cli.webui.app:app"
+    )
+    parser.add_argument("--app-dir", help="Directory containing the app", default=".")
+    parser.add_argument(
+        "--out", help="Output file ending in .json", default="tests", type=Path
+    )
+    args = parser.parse_args()
+
+    if args.app_dir is not None:
+        print(f"adding {args.app_dir} to sys.path")
+        sys.path.insert(0, args.app_dir)
+
+    print(f"importing app from {args.app}")
+    app = import_from_string(args.app)
+    openapi = app.openapi()
+    version = openapi.get("openapi", "unknown version")
+
+    print(f"writing openapi spec v{version}")
+    with tempfile.TemporaryDirectory() as tmpdirname:
+
+        tmp_dir = Path(tmpdirname)
+        openapi_p = tmp_dir / "openapi.json"
+        openapi_p.write_text(json.dumps(openapi, indent=2))
+
+        gen_code = tmp_dir / "gen_code"
+
+        print(f"generating python client to {args.out}")
+        if not args.out.is_dir():
+            raise Exception(f"{args.out} is not a directory")
+        args.out.mkdir(parents=True, exist_ok=True)
+
+        cmd = [
+            "openapi-generator-cli",
+            "generate",
+            "-g",
+            "python",
+            "-o",
+            f"{gen_code}",
+            "-i",
+            f"{openapi_p}",
+            "--additional-properties=generateSourceCodeOnly=true"
+        ]
+        subprocess.run(cmd, check=True, text=True)
+
+
+        src_client: Path = gen_code / "openapi_client"
+        pattern = r"from typing import Any, List, Optional"
+        replacement = "from typing import Any, List, Optional, Dict"
+        replace_in_directory(directory_path=src_client, pattern=pattern, replacement=replacement)
+
+        src_clients_tests = src_client / "test"
+        shutil.rmtree(src_clients_tests)
+        dst_client: Path = args.out / "openapi_client"
+        shutil.rmtree(dst_client, ignore_errors=True)
+        shutil.copytree(src_client, dst_client)
+
+
+
+
+if __name__ == "__main__":
+    main()
