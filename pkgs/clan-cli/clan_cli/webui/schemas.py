@@ -45,7 +45,7 @@ class EntityRoles(EntityRolesBase):
 
 
 class EntityBase(BaseModel):
-    did: str = Field(..., example="did:sov:test:1234")
+    did: str = Field(..., example="did:sov:test:120")
     name: str = Field(..., example="C1")
     ip: str = Field(..., example="127.0.0.1")
     network: str = Field(..., example="255.255.0.0")
@@ -93,7 +93,7 @@ class ServiceBase(BaseModel):
 
 
 class ServiceCreate(ServiceBase):
-    entity_did: str = Field(..., example="did:sov:test:1234")
+    entity_did: str = Field(..., example="did:sov:test:120")
 
 
 class Service(ServiceCreate):
@@ -119,7 +119,7 @@ class ServicesByName(BaseModel):
 class ResolutionBase(BaseModel):
     requester_name: str = Field(..., example="C1")
     requester_did: str = Field(..., example="did:sov:test:1122")
-    resolved_did: str = Field(..., example="did:sov:test:1234")
+    resolved_did: str = Field(..., example="did:sov:test:120")
     other: dict = Field(..., example={"test": "test"})
 
 
@@ -129,7 +129,6 @@ class ResolutionCreate(ResolutionBase):
 
 class Resolution(ResolutionCreate):
     timestamp: datetime
-    id: int
 
     class Config:
         orm_mode = True
@@ -148,7 +147,7 @@ class EventmessageBase(BaseModel):
     )  # specific to one group needed to enable visually nested groups
     msg_type: int = Field(..., example=1)  # message type for the label
     src_did: str = Field(..., example="did:sov:test:2234")
-    des_did: str = Field(..., example="did:sov:test:1234")
+    des_did: str = Field(..., example="did:sov:test:120")
 
 
 class EventmessageCreate(EventmessageBase):

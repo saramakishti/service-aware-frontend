@@ -54,7 +54,7 @@ def create_entities(num: int = 10, role: str = "entity") -> list[EntityCreate]:
     dlg = EntityCreate(
         did=f"did:sov:test:{port_dlg}",
         name="DLG",
-        ip=f"{host}:{port_dlg}/health",
+        ip=f"{host}:{port_dlg}",
         network="255.255.0.0",
         roles=[Role("DLG")],
         visible=True,
@@ -64,7 +64,7 @@ def create_entities(num: int = 10, role: str = "entity") -> list[EntityCreate]:
     ap = EntityCreate(
         did=f"did:sov:test:{port_ap}",
         name="AP",
-        ip=f"{host}:{port_ap}/health",
+        ip=f"{host}:{port_ap}",
         network="255.255.0.0",
         roles=[Role("AP")],
         visible=True,

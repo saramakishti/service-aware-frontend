@@ -135,7 +135,11 @@ def start_server(args: argparse.Namespace) -> None:
                 proc = mp.Process(
                     target=uvicorn.run,
                     args=(app,),
-                    kwargs={"host": args.host, "port": port, "log_level": "info"},
+                    kwargs={
+                        "host": args.host,
+                        "port": port,
+                        "log_level": args.log_level,
+                    },
                     daemon=True,
                 )
                 proc.start()

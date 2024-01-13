@@ -1,6 +1,5 @@
 import logging
 import time
-from datetime import datetime
 from typing import List, Optional
 
 import httpx
@@ -49,7 +48,7 @@ def get_all_services(
 
 @router.get("/api/v1/service", response_model=List[Service], tags=[Tags.services])
 def get_service_by_did(
-    entity_did: str = "did:sov:test:1234",
+    entity_did: str = "did:sov:test:120",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
@@ -64,7 +63,7 @@ def get_service_by_did(
     tags=[Tags.services],
 )
 def get_services_without_entity(
-    entity_did: str = "did:sov:test:1234",
+    entity_did: str = "did:sov:test:120",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
@@ -75,7 +74,7 @@ def get_services_without_entity(
 
 @router.delete("/api/v1/service", tags=[Tags.services])
 def delete_service(
-    entity_did: str = "did:sov:test:1234",
+    entity_did: str = "did:sov:test:120",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
     sql_crud.delete_service_by_entity_did(db, entity_did)
@@ -126,7 +125,7 @@ def get_all_entities(
 
 @router.get("/api/v1/entity", response_model=Optional[Entity], tags=[Tags.entities])
 def get_entity_by_did(
-    entity_did: str = "did:sov:test:1234",
+    entity_did: str = "did:sov:test:120",
     db: Session = Depends(sql_db.get_db),
 ) -> Optional[sql_models.Entity]:
     entity = sql_crud.get_entity_by_did(db, did=entity_did)
@@ -148,7 +147,7 @@ def get_attached_entities(
 @router.put("/api/v1/detach", tags=[Tags.entities])
 def detach_entity(
     background_tasks: BackgroundTasks,
-    entity_did: str = "did:sov:test:1234",
+    entity_did: str = "did:sov:test:120",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
@@ -163,7 +162,7 @@ def detach_entity(
 @router.put("/api/v1/attach", tags=[Tags.entities])
 def attach_entity(
     background_tasks: BackgroundTasks,
-    entity_did: str = "did:sov:test:1234",
+    entity_did: str = "did:sov:test:120",
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
@@ -180,7 +179,7 @@ def attach_entity(
 
 @router.get("/api/v1/is_attached", tags=[Tags.entities])
 def is_attached(
-    entity_did: str = "did:sov:test:1234", db: Session = Depends(sql_db.get_db)
+    entity_did: str = "did:sov:test:120", db: Session = Depends(sql_db.get_db)
 ) -> dict[str, str]:
     entity = sql_crud.get_entity_by_did(db, did=entity_did)
 
@@ -229,8 +228,8 @@ def attach_entity_loc(db: Session, entity_did: str) -> None:
 
 
 @router.delete("/api/v1/entity", tags=[Tags.entities])
-async def delete_entity(
-    entity_did: str = "did:sov:test:1234",
+def delete_entity(
+    entity_did: str = "did:sov:test:120",
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
     sql_crud.delete_entity_by_did_recursive(db, did=entity_did)
@@ -245,21 +244,27 @@ async def delete_entity(
 @router.get(
     "/api/v1/resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
 )
-async def get_all_resolutions(
+def get_all_resolutions(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[Resolution]:
-    # TODO: Get resolutions from DLG entity
+    matching_entities = sql_crud.get_entity_by_role(db, roles=[Role("DLG")])
+    if matching_entities is None:
+        raise ClanError("No DLG found")
+    if len(matching_entities) > 1:
+        raise ClanError("More than one DLG found")
+    dlg = matching_entities[0]
 
-    return [
-        Resolution(
-            requester_name="C1",
-            requester_did="did:sov:test:1122",
-            resolved_did="did:sov:test:1234",
-            other={"test": "test"},
-            timestamp=datetime.now(),
-            id=1,
-        )
-    ]
+    url = f"http://{dlg.ip}/dlg_list_of_did_resolutions"
+    try:
+        response = httpx.get(url, timeout=2)
+    except httpx.HTTPError as e:
+        raise ClanError(f"DLG not reachable at {url}") from e
+
+    if response.status_code != 200:
+        raise ClanError(f"DLG returned {response.status_code}")
+
+    resolutions = response.json()
+    return resolutions
 
 
 #########################
@@ -267,12 +272,10 @@ async def get_all_resolutions(
 #      Eventmessage     #
 #                       #
 #########################
-
-
 @router.post(
     "/api/v1/event_message", response_model=Eventmessage, tags=[Tags.eventmessages]
 )
-async def create_eventmessage(
+def create_eventmessage(
     eventmsg: EventmessageCreate, db: Session = Depends(sql_db.get_db)
 ) -> EventmessageCreate:
     return sql_crud.create_eventmessage(db, eventmsg)
@@ -283,7 +286,7 @@ async def create_eventmessage(
     response_model=List[Eventmessage],
     tags=[Tags.eventmessages],
 )
-async def get_all_eventmessages(
+def get_all_eventmessages(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[sql_models.Eventmessage]:
     eventmessages = sql_crud.get_eventmessages(db, skip=skip, limit=limit)

@@ -1,9 +1,12 @@
 import sys
 import time
 import urllib
+from datetime import datetime
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
+
+from clan_cli.webui.schemas import Resolution
 
 from .config import config
 
@@ -19,13 +22,8 @@ apps = [
     (app_c2, config.port_client_base + 1),
 ]
 
-# bash tests: curl localhost:6600/ap_list_of_services
-# curl localhost:7001/consume_service_from_other_entity
 
-
-#### HEALTH
-
-
+#### HEALTHCHECK
 @app_c1.get("/health")
 async def healthcheck_c1() -> str:
     return "200 OK"
@@ -88,127 +86,74 @@ async def consume_service_from_other_entity_c2() -> HTMLResponse:
     return HTMLResponse(content=html_content, status_code=200)
 
 
-#### ap_list_of_services
+@app_ap.get("/ap_list_of_services", response_class=JSONResponse)
+async def ap_list_of_services() -> JSONResponse:
+    res = [
+        {
+            "uuid": "98ae4334-6c12-ace8-ae34-0454cac5b68c",
+            "service_name": "Carlos Printing46",
+            "service_type": "3D Printing",
+            "endpoint_url": "127.0.0.1:6600/v1/print_daemon46",
+            "status": "unknown",
+            "other": {"action": ["register", "deregister", "delete", "create"]},
+            "entity_did": "did:sov:test:6600",
+            "entity": {
+                "did": "did:sov:test:6600",
+                "name": "AP",
+                "ip": "127.0.0.1:6600",
+                "network": "255.255.0.0",
+                "visible": True,
+                "other": {},
+                "attached": False,
+                "stop_health_task": False,
+                "roles": ["AP"],
+            },
+        },
+        {
+            "uuid": "988c24c9-61b1-cd22-6280-1c4510435a10",
+            "service_name": "Carlos Printing47",
+            "service_type": "3D Printing",
+            "endpoint_url": "127.0.0.1:6600/v1/print_daemon47",
+            "status": "unknown",
+            "other": {"action": ["register", "deregister", "delete", "create"]},
+            "entity_did": "did:sov:test:6600",
+            "entity": {
+                "did": "did:sov:test:6600",
+                "name": "AP",
+                "ip": "127.0.0.1:6600",
+                "network": "255.255.0.0",
+                "visible": True,
+                "other": {},
+                "attached": False,
+                "stop_health_task": False,
+                "roles": ["AP"],
+            },
+        },
+    ]
+    # resp = json.dumps(obj=res)
+    return JSONResponse(content=res, status_code=200)
 
 
-@app_ap.get("/ap_list_of_services", response_class=HTMLResponse)
-async def ap_list_of_services() -> HTMLResponse:
-    html_content = b"""HTTP/1.1 200 OK\r\n\r\n[[
-  {
-    "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30df",
-    "service_name": "Carlos Printing",
-    "service_type": "3D Printing",
-    "endpoint_url": "http://127.0.0.1:8000",
-    "status": "unknown",
-    "other": {
-      "action": [
-        "register",
-        "deregister",
-        "delete",
-        "create"
-      ]
-    },
-    "entity_did": "did:sov:test:1234"
-  },
-  {
-    "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d1",
-    "service_name": "Luiss Fax",
-    "service_type": "Fax",
-    "endpoint_url": "http://127.0.0.1:8000",
-    "status": "unknown",
-    "other": {
-      "action": [
-        "register",
-        "deregister",
-        "delete",
-        "create"
-      ]
-    },
-    "entity_did": "did:sov:test:1235"
-  },
-  {
-    "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d2",
-    "service_name": "Erdems VR-Stream",
-    "service_type": "VR-Stream",
-    "endpoint_url": "http://127.0.0.1:8000",
-    "status": "unknown",
-    "other": {
-      "action": [
-        "register",
-        "deregister",
-        "delete",
-        "create"
-      ]
-    },
-    "entity_did": "did:sov:test:1236"
-  },
-  {
-    "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d3",
-    "service_name": "Onurs gallary",
-    "service_type": "gallary",
-    "endpoint_url": "http://127.0.0.1:8000",
-    "status": "unknown",
-    "other": {
-      "action": [
-        "register",
-        "deregister",
-        "delete",
-        "create"
-      ]
-    },
-    "entity_did": "did:sov:test:1237"
-  },
-  {
-    "uuid": "8e285c0c-4e40-430a-a477-26b3b81e30d4",
-    "service_name": "Saras Game-Shop",
-    "service_type": "Game-Shop",
-    "endpoint_url": "http://127.0.0.1:8000",
-    "status": "unknown",
-    "other": {
-      "action": [
-        "register",
-        "deregister",
-        "delete",
-        "create"
-      ]
-    },
-    "entity_did": "did:sov:test:1238"
-  }
-]]"""
-    return HTMLResponse(content=html_content, status_code=200)
+@app_dlg.get("/dlg_list_of_did_resolutions", response_model=list[Resolution])
+async def dlg_list_of_did_resolutions() -> list[Resolution]:
+    res = []
 
-
-@app_dlg.get("/dlg_list_of_did_resolutions", response_class=HTMLResponse)
-async def dlg_list_of_did_resolutions() -> HTMLResponse:
-    html_content = b"""HTTP/1.1 200 OK\r\n\r\n
-[
-  {
-    "did": "did:sov:test:1234",
-    "name": "C1",
-    "ip": "127.0.0.1:5100",
-    "attached": false,
-    "visible": true,
-    "other": {
-      "network": "Carlo1's Home Network",
-      "roles": [
-        "service repository",
-        "service consumer"
-      ]
-    }
-  },
-  {
-    "did": "did:sov:test:1235",
-    "name": "C2",
-    "ip": "127.0.0.1:5100",
-    "attached": false,
-    "visible": true,
-    "other": {
-      "network": "Carlo2's Home Network",
-      "roles": [
-        "service repository",
-        "service prosumer"
-      ]
-    }
-  }
-]"""
-    return HTMLResponse(content=html_content, status_code=200)
+    res.append(
+        Resolution(
+            timestamp=datetime.fromisoformat("2021-10-12T12:52:00.000Z"),
+            requester_name="C1",
+            requester_did="did:sov:test:1122",
+            resolved_did="did:sov:test:1234",
+            other={"test": "test"},
+        )
+    )
+    res.append(
+        Resolution(
+            timestamp=datetime.fromisoformat("2021-10-12T12:53:00.000Z"),
+            requester_name="C2",
+            requester_did="did:sov:test:1123",
+            resolved_did="did:sov:test:1234",
+            other={"test": "test"},
+        )
+    )
+    return res
