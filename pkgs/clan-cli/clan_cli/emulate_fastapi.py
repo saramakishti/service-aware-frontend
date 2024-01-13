@@ -5,10 +5,19 @@ import urllib
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
+from .config import config
+
 app_dlg = FastAPI()
 app_ap = FastAPI()
 app_c1 = FastAPI()
 app_c2 = FastAPI()
+
+apps = [
+    (app_dlg, config.port_dlg),
+    (app_ap, config.port_ap),
+    (app_c1, config.port_client_base),
+    (app_c2, config.port_client_base + 1),
+]
 
 # bash tests: curl localhost:6600/ap_list_of_services
 # curl localhost:7001/consume_service_from_other_entity
@@ -40,9 +49,9 @@ async def healthcheck_ap() -> str:
 def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | None:
     for attempt in range(max_retries):
         try:
-            with urllib.request.urlopen(url) as response:
+            with urllib.request.urlopen(url) as response:  # type: ignore
                 return response.read()
-        except urllib.error.URLError as e:
+        except urllib.error.URLError as e:  # type: ignore
             print(f"Attempt {attempt + 1} failed: {e.reason}", file=sys.stderr)
             time.sleep(delay)
     return None

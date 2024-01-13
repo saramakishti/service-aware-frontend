@@ -18,7 +18,7 @@ from openapi_client.models import (
     Status,
 )
 
-import config
+from clan_cli.config import config
 
 random.seed(42)
 

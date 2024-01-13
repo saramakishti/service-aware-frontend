@@ -1,5 +1,6 @@
 import argparse
 import logging
+import multiprocessing as mp
 import shutil
 import subprocess
 import time
@@ -14,6 +15,7 @@ import uvicorn
 from pydantic import AnyUrl, IPvAnyAddress
 from pydantic.tools import parse_obj_as
 
+from clan_cli.emulate_fastapi import apps, get_health
 from clan_cli.errors import ClanError
 
 log = logging.getLogger(__name__)
@@ -127,28 +129,17 @@ def start_server(args: argparse.Namespace) -> None:
             subprocess.run(cmd, check=True)
 
         if args.emulate:
-            import multiprocessing as mp
-
-            from config import host, port_ap, port_client_base, port_dlg
-            from emulate_fastapi import app_ap, app_c1, app_c2, app_dlg, get_health
-
-            app_ports = [
-                (app_dlg, port_dlg),
-                (app_ap, port_ap),
-                (app_c1, port_client_base),
-                (app_c2, port_client_base + 1),
-            ]
             urls = list()
             # start servers as processes (dlg, ap, c1 and c2 for tests)
-            for app, port in app_ports:
+            for app, port in apps:
                 proc = mp.Process(
                     target=uvicorn.run,
                     args=(app,),
-                    kwargs={"host": host, "port": port, "log_level": "info"},
+                    kwargs={"host": args.host, "port": port, "log_level": "info"},
                     daemon=True,
                 )
                 proc.start()
-                urls.append(f"http://{host}:{port}")
+                urls.append(f"http://{args.host}:{port}")
             # check server health
             for url in urls:
                 res = get_health(url=url + "/health")
