@@ -124,7 +124,7 @@ export function Sidebar(props: SidebarProps) {
             priority
           />
         </div>
-        <div className="lg:absolute lg:top-0 lg:right-0">
+        <div className="lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2">
           <IconButton size="large" className="text-white" onClick={onClose}>
             <ChevronLeftIcon fontSize="inherit" />
           </IconButton>
