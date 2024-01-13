@@ -6,6 +6,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import React, { ReactNode } from "react";
@@ -88,13 +89,23 @@ export function Sidebar(props: SidebarProps) {
   );
   const [collapseMenuOpen, setCollapseMenuOpen] = React.useState(true);
 
-  const handleCollapseClick = () => {
-    setCollapseMenuOpen(!collapseMenuOpen);
-  };
+  const isSmallerScreen = useMediaQuery("(max-width: 1025px)");
 
   const handleMenuItemClick = (path: string) => {
     setActiveMenuItem(path);
   };
+
+  const handleCollapseClick = () => {
+    setCollapseMenuOpen(!collapseMenuOpen);
+  };
+
+  React.useEffect(() => {
+    if (isSmallerScreen) {
+      setCollapseMenuOpen(false);
+    } else {
+      setCollapseMenuOpen(true);
+    }
+  }, [isSmallerScreen]);
 
   return (
     <aside
@@ -113,16 +124,16 @@ export function Sidebar(props: SidebarProps) {
             priority
           />
         </div>
+        <div className="lg:absolute lg:right-0 lg:top-0">
+          <IconButton size="large" className="text-white" onClick={onClose}>
+            <ChevronLeftIcon fontSize="inherit" />
+          </IconButton>
+        </div>
       </div>
       <Divider
         flexItem
         className="mx-8 mb-4 mt-9 hidden bg-neutral-40 lg:block"
       />
-      <div className="flex w-full justify-center">
-        <IconButton size="large" className="text-white" onClick={onClose}>
-          <ChevronLeftIcon fontSize="inherit" />
-        </IconButton>
-      </div>
       <div className="flex flex-col overflow-hidden overflow-y-auto">
         <List className="mb-14 px-0 pb-4 text-white lg:mt-1 lg:px-4">
           {menuEntries.map((menuEntry, idx) => {
@@ -165,7 +176,7 @@ export function Sidebar(props: SidebarProps) {
                     >
                       <ListItemIcon
                         color="inherit"
-                        className="justify-center overflow-hidden text-white lg:justify-normal"
+                        className="overflow-hidden text-white lg:justify-normal"
                       >
                         {menuEntry.icon}
                       </ListItemIcon>
@@ -174,12 +185,12 @@ export function Sidebar(props: SidebarProps) {
                         primaryTypographyProps={{
                           color: "inherit",
                         }}
-                        className="hidden lg:block"
+                        className="mr-4 hidden lg:block"
                       />
                       {collapseMenuOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
                     <Collapse
-                      in={collapseMenuOpen}
+                      in={collapseMenuOpen && show}
                       timeout="auto"
                       unmountOnExit
                     >
@@ -188,7 +199,7 @@ export function Sidebar(props: SidebarProps) {
                           <ListItemButton
                             key={idx}
                             sx={{ pl: 4 }}
-                            className="justify-center lg:justify-normal"
+                            className="lg:justify-normal"
                             LinkComponent={Link}
                             href={menuEntry.to}
                             disabled={menuEntry.disabled}
@@ -197,7 +208,7 @@ export function Sidebar(props: SidebarProps) {
                           >
                             <ListItemIcon
                               color="inherit"
-                              className="justify-center overflow-hidden text-white lg:justify-normal"
+                              className="overflow-hidden text-white lg:justify-normal"
                             >
                               {menuEntry.icon}
                             </ListItemIcon>

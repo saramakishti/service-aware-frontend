@@ -11,7 +11,6 @@ import {
 import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
 import localFont from "next/font/local";
-import Image from "next/image";
 import * as React from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -76,25 +75,15 @@ export default function RootLayout({
                             !showSidebarDerived && translate
                           } flex h-full w-full flex-col overflow-y-scroll transition-[margin] duration-150 ease-in-out`}
                         >
-                          <div className="static top-0 mb-2 py-2">
-                            <div className="grid grid-cols-3">
-                              <div className="col-span-1">
-                                <IconButton
-                                  hidden={true}
-                                  onClick={() => setShowSidebar((c) => !c)}
-                                >
-                                  {!showSidebar && <MenuIcon />}
-                                </IconButton>
-                              </div>
-                              <div className="col-span-1 block w-full bg-fixed text-center font-semibold dark:invert lg:hidden">
-                                <Image
-                                  src="/tub-favicon.png"
-                                  alt="TU Berlin Logo"
-                                  width={58}
-                                  height={58}
-                                  priority
-                                />
-                              </div>
+                          <div className="grid grid-cols-3">
+                            <div className="col-span-1">
+                              <IconButton
+                                style={{ padding: "12px" }}
+                                hidden={true}
+                                onClick={() => setShowSidebar((c) => !c)}
+                              >
+                                {!showSidebar && <MenuIcon />}
+                              </IconButton>
                             </div>
                           </div>
 
