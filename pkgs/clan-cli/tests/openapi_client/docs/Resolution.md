@@ -9,7 +9,6 @@
 | **resolved_did**   | **str**      |             |
 | **other**          | **object**   |             |
 | **timestamp**      | **datetime** |             |
-| **id**             | **int**      |             |
 
 ## Example
 

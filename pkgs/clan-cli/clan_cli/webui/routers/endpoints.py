@@ -18,6 +18,7 @@ from ..schemas import (
     Role,
     Service,
     ServiceCreate,
+    ServiceUsageCreate,
 )
 from ..tags import Tags
 
@@ -35,8 +36,16 @@ log = logging.getLogger(__name__)
 def create_service(
     service: ServiceCreate, db: Session = Depends(sql_db.get_db)
 ) -> Service:
-    # todo checken ob schon da ...
-    return sql_crud.create_service(db=db, service=service)
+    services = sql_crud.create_service(db=db, service=service)
+    return services
+
+
+@router.post("/api/v1/service_usage", response_model=Service, tags=[Tags.services])
+def add_service_usage(
+    usage: ServiceUsageCreate, service_uuid: str, db: Session = Depends(sql_db.get_db)
+) -> Service:
+    service = sql_crud.add_service_usage(db, service_uuid, usage)
+    return service
 
 
 @router.get("/api/v1/services", response_model=List[Service], tags=[Tags.services])
@@ -141,9 +150,6 @@ def detach_entity(
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
 ) -> dict[str, str]:
-    entity = sql_crud.get_entity_by_did(db, did=entity_did)
-    if entity is None:
-        raise ClanError(f"Entity with did '{entity_did}' not found")
     sql_crud.set_stop_health_task(db, entity_did, True)
     return {"message": f"Detached {entity_did} successfully"}
 

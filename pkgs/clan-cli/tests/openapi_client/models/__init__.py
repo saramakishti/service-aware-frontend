@@ -24,6 +24,8 @@ from openapi_client.models.resolution import Resolution
 from openapi_client.models.role import Role
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate
+from openapi_client.models.service_usage import ServiceUsage
+from openapi_client.models.service_usage_create import ServiceUsageCreate
 from openapi_client.models.status import Status
 from openapi_client.models.validation_error import ValidationError
 from openapi_client.models.validation_error_loc_inner import ValidationErrorLocInner

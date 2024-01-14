@@ -83,6 +83,7 @@ def create_service(idx: int, entity: Entity) -> ServiceCreate:
         status="unknown",
         other={"action": ["register", "deregister", "delete", "create"]},
         entity_did=entity.did,
+        usage=[],
     )
 
     return se
