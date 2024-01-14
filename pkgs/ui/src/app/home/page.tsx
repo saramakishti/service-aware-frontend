@@ -1,12 +1,15 @@
 "use client";
 
 import { useAppState } from "@/components/hooks/useAppContext";
-import { NoDataOverlay } from "@/components/noDataOverlay";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
 import { HomeTableConfig } from "@/config/home";
+import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { mutate } from "swr";
+
+const NoSSRSequenceDiagram = dynamic(() => import('../../components/sequence_diagram'), { ssr: false })
+
 
 export default function Home() {
   const { data } = useAppState();
@@ -51,7 +54,7 @@ export default function Home() {
 
       <div>
         <h4>Sequence Diagram</h4>
-        <NoDataOverlay label="No Activity yet" />
+        <NoSSRSequenceDiagram />
       </div>
     </div>
   );
