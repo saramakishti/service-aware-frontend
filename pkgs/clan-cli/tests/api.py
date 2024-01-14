@@ -11,7 +11,7 @@ from fastapi.testclient import TestClient
 from openapi_client import ApiClient, Configuration
 from ports import PortFunction
 
-import config
+import clan_cli.config as config
 from clan_cli.webui.app import app
 
 

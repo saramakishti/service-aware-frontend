@@ -13,12 +13,12 @@ from openapi_client.models import (
     Eventmessage,
     EventmessageCreate,
     Machine,
-    Roles,
+    Role,
     ServiceCreate,
     Status,
 )
 
-import config
+import clan_cli.config as config
 
 random.seed(42)
 
@@ -38,7 +38,7 @@ def test_health(api_client: ApiClient) -> None:
     assert res.status == Status.ONLINE
 
 
-def create_entities(num: int = 10) -> list[EntityCreate]:
+def create_entities(num: int = 10, role: str = "entity") -> list[EntityCreate]:
     res = []
     for i in range(num):
         en = EntityCreate(
@@ -46,7 +46,7 @@ def create_entities(num: int = 10) -> list[EntityCreate]:
             name=f"C{i}",
             ip=f"{host}:{port_client_base+i}",
             network="255.255.0.0",
-            role=Roles("service_prosumer"),
+            roles=[Role("service_prosumer")],
             visible=True,
             other={},
         )
@@ -54,9 +54,9 @@ def create_entities(num: int = 10) -> list[EntityCreate]:
     dlg = EntityCreate(
         did=f"did:sov:test:{port_dlg}",
         name="DLG",
-        ip=f"{host}:{port_dlg}/health",
+        ip=f"{host}:{port_dlg}",
         network="255.255.0.0",
-        role=Roles("DLG"),
+        roles=[Role("DLG")],
         visible=True,
         other={},
     )
@@ -64,9 +64,9 @@ def create_entities(num: int = 10) -> list[EntityCreate]:
     ap = EntityCreate(
         did=f"did:sov:test:{port_ap}",
         name="AP",
-        ip=f"{host}:{port_ap}/health",
+        ip=f"{host}:{port_ap}",
         network="255.255.0.0",
-        role=Roles("AP"),
+        roles=[Role("AP")],
         visible=True,
         other={},
     )
@@ -90,6 +90,7 @@ def create_service(idx: int, entity: Entity) -> ServiceCreate:
 
 def test_create_entities(api_client: ApiClient) -> None:
     api = EntitiesApi(api_client=api_client)
+
     for own_entity in create_entities():
         res: Entity = api.create_entity(own_entity)
         assert res.did == own_entity.did
@@ -115,7 +116,6 @@ def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
     for i in range(num):
         group_id = i % 5 + random.getrandbits(6)
         em_req_send = EventmessageCreate(
-            id=random.getrandbits(18),
             timestamp=starttime + i * 10,
             group=i % 5,
             group_id=group_id,
@@ -126,7 +126,6 @@ def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
         )
         res.append(em_req_send)
         em_req_rec = EventmessageCreate(
-            id=random.getrandbits(18),
             timestamp=starttime + (i * 10) + 2,
             group=i % 5,
             group_id=group_id,
@@ -138,7 +137,6 @@ def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
         res.append(em_req_rec)
         group_id = i % 5 + random.getrandbits(6)
         em_res_send = EventmessageCreate(
-            id=random.getrandbits(18),
             timestamp=starttime + i * 10 + 4,
             group=i % 5,
             group_id=group_id,
@@ -149,7 +147,6 @@ def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
         )
         res.append(em_res_send)
         em_res_rec = EventmessageCreate(
-            id=random.getrandbits(6),
             timestamp=starttime + (i * 10) + 8,
             group=i % 5,
             group_id=group_id,
@@ -165,8 +162,10 @@ def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
 def test_create_eventmessages(api_client: ApiClient) -> None:
     api = EventmessagesApi(api_client=api_client)
     assert [] == api.get_all_eventmessages()
-    for own_eventmsg in create_eventmessages():
+    for idx, own_eventmsg in enumerate(create_eventmessages()):
         res: Eventmessage = api.create_eventmessage(own_eventmsg)
-        # breakpoint()
-        assert res.id == own_eventmsg.id
+
+        assert res.msg == own_eventmsg.msg
+        assert res.src_did == own_eventmsg.src_did
+        assert res.des_did == own_eventmsg.des_did
     assert [] != api.get_all_eventmessages()

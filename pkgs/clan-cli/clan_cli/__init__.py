@@ -5,7 +5,7 @@ from types import ModuleType
 from typing import Optional
 
 from . import webui
-from .custom_logger import register
+from .custom_logger import setup_logging
 
 log = logging.getLogger(__name__)
 
@@ -30,10 +30,6 @@ def create_parser(prog: Optional[str] = None) -> argparse.ArgumentParser:
     parser_webui = subparsers.add_parser("webui", help="start webui")
     webui.register_parser(parser_webui)
 
-    #    if args.debug:
-    register(logging.DEBUG)
-    log.debug("Debug log activated")
-
     if argcomplete:
         argcomplete.autocomplete(parser)
 
@@ -46,6 +42,12 @@ def create_parser(prog: Optional[str] = None) -> argparse.ArgumentParser:
 def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
+
+    if args.debug:
+        setup_logging(logging.DEBUG)
+        log.debug("Debug log activated")
+    else:
+        setup_logging(logging.INFO)
 
     if not hasattr(args, "func"):
         return

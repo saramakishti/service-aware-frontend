@@ -1,7 +1,7 @@
 from sqlalchemy import JSON, Boolean, Column, Enum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
-from .schemas import Roles
+from .schemas import Role
 from .sql_db import Base
 
 # Relationsship example
@@ -16,8 +16,6 @@ class Entity(Base):
     name = Column(String, index=True, unique=True)
     ip = Column(String, index=True)
     network = Column(String, index=True)
-    role = Column(Enum(Roles), index=True, nullable=False)  # type: ignore
-    # role = Column(String, index=True, nullable=False)
     attached = Column(Boolean, index=True)
     visible = Column(Boolean, index=True)
     stop_health_task = Column(Boolean)
@@ -28,6 +26,19 @@ class Entity(Base):
 
     ## Relations ##
     services = relationship("Service", back_populates="entity")
+    roles = relationship("EntityRoles", back_populates="entity")
+
+
+class EntityRoles(Base):
+    __tablename__ = "entity_roles"
+
+    ## Queryable body ##
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    entity_did = Column(String, ForeignKey("entities.did"))
+    role = Column(Enum(Role), index=True, nullable=False)  # type: ignore
+
+    ## Relations ##
+    entity = relationship("Entity", back_populates="roles")
 
 
 class ServiceAbstract(Base):
@@ -58,7 +69,7 @@ class Eventmessage(Base):
     __tablename__ = "eventmessages"
 
     ## Queryable body ##
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     timestamp = Column(Integer, unique=True, index=True)
     group = Column(Integer, index=True)
     group_id = Column(Integer, index=True)

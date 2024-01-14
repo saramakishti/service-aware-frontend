@@ -4,7 +4,6 @@
 
 | Name          | Type       | Description | Notes |
 | ------------- | ---------- | ----------- | ----- |
-| **id**        | **int**    |             |
 | **timestamp** | **int**    |             |
 | **group**     | **int**    |             |
 | **group_id**  | **int**    |             |

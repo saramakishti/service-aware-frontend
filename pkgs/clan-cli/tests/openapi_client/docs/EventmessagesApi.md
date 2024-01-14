@@ -4,7 +4,7 @@ All URIs are relative to _http://localhost_
 
 | Method                                                                 | HTTP request                   | Description           |
 | ---------------------------------------------------------------------- | ------------------------------ | --------------------- |
-| [**create_eventmessage**](EventmessagesApi.md#create_eventmessage)     | **POST** /api/v1/send_msg      | Create Eventmessage   |
+| [**create_eventmessage**](EventmessagesApi.md#create_eventmessage)     | **POST** /api/v1/event_message | Create Eventmessage   |
 | [**get_all_eventmessages**](EventmessagesApi.md#get_all_eventmessages) | **GET** /api/v1/event_messages | Get All Eventmessages |
 
 # **create_eventmessage**

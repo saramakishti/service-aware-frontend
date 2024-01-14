@@ -20,7 +20,6 @@ __version__ = "1.0.0"
 from openapi_client.api.default_api import DefaultApi
 from openapi_client.api.entities_api import EntitiesApi
 from openapi_client.api.eventmessages_api import EventmessagesApi
-from openapi_client.api.repositories_api import RepositoriesApi
 from openapi_client.api.resolution_api import ResolutionApi
 from openapi_client.api.services_api import ServicesApi
 
@@ -43,7 +42,7 @@ from openapi_client.models.eventmessage_create import EventmessageCreate
 from openapi_client.models.http_validation_error import HTTPValidationError
 from openapi_client.models.machine import Machine
 from openapi_client.models.resolution import Resolution
-from openapi_client.models.roles import Roles
+from openapi_client.models.role import Role
 from openapi_client.models.service import Service
 from openapi_client.models.service_create import ServiceCreate
 from openapi_client.models.status import Status

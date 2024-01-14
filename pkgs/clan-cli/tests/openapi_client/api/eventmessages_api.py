@@ -175,7 +175,7 @@ class EventmessagesApi:
         }
 
         return self.api_client.call_api(
-            '/api/v1/send_msg', 'POST',
+            '/api/v1/event_message', 'POST',
             _path_params,
             _query_params,
             _header_params,

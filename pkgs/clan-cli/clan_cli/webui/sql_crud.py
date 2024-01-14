@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import true
 
@@ -65,8 +66,21 @@ def get_services_without_entity_id(
 #########################
 def create_entity(db: Session, entity: schemas.EntityCreate) -> sql_models.Entity:
     db_entity = sql_models.Entity(
-        **entity.dict(), attached=False, stop_health_task=False
+        did=entity.did,
+        name=entity.name,
+        ip=entity.ip,
+        network=entity.network,
+        visible=entity.visible,
+        other=entity.other,
+        attached=False,
+        stop_health_task=False,
     )
+
+    db_roles = []
+    for role in entity.roles:
+        db_roles.append(sql_models.EntityRoles(role=role))
+
+    db_entity.roles = db_roles
     db.add(db_entity)
     db.commit()
     db.refresh(db_entity)
@@ -83,8 +97,34 @@ def get_entity_by_did(db: Session, did: str) -> Optional[sql_models.Entity]:
     return db.query(sql_models.Entity).filter(sql_models.Entity.did == did).first()
 
 
-def get_entity_by_name(db: Session, name: str) -> Optional[sql_models.Entity]:
-    return db.query(sql_models.Entity).filter(sql_models.Entity.name == name).first()
+def get_entity_by_name_or_did(db: Session, name: str) -> Optional[sql_models.Entity]:
+    return (
+        db.query(sql_models.Entity)
+        .filter((sql_models.Entity.name == name) | (sql_models.Entity.did == name))
+        .first()
+    )
+
+
+def get_entity_by_role(
+    db: Session, roles: List[schemas.Role]
+) -> List[sql_models.Entity]:
+    # create a subquery to count the matching roles for each entity
+    subquery = (
+        db.query(
+            sql_models.EntityRoles.entity_did,
+            func.count(sql_models.EntityRoles.role).label("role_count"),
+        )
+        .filter(sql_models.EntityRoles.role.in_(roles))
+        .group_by(sql_models.EntityRoles.entity_did)
+        .subquery()
+    )
+    # join the subquery with the entity table and filter by the role count
+    return (
+        db.query(sql_models.Entity)
+        .join(subquery, sql_models.Entity.did == subquery.c.entity_did)
+        .filter(subquery.c.role_count == len(roles))
+        .all()
+    )
 
 
 # get attached
@@ -107,12 +147,11 @@ def set_stop_health_task(db: Session, entity_did: str, value: bool) -> None:
     if db_entity is None:
         raise ClanError(f"Entity with did '{entity_did}' not found")
 
-    setattr(db_entity, "stop_health_task", value)
+    db_entity.stop_health_task = value  # type: ignore
 
     # save changes in db
     db.add(db_entity)
     db.commit()
-    db.refresh(db_entity)
 
 
 def set_attached_by_entity_did(db: Session, entity_did: str, attached: bool) -> None:
@@ -120,12 +159,11 @@ def set_attached_by_entity_did(db: Session, entity_did: str, attached: bool) -> 
     if db_entity is None:
         raise ClanError(f"Entity with did '{entity_did}' not found")
 
-    setattr(db_entity, "attached", attached)
+    db_entity.attached = attached  # type: ignore
 
     # save changes in db
     db.add(db_entity)
     db.commit()
-    db.refresh(db_entity)
 
 
 def delete_entity_by_did(db: Session, did: str) -> None:
@@ -148,7 +186,15 @@ def delete_entity_by_did_recursive(db: Session, did: str) -> None:
 def create_eventmessage(
     db: Session, eventmsg: schemas.EventmessageCreate
 ) -> sql_models.Eventmessage:
-    db_eventmessage = sql_models.Eventmessage(**eventmsg.dict())
+    db_eventmessage = sql_models.Eventmessage(
+        timestamp=eventmsg.timestamp,
+        group=eventmsg.group,
+        group_id=eventmsg.group_id,
+        msg_type=eventmsg.msg_type,
+        src_did=eventmsg.src_did,
+        des_did=eventmsg.des_did,
+        msg=eventmsg.msg,
+    )
     db.add(db_eventmessage)
     db.commit()
     db.refresh(db_eventmessage)

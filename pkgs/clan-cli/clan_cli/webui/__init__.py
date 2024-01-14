@@ -1,11 +1,15 @@
 import argparse
+import logging
 from typing import Callable, NoReturn, Optional
+
+log = logging.getLogger(__name__)
 
 start_server: Optional[Callable] = None
 ServerImportError: Optional[ImportError] = None
 try:
     from .server import start_server
 except ImportError as e:
+    log.exception(e)
     ServerImportError = e
 
 

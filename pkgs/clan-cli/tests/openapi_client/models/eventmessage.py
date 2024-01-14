@@ -25,7 +25,6 @@ class Eventmessage(BaseModel):
     """
     Eventmessage
     """
-    id: StrictInt = Field(...)
     timestamp: StrictInt = Field(...)
     group: StrictInt = Field(...)
     group_id: StrictInt = Field(...)
@@ -33,7 +32,8 @@ class Eventmessage(BaseModel):
     src_did: StrictStr = Field(...)
     des_did: StrictStr = Field(...)
     msg: Dict[str, Any] = Field(...)
-    __properties = ["id", "timestamp", "group", "group_id", "msg_type", "src_did", "des_did", "msg"]
+    id: StrictInt = Field(...)
+    __properties = ["timestamp", "group", "group_id", "msg_type", "src_did", "des_did", "msg", "id"]
 
     class Config:
         """Pydantic configuration"""
@@ -71,14 +71,14 @@ class Eventmessage(BaseModel):
             return Eventmessage.parse_obj(obj)
 
         _obj = Eventmessage.parse_obj({
-            "id": obj.get("id"),
             "timestamp": obj.get("timestamp"),
             "group": obj.get("group"),
             "group_id": obj.get("group_id"),
             "msg_type": obj.get("msg_type"),
             "src_did": obj.get("src_did"),
             "des_did": obj.get("des_did"),
-            "msg": obj.get("msg")
+            "msg": obj.get("msg"),
+            "id": obj.get("id")
         })
         return _obj
 
