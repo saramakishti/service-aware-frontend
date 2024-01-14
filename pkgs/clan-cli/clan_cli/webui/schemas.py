@@ -72,8 +72,11 @@ class Entity(EntityBase):
 
     # define a custom getter function for roles
     @validator("roles", pre=True)
-    def get_roles(cls, v: List[EntityRoles]) -> List[Role]:
-        return [x.role for x in v]
+    def get_roles(cls, v: List[EntityRoles | Role]) -> List[Role]:
+        if isinstance(v, list) and len(v) > 0 and isinstance(v[0], EntityRoles):
+            return [x.role for x in v]  # type: ignore
+        else:
+            return v  # type: ignore
 
 
 #########################
