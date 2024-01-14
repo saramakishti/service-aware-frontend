@@ -95,18 +95,6 @@ def create_entity(
 
 
 @router.get(
-    "/api/v1/entity_by_name_or_did",
-    response_model=Optional[Entity],
-    tags=[Tags.entities],
-)
-def get_entity_by_name_or_did(
-    entity_name_or_did: str = "C1", db: Session = Depends(sql_db.get_db)
-) -> Optional[sql_models.Entity]:
-    entity = sql_crud.get_entity_by_name_or_did(db, name=entity_name_or_did)
-    return entity
-
-
-@router.get(
     "/api/v1/entity_by_roles", response_model=List[Entity], tags=[Tags.entities]
 )
 def get_entity_by_roles(
@@ -129,7 +117,7 @@ def get_entity_by_did(
     entity_did: str = "did:sov:test:120",
     db: Session = Depends(sql_db.get_db),
 ) -> Optional[sql_models.Entity]:
-    entity = sql_crud.get_entity_by_did(db, did=entity_did)
+    entity = sql_crud.get_entity_by_name_or_did(db, name=entity_did)
     return entity
 
 
