@@ -14,7 +14,7 @@ import { NoDataOverlay } from "../noDataOverlay";
 import { useGetAllEventmessages } from "@/api/eventmessages/eventmessages";
 import { mutate } from "swr";
 import { LoadingOverlay } from "../join/loadingOverlay";
-import { generateMermaidString, dataFromBE } from "./helpers";
+import { generateMermaidString } from "./helpers";
 
 const SequenceDiagram = () => {
   const {
@@ -26,6 +26,7 @@ const SequenceDiagram = () => {
   const mermaidRef: any = useRef(null);
   const [scale, setScale] = useState(1);
   const hasData = eventMessagesData?.data && eventMessagesData?.data.length > 0;
+  // const hasData = true;
 
   const mermaidString = generateMermaidString(eventMessagesData?.data);
 
@@ -130,10 +131,10 @@ const SequenceDiagram = () => {
     return <LoadingOverlay title="Loading Diagram" subtitle="Please wait..." />;
 
   return (
-    <div className="flex flex-col items-end w-full">
+    <div className="flex w-full flex-col items-end">
       {hasData ? (
         <>
-          <div className="flex justify-end gap-2.5 mb-5 w-full">
+          <div className="flex w-full justify-end gap-2.5 mb-5">
             <Tooltip placement="top" title="Refresh Diagram">
               <IconButton color="default" onClick={onRefresh}>
                 <RefreshIcon />
@@ -165,12 +166,12 @@ const SequenceDiagram = () => {
               </IconButton>
             </Tooltip>
           </div>
-          <div className="w-full h-500 overflow-auto p-2.5 box-border h-full">
+          <div className="w-full h-full overflow-auto p-2.5 box-border">
             <div className="mermaid" ref={mermaidRef}></div>
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center w-full h-500">
+        <div className="flex w-full justify-center items-center">
           <NoDataOverlay label="No Activity yet" />
         </div>
       )}

@@ -30,6 +30,7 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: ["mermaid"],
   important: "#__next",
   theme: {
     colors: {
