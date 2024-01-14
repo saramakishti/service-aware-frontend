@@ -1,7 +1,7 @@
 from sqlalchemy import JSON, Boolean, Column, Enum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
-from .schemas import Role
+from .db_types import Role
 from .sql_db import Base
 
 # Relationsship example

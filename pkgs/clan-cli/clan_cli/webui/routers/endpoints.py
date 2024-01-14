@@ -231,6 +231,8 @@ def get_rpc_by_role(db: Session, role: Role, path: str) -> Any:
         raise ClanError(f"No {role} found")
     if len(matching_entities) > 1:
         raise ClanError(f"More than one {role} found")
+    if len(matching_entities) == 0:
+        raise ClanError(f"No {role} found")
     dlg = matching_entities[0]
 
     url = f"http://{dlg.ip}/{path}"
@@ -305,7 +307,6 @@ def get_all_eventmessages(
 #                            #
 ##############################
 @router.get("/emulate", response_class=HTMLResponse)
-@router.get("/emu", response_class=HTMLResponse)
 def get_emulated_enpoints() -> HTMLResponse:
     from clan_cli.config import ap_url, c1_url, c2_url, dlg_url
 
