@@ -8,7 +8,6 @@ import { useGetAllResolutions } from "@/api/resolution/resolution";
 import { mutate } from "swr";
 
 export default function DLG() {
-
   const {
     data: resolutionData,
     isLoading: loadingResolutions,

@@ -51,7 +51,8 @@ export default function RootLayout({
         <meta name="description" content="Service Aware Networks" />
         <link rel="icon" href="tub-favicon.ico" sizes="any" />
         <script type="module">
-          import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+          import mermaid from
+          'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         </script>
         <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
         <script
@@ -81,8 +82,9 @@ export default function RootLayout({
                           onClose={() => setShowSidebar(false)}
                         />
                         <div
-                          className={tw`${!showSidebarDerived && translate
-                            } flex h-full w-full flex-col overflow-y-scroll transition-[margin] duration-150 ease-in-out`}
+                          className={tw`${
+                            !showSidebarDerived && translate
+                          } flex h-full w-full flex-col overflow-y-scroll transition-[margin] duration-150 ease-in-out`}
                         >
                           <div className="grid grid-cols-3">
                             <div className="col-span-1">

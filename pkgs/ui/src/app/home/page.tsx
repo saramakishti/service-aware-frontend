@@ -8,8 +8,10 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { mutate } from "swr";
 
-const NoSSRSequenceDiagram = dynamic(() => import('../../components/sequence_diagram'), { ssr: false })
-
+const NoSSRSequenceDiagram = dynamic(
+  () => import("../../components/sequence_diagram"),
+  { ssr: false },
+);
 
 export default function Home() {
   const { data } = useAppState();
