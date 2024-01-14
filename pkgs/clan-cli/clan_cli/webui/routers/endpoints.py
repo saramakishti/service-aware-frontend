@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import List, Optional
+from typing import Any, List, Optional
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, Query
@@ -237,6 +237,26 @@ def delete_entity(
     return {"message": "Entity deleted and all relations to that entity"}
 
 
+def get_rpc_by_role(db: Session, role: Role, path: str) -> Any:
+    matching_entities = sql_crud.get_entity_by_role(db, roles=[role])
+    if matching_entities is None:
+        raise ClanError(f"No {role} found")
+    if len(matching_entities) > 1:
+        raise ClanError(f"More than one {role} found")
+    dlg = matching_entities[0]
+
+    url = f"http://{dlg.ip}/{path}"
+    try:
+        response = httpx.get(url, timeout=2)
+    except httpx.HTTPError as e:
+        raise ClanError(f"{role} not reachable at {url}") from e
+
+    if response.status_code != 200:
+        raise ClanError(f"{role} returned {response.status_code}")
+
+    return response.json()
+
+
 #########################
 #                       #
 #      Resolution       #
@@ -248,24 +268,21 @@ def delete_entity(
 def get_all_resolutions(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
 ) -> List[Resolution]:
-    matching_entities = sql_crud.get_entity_by_role(db, roles=[Role("DLG")])
-    if matching_entities is None:
-        raise ClanError("No DLG found")
-    if len(matching_entities) > 1:
-        raise ClanError("More than one DLG found")
-    dlg = matching_entities[0]
+    return get_rpc_by_role(db, Role("DLG"), "dlg_list_of_did_resolutions")
 
-    url = f"http://{dlg.ip}/dlg_list_of_did_resolutions"
-    try:
-        response = httpx.get(url, timeout=2)
-    except httpx.HTTPError as e:
-        raise ClanError(f"DLG not reachable at {url}") from e
 
-    if response.status_code != 200:
-        raise ClanError(f"DLG returned {response.status_code}")
-
-    resolutions = response.json()
-    return resolutions
+#########################
+#                       #
+#      Repository       #
+#                       #
+#########################
+@router.get(
+    "/api/v1/repositories", tags=[Tags.repositories], response_model=List[Service]
+)
+def get_all_repositories(
+    skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
+) -> List[Service]:
+    return get_rpc_by_role(db, Role("AP"), "ap_list_of_services")
 
 
 #########################
