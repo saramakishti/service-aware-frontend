@@ -1,23 +1,13 @@
 import logging
 from datetime import datetime
-from enum import Enum
 from typing import List
 
 from pydantic import BaseModel, Field, validator
 
+from . import sql_models
+from .db_types import Role, Status
+
 log = logging.getLogger(__name__)
-
-
-class Status(Enum):
-    ONLINE = "online"
-    OFFLINE = "offline"
-    UNKNOWN = "unknown"
-
-
-class Role(Enum):
-    PROSUMER = "service_prosumer"
-    AP = "AP"
-    DLG = "DLG"
 
 
 class Machine(BaseModel):
@@ -72,8 +62,15 @@ class Entity(EntityBase):
 
     # define a custom getter function for roles
     @validator("roles", pre=True)
-    def get_roles(cls, v: List[EntityRoles]) -> List[Role]:
-        return [x.role for x in v]
+    def get_roles(cls, v: List[sql_models.EntityRoles | Role]) -> List[Role]:
+        if (
+            isinstance(v, list)
+            and len(v) > 0
+            and isinstance(v[0], sql_models.EntityRoles)
+        ):
+            return [x.role for x in v]  # type: ignore
+        else:
+            return v  # type: ignore
 
 
 #########################
