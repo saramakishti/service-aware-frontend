@@ -79,13 +79,19 @@ def create_service(idx: int, entity: Entity) -> ServiceCreate:
         uuid=uuids[idx],
         service_name=f"Carlos Printing{idx}",
         service_type="3D Printing",
-        endpoint_url=f"{entity.ip}/v1/print_daemon{idx}",
+        endpoint_url=f"http://{entity.ip}/v1/print_daemon{idx}",
         status={"data": ["draft", "registered"]},
         other={},
         action={
             "data": [
-                {"name": "register", "path": "/register"},
-                {"name": "deregister", "path": "/deregister"},
+                {
+                    "name": "register",
+                    "endpoint": f"http://{entity.ip}/v1/print_daemon{idx}/register",
+                },
+                {
+                    "name": "deregister",
+                    "endpoint": f"http://{entity.ip}/v1/print_daemon{idx}/deregister",
+                },
             ]
         },
         entity_did=entity.did,

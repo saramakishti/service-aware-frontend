@@ -54,19 +54,28 @@ export const ServiceTableConfig = [
   {
     key: "status",
     label: "Status",
+    render: (value: any) => {
+      let renderedValue: any = "";
+      if (Array.isArray(value.data)) {
+        renderedValue = value.data.join(", ");
+      } else {
+        console.error("Status is not an array", value);
+      }
+      return renderedValue;
+    },
   },
   {
-    key: "other",
+    key: "action",
     label: "Action",
     render: (value: any) => {
       let renderedValue: any = "";
+      console.log("value", value.data);
       if (typeof value === "object")
         renderedValue = (
           <>
-            {value.action.map((actionType: string) => (
+            {value.data.map((actionType: any) => (
               <>
-                <code>{actionType}</code>
-                <br />
+                <Button>{actionType.name}</Button>
               </>
             ))}
           </>
