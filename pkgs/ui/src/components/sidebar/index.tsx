@@ -45,6 +45,18 @@ const menuEntityEntries: MenuEntry[] = [
     to: "/client/C2",
     disabled: false,
   },
+  {
+    icon: <PersonIcon />,
+    label: "C3",
+    to: "/client/C3",
+    disabled: false,
+  },
+  {
+    icon: <PersonIcon />,
+    label: "C4",
+    to: "/client/C4",
+    disabled: false,
+  },
 ];
 
 const menuEntries: MenuEntry[] = [
