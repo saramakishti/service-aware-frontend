@@ -10,7 +10,7 @@
 | **endpoint_url** | **str**                                   |             |
 | **status**       | **str**                                   |             |
 | **other**        | **object**                                |             |
-| **entity**       | [**Entity**](Entity.md)                   |             |
+| **entity_did**   | **str**                                   |             |
 | **usage**        | [**List[ServiceUsage]**](ServiceUsage.md) |             |
 
 ## Example

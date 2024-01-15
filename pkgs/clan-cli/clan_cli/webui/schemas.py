@@ -100,15 +100,14 @@ class ServiceBase(BaseModel):
     other: dict = Field(
         ..., example={"action": ["register", "deregister", "delete", "create"]}
     )
+    entity_did: str = Field(..., example="did:sov:test:120")
 
 
 class ServiceCreate(ServiceBase):
-    entity_did: str = Field(..., example="did:sov:test:120")
     usage: List[ServiceUsageCreate]
 
 
 class Service(ServiceBase):
-    entity: Entity
     usage: List[ServiceUsage]
 
     class Config:
@@ -116,7 +115,6 @@ class Service(ServiceBase):
 
 
 class ServicesByName(BaseModel):
-    entity: Entity
     services: List[Service]
 
     class Config:
