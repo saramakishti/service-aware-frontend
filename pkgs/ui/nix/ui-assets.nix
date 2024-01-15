@@ -1,5 +1,5 @@
 { fetchzip }:
 fetchzip {
-  url = "https://gitea.gchq.icu/api/packages/IoSL/generic/IoSL-service-aware-frontend/04h6w20fgq1zd4qzqm1rqkyk1s3mxnra1088icdrshsdm29x81xa/assets.tar.gz";
-  sha256 = "04h6w20fgq1zd4qzqm1rqkyk1s3mxnra1088icdrshsdm29x81xa";
+  url = "https://gitea.gchq.icu/api/packages/IoSL/generic/IoSL-service-aware-frontend/16473b2a2b8s47y8ac48yx2lan40kng01j0dc7nl77nbx84z6a74/assets.tar.gz";
+  sha256 = "16473b2a2b8s47y8ac48yx2lan40kng01j0dc7nl77nbx84z6a74";
 }
