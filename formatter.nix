@@ -18,6 +18,8 @@
     treefmt.settings.formatter.prettier.excludes = [
       "secrets.yaml"
       "key.json"
+      "keyfile.json"
+      "**/pkgs/clan-cli/tests/openapi_client/**"
     ];
 
     treefmt.programs.mypy.enable = true;
