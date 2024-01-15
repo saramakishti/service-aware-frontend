@@ -26,6 +26,7 @@ def create_service(db: Session, service: schemas.ServiceCreate) -> sql_models.Se
         status=service.status,
         other=service.other,
         entity_did=service.entity_did,
+        action=service.action,
     )
     db_usage = []
     for usage in service.usage:

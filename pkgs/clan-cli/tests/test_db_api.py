@@ -80,8 +80,14 @@ def create_service(idx: int, entity: Entity) -> ServiceCreate:
         service_name=f"Carlos Printing{idx}",
         service_type="3D Printing",
         endpoint_url=f"{entity.ip}/v1/print_daemon{idx}",
-        status="unknown",
-        other={"action": ["register", "deregister", "delete", "create"]},
+        status={"data": ["draft", "registered"]},
+        other={},
+        action={
+            "data": [
+                {"name": "register", "path": "/register"},
+                {"name": "deregister", "path": "/deregister"},
+            ]
+        },
         entity_did=entity.did,
         usage=[],
     )

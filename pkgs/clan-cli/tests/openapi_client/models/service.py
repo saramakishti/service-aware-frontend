@@ -30,11 +30,12 @@ class Service(BaseModel):
     service_name: StrictStr = Field(...)
     service_type: StrictStr = Field(...)
     endpoint_url: StrictStr = Field(...)
-    status: StrictStr = Field(...)
     other: Dict[str, Any] = Field(...)
     entity_did: StrictStr = Field(...)
+    status: Dict[str, Any] = Field(...)
+    action: Dict[str, Any] = Field(...)
     usage: conlist(ServiceUsage) = Field(...)
-    __properties = ["uuid", "service_name", "service_type", "endpoint_url", "status", "other", "entity_did", "usage"]
+    __properties = ["uuid", "service_name", "service_type", "endpoint_url", "other", "entity_did", "status", "action", "usage"]
 
     class Config:
         """Pydantic configuration"""
@@ -83,9 +84,10 @@ class Service(BaseModel):
             "service_name": obj.get("service_name"),
             "service_type": obj.get("service_type"),
             "endpoint_url": obj.get("endpoint_url"),
-            "status": obj.get("status"),
             "other": obj.get("other"),
             "entity_did": obj.get("entity_did"),
+            "status": obj.get("status"),
+            "action": obj.get("action"),
             "usage": [ServiceUsage.from_dict(_item) for _item in obj.get("usage")] if obj.get("usage") is not None else None
         })
         return _obj
