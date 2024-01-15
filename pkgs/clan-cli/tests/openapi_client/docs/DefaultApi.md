@@ -1,16 +1,16 @@
 # openapi_client.DefaultApi
 
-All URIs are relative to _http://localhost_
+All URIs are relative to *http://localhost*
 
-| Method                                                           | HTTP request         | Description           |
-| ---------------------------------------------------------------- | -------------------- | --------------------- |
-| [**get**](DefaultApi.md#get)                                     | **GET** /ws2_example | Get                   |
-| [**get_emulated_enpoints**](DefaultApi.md#get_emulated_enpoints) | **GET** /emulate     | Get Emulated Enpoints |
-| [**health**](DefaultApi.md#health)                               | **GET** /health      | Health                |
-| [**root**](DefaultApi.md#root)                                   | **GET** /{path_name} | Root                  |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**get**](DefaultApi.md#get) | **GET** /ws2_example | Get
+[**get_emulated_enpoints**](DefaultApi.md#get_emulated_enpoints) | **GET** /emulate | Get Emulated Enpoints
+[**health**](DefaultApi.md#health) | **GET** /health | Health
+[**root**](DefaultApi.md#root) | **GET** /{path_name} | Root
+
 
 # **get**
-
 > get()
 
 Get
@@ -43,8 +43,9 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling DefaultApi->get: %s\n" % e)
 ```
 
-### Parameters
 
+
+### Parameters
 This endpoint does not need any parameter.
 
 ### Return type
@@ -57,19 +58,17 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description         | Response headers |
-| ----------- | ------------------- | ---------------- |
-| **200**     | Successful Response | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_emulated_enpoints**
-
 > str get_emulated_enpoints()
 
 Get Emulated Enpoints
@@ -104,8 +103,9 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling DefaultApi->get_emulated_enpoints: %s\n" % e)
 ```
 
-### Parameters
 
+
+### Parameters
 This endpoint does not need any parameter.
 
 ### Return type
@@ -118,19 +118,17 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: text/html
+ - **Content-Type**: Not defined
+ - **Accept**: text/html
 
 ### HTTP response details
-
-| Status code | Description         | Response headers |
-| ----------- | ------------------- | ---------------- |
-| **200**     | Successful Response | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **health**
-
 > Machine health()
 
 Health
@@ -166,8 +164,9 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling DefaultApi->health: %s\n" % e)
 ```
 
-### Parameters
 
+
+### Parameters
 This endpoint does not need any parameter.
 
 ### Return type
@@ -180,19 +179,17 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description         | Response headers |
-| ----------- | ------------------- | ---------------- |
-| **200**     | Successful Response | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **root**
-
 > root(path_name)
 
 Root
@@ -217,7 +214,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    path_name = 'path_name_example' # str |
+    path_name = 'path_name_example' # str | 
 
     try:
         # Root
@@ -226,11 +223,13 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling DefaultApi->root: %s\n" % e)
 ```
 
+
+
 ### Parameters
 
-| Name          | Type    | Description | Notes |
-| ------------- | ------- | ----------- | ----- |
-| **path_name** | **str** |             |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **path_name** | **str**|  | 
 
 ### Return type
 
@@ -242,14 +241,14 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
-
-| Status code | Description         | Response headers |
-| ----------- | ------------------- | ---------------- |
-| **200**     | Successful Response | -                |
-| **422**     | Validation Error    | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+

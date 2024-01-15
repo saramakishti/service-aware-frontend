@@ -1,16 +1,16 @@
 # EventmessageCreate
 
-## Properties
 
-| Name          | Type       | Description | Notes |
-| ------------- | ---------- | ----------- | ----- |
-| **timestamp** | **int**    |             |
-| **group**     | **int**    |             |
-| **group_id**  | **int**    |             |
-| **msg_type**  | **int**    |             |
-| **src_did**   | **str**    |             |
-| **des_did**   | **str**    |             |
-| **msg**       | **object** |             |
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**timestamp** | **int** |  | 
+**group** | **int** |  | 
+**group_id** | **int** |  | 
+**msg_type** | **int** |  | 
+**src_did** | **str** |  | 
+**des_did** | **str** |  | 
+**msg** | **object** |  | 
 
 ## Example
 
@@ -29,5 +29,6 @@ eventmessage_create_dict = eventmessage_create_instance.to_dict()
 # create an instance of EventmessageCreate from a dict
 eventmessage_create_form_dict = eventmessage_create.from_dict(eventmessage_create_dict)
 ```
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

@@ -1,14 +1,14 @@
 # Resolution
 
-## Properties
 
-| Name               | Type         | Description | Notes |
-| ------------------ | ------------ | ----------- | ----- |
-| **requester_name** | **str**      |             |
-| **requester_did**  | **str**      |             |
-| **resolved_did**   | **str**      |             |
-| **other**          | **object**   |             |
-| **timestamp**      | **datetime** |             |
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**requester_name** | **str** |  | 
+**requester_did** | **str** |  | 
+**resolved_did** | **str** |  | 
+**other** | **object** |  | 
+**timestamp** | **datetime** |  | 
 
 ## Example
 
@@ -27,5 +27,6 @@ resolution_dict = resolution_instance.to_dict()
 # create an instance of Resolution from a dict
 resolution_form_dict = resolution.from_dict(resolution_dict)
 ```
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

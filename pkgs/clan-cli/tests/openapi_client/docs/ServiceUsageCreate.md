@@ -1,11 +1,11 @@
 # ServiceUsageCreate
 
-## Properties
 
-| Name                    | Type    | Description | Notes |
-| ----------------------- | ------- | ----------- | ----- |
-| **times_consumed**      | **int** |             |
-| **consumer_entity_did** | **str** |             |
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**times_consumed** | **int** |  | 
+**consumer_entity_did** | **str** |  | 
 
 ## Example
 
@@ -24,5 +24,6 @@ service_usage_create_dict = service_usage_create_instance.to_dict()
 # create an instance of ServiceUsageCreate from a dict
 service_usage_create_form_dict = service_usage_create.from_dict(service_usage_create_dict)
 ```
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
