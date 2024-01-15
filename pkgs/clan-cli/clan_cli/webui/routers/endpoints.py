@@ -61,6 +61,16 @@ def inc_service_usage(
     return service
 
 
+@router.put("/api/v1/service", response_model=Service, tags=[Tags.services])
+def update_service(
+    service: ServiceCreate,
+    uuid: str = "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
+    db: Session = Depends(sql_db.get_db),
+) -> Service:
+    service = sql_crud.set_service(db, uuid, service)
+    return service
+
+
 @router.get("/api/v1/services", response_model=List[Service], tags=[Tags.services])
 def get_all_services(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
