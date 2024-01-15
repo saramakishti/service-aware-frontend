@@ -2,16 +2,16 @@
 
 ## Properties
 
-| Name             | Type                    | Description | Notes |
-| ---------------- | ----------------------- | ----------- | ----- |
-| **uuid**         | **str**                 |             |
-| **service_name** | **str**                 |             |
-| **service_type** | **str**                 |             |
-| **endpoint_url** | **str**                 |             |
-| **status**       | **str**                 |             |
-| **other**        | **object**              |             |
-| **entity_did**   | **str**                 |             |
-| **entity**       | [**Entity**](Entity.md) |             |
+| Name             | Type                                      | Description | Notes |
+| ---------------- | ----------------------------------------- | ----------- | ----- |
+| **uuid**         | **str**                                   |             |
+| **service_name** | **str**                                   |             |
+| **service_type** | **str**                                   |             |
+| **endpoint_url** | **str**                                   |             |
+| **status**       | **str**                                   |             |
+| **other**        | **object**                                |             |
+| **entity_did**   | **str**                                   |             |
+| **usage**        | [**List[ServiceUsage]**](ServiceUsage.md) |             |
 
 ## Example
 

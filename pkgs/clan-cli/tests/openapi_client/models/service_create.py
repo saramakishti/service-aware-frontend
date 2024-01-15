@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
-from pydantic import BaseModel, Field, StrictStr
+from typing import Any, Dict, List
+from pydantic import BaseModel, Field, StrictStr, conlist
+from openapi_client.models.service_usage_create import ServiceUsageCreate
 
 class ServiceCreate(BaseModel):
     """
@@ -32,7 +33,8 @@ class ServiceCreate(BaseModel):
     status: StrictStr = Field(...)
     other: Dict[str, Any] = Field(...)
     entity_did: StrictStr = Field(...)
-    __properties = ["uuid", "service_name", "service_type", "endpoint_url", "status", "other", "entity_did"]
+    usage: conlist(ServiceUsageCreate) = Field(...)
+    __properties = ["uuid", "service_name", "service_type", "endpoint_url", "status", "other", "entity_did", "usage"]
 
     class Config:
         """Pydantic configuration"""
@@ -58,6 +60,13 @@ class ServiceCreate(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in usage (list)
+        _items = []
+        if self.usage:
+            for _item in self.usage:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['usage'] = _items
         return _dict
 
     @classmethod
@@ -76,7 +85,8 @@ class ServiceCreate(BaseModel):
             "endpoint_url": obj.get("endpoint_url"),
             "status": obj.get("status"),
             "other": obj.get("other"),
-            "entity_did": obj.get("entity_did")
+            "entity_did": obj.get("entity_did"),
+            "usage": [ServiceUsageCreate.from_dict(_item) for _item in obj.get("usage")] if obj.get("usage") is not None else None
         })
         return _obj
 

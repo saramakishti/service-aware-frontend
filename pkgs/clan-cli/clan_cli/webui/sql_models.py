@@ -27,6 +27,7 @@ class Entity(Base):
     ## Relations ##
     services = relationship("Service", back_populates="entity")
     roles = relationship("EntityRoles", back_populates="entity")
+    consumes = relationship("ServiceUsage", back_populates="consumer_entity")
 
 
 class EntityRoles(Base):
@@ -39,6 +40,19 @@ class EntityRoles(Base):
 
     ## Relations ##
     entity = relationship("Entity", back_populates="roles")
+
+
+class ServiceUsage(Base):
+    __tablename__ = "service_usage"
+
+    ## Queryable body ##
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    consumer_entity_did = Column(String, ForeignKey("entities.did"))
+    consumer_entity = relationship("Entity", back_populates="consumes")
+    times_consumed = Column(Integer, index=True, nullable=False)
+
+    service_uuid = Column(String, ForeignKey("services.uuid"))
+    service = relationship("Service", back_populates="usage")
 
 
 class ServiceAbstract(Base):
@@ -63,6 +77,8 @@ class Service(ServiceAbstract):
     # One entity can have many services
     entity = relationship("Entity", back_populates="services")
     entity_did = Column(String, ForeignKey("entities.did"))
+
+    usage = relationship("ServiceUsage", back_populates="service")
 
 
 class Eventmessage(Base):

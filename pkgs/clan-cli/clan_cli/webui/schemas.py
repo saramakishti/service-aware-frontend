@@ -78,6 +78,19 @@ class Entity(EntityBase):
 #        Service        #
 #                       #
 #########################
+class ServiceUsageBase(BaseModel):
+    times_consumed: int = Field(..., example=2)
+
+
+class ServiceUsageCreate(ServiceUsageBase):
+    consumer_entity_did: str = Field(..., example="did:sov:test:120")
+
+
+class ServiceUsage(ServiceUsageCreate):
+    class Config:
+        orm_mode = True
+
+
 class ServiceBase(BaseModel):
     uuid: str = Field(..., example="8e285c0c-4e40-430a-a477-26b3b81e30df")
     service_name: str = Field(..., example="Carlos Printing")
@@ -87,21 +100,21 @@ class ServiceBase(BaseModel):
     other: dict = Field(
         ..., example={"action": ["register", "deregister", "delete", "create"]}
     )
-
-
-class ServiceCreate(ServiceBase):
     entity_did: str = Field(..., example="did:sov:test:120")
 
 
-class Service(ServiceCreate):
-    entity: Entity
+class ServiceCreate(ServiceBase):
+    usage: List[ServiceUsageCreate]
+
+
+class Service(ServiceBase):
+    usage: List[ServiceUsage]
 
     class Config:
         orm_mode = True
 
 
 class ServicesByName(BaseModel):
-    entity: Entity
     services: List[Service]
 
     class Config:

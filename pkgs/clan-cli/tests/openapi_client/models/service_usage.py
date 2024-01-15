@@ -17,20 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
-from typing import Any, Dict
-from pydantic import BaseModel, Field, StrictStr
 
-class Resolution(BaseModel):
+
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+
+class ServiceUsage(BaseModel):
     """
-    Resolution
+    ServiceUsage
     """
-    requester_name: StrictStr = Field(...)
-    requester_did: StrictStr = Field(...)
-    resolved_did: StrictStr = Field(...)
-    other: Dict[str, Any] = Field(...)
-    timestamp: datetime = Field(...)
-    __properties = ["requester_name", "requester_did", "resolved_did", "other", "timestamp"]
+    times_consumed: StrictInt = Field(...)
+    consumer_entity_did: StrictStr = Field(...)
+    __properties = ["times_consumed", "consumer_entity_did"]
 
     class Config:
         """Pydantic configuration"""
@@ -46,8 +43,8 @@ class Resolution(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Resolution:
-        """Create an instance of Resolution from a JSON string"""
+    def from_json(cls, json_str: str) -> ServiceUsage:
+        """Create an instance of ServiceUsage from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -59,20 +56,17 @@ class Resolution(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Resolution:
-        """Create an instance of Resolution from a dict"""
+    def from_dict(cls, obj: dict) -> ServiceUsage:
+        """Create an instance of ServiceUsage from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return Resolution.parse_obj(obj)
+            return ServiceUsage.parse_obj(obj)
 
-        _obj = Resolution.parse_obj({
-            "requester_name": obj.get("requester_name"),
-            "requester_did": obj.get("requester_did"),
-            "resolved_did": obj.get("resolved_did"),
-            "other": obj.get("other"),
-            "timestamp": obj.get("timestamp")
+        _obj = ServiceUsage.parse_obj({
+            "times_consumed": obj.get("times_consumed"),
+            "consumer_entity_did": obj.get("consumer_entity_did")
         })
         return _obj
 
