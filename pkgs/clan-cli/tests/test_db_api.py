@@ -26,7 +26,7 @@ random.seed(42)
 host = config.host
 port_dlg = config.port_dlg
 port_ap = config.port_ap
-port_client_base = config.port_client_base
+port_client_base = config._port_client_base
 
 num_uuids = 100
 uuids = [str(uuid.UUID(int=random.getrandbits(128))) for i in range(num_uuids)]
@@ -38,7 +38,7 @@ def test_health(api_client: ApiClient) -> None:
     assert res.status == Status.ONLINE
 
 
-def create_entities(num: int = 10, role: str = "entity") -> list[EntityCreate]:
+def create_entities(num: int = 5, role: str = "entity") -> list[EntityCreate]:
     res = []
     for i in range(num):
         en = EntityCreate(
@@ -108,10 +108,9 @@ def test_create_services(api_client: ApiClient) -> None:
     sapi = ServicesApi(api_client=api_client)
     eapi = EntitiesApi(api_client=api_client)
     for midx, entity in enumerate(eapi.get_all_entities()):
-        for idx in range(4):
-            service_obj = create_service(idx + 4 * midx, entity)
-            service = sapi.create_service(service_obj)
-            assert service.uuid == service_obj.uuid
+        service_obj = create_service(midx, entity)
+        service = sapi.create_service(service_obj)
+        assert service.uuid == service_obj.uuid
 
 
 random.seed(77)

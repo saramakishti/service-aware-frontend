@@ -17,8 +17,8 @@ app_c2 = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 apps = [
     (app_dlg, config.port_dlg),
     (app_ap, config.port_ap),
-    (app_c1, config.port_client_base),
-    (app_c2, config.port_client_base + 1),
+    (app_c1, config.c1_port),
+    (app_c2, config.c2_port),
 ]
 
 
@@ -79,7 +79,7 @@ def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | 
 # TODO send_msg???
 
 
-@app_c1.get("/consume_service_from_other_entity", response_class=HTMLResponse)
+@app_c1.get("/v1/print_daemon1", response_class=HTMLResponse)
 async def consume_service_from_other_entity_c1() -> HTMLResponse:
     html_content = """
     <html>
@@ -92,7 +92,17 @@ async def consume_service_from_other_entity_c1() -> HTMLResponse:
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app_c2.get("/consume_service_from_other_entity", response_class=HTMLResponse)
+@app_c1.get("/v1/print_daemon1/register", response_class=JSONResponse)
+async def register_c1() -> JSONResponse:
+    return JSONResponse(content={"status": "registered"}, status_code=200)
+
+
+@app_c1.get("/v1/print_daemon1/deregister", response_class=JSONResponse)
+async def deregister_c1() -> JSONResponse:
+    return JSONResponse(content={"status": "deregistered"}, status_code=200)
+
+
+@app_c2.get("/v1/print_daemon2", response_class=HTMLResponse)
 async def consume_service_from_other_entity_c2() -> HTMLResponse:
     html_content = """
     <html>
@@ -103,6 +113,16 @@ async def consume_service_from_other_entity_c2() -> HTMLResponse:
     """
     time.sleep(3)
     return HTMLResponse(content=html_content, status_code=200)
+
+
+@app_c2.get("/v1/print_daemon1/register", response_class=JSONResponse)
+async def register_c2() -> JSONResponse:
+    return JSONResponse(content={"status": "registered"}, status_code=200)
+
+
+@app_c2.get("/v1/print_daemon1/deregister", response_class=JSONResponse)
+async def deregister_c2() -> JSONResponse:
+    return JSONResponse(content={"status": "deregistered"}, status_code=200)
 
 
 @app_ap.get("/ap_list_of_services", response_class=JSONResponse)
