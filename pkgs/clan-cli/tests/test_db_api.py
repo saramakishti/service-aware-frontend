@@ -95,7 +95,7 @@ def create_service(idx: int, entity: Entity) -> ServiceCreate:
             ]
         },
         entity_did=entity.did,
-        usage=[],
+        usage=[{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
     )
 
     return se
