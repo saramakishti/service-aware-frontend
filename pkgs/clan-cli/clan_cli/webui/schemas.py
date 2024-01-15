@@ -92,15 +92,22 @@ class ServiceUsage(ServiceUsageCreate):
 
 
 class ServiceBase(BaseModel):
-    uuid: str = Field(..., example="8e285c0c-4e40-430a-a477-26b3b81e30df")
+    uuid: str = Field(..., example="bdd640fb-0667-1ad1-1c80-317fa3b1799d")
     service_name: str = Field(..., example="Carlos Printing")
     service_type: str = Field(..., example="3D Printing")
     endpoint_url: str = Field(..., example="http://127.0.0.1:8000")
-    status: str = Field(..., example="unknown")
-    other: dict = Field(
-        ..., example={"action": ["register", "deregister", "delete", "create"]}
-    )
+    other: dict = Field(..., example={"test": "test"})
     entity_did: str = Field(..., example="did:sov:test:120")
+    status: dict = Field(..., example={"data": ["draft", "registered"]})
+    action: dict = Field(
+        ...,
+        example={
+            "data": [
+                {"name": "register", "path": "/register"},
+                {"name": "deregister", "path": "/deregister"},
+            ]
+        },
+    )
 
 
 class ServiceCreate(ServiceBase):

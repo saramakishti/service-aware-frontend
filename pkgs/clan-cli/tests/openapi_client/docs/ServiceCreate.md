@@ -1,17 +1,18 @@
 # ServiceCreate
 
-## Properties
 
-| Name             | Type                                                  | Description | Notes |
-| ---------------- | ----------------------------------------------------- | ----------- | ----- |
-| **uuid**         | **str**                                               |             |
-| **service_name** | **str**                                               |             |
-| **service_type** | **str**                                               |             |
-| **endpoint_url** | **str**                                               |             |
-| **status**       | **str**                                               |             |
-| **other**        | **object**                                            |             |
-| **entity_did**   | **str**                                               |             |
-| **usage**        | [**List[ServiceUsageCreate]**](ServiceUsageCreate.md) |             |
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**uuid** | **str** |  | 
+**service_name** | **str** |  | 
+**service_type** | **str** |  | 
+**endpoint_url** | **str** |  | 
+**other** | **object** |  | 
+**entity_did** | **str** |  | 
+**status** | **object** |  | 
+**action** | **object** |  | 
+**usage** | [**List[ServiceUsageCreate]**](ServiceUsageCreate.md) |  | 
 
 ## Example
 
@@ -30,5 +31,6 @@ service_create_dict = service_create_instance.to_dict()
 # create an instance of ServiceCreate from a dict
 service_create_form_dict = service_create.from_dict(service_create_dict)
 ```
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

@@ -55,23 +55,20 @@ class ServiceUsage(Base):
     service = relationship("Service", back_populates="usage")
 
 
-class ServiceAbstract(Base):
-    __abstract__ = True
+class Service(Base):
+    __tablename__ = "services"
 
     # Queryable body
     uuid = Column(Text(length=36), primary_key=True, index=True)
     service_name = Column(String, index=True)
     service_type = Column(String, index=True)
     endpoint_url = Column(String, index=True)
-    status = Column(String, index=True)
 
     ## Non queryable body ##
     # In here we deposit: Action
     other = Column(JSON)
-
-
-class Service(ServiceAbstract):
-    __tablename__ = "services"
+    status = Column(JSON, index=True)
+    action = Column(JSON, index=True)
 
     ## Relations ##
     # One entity can have many services

@@ -26,6 +26,7 @@ def create_service(db: Session, service: schemas.ServiceCreate) -> sql_models.Se
         status=service.status,
         other=service.other,
         entity_did=service.entity_did,
+        action=service.action,
     )
     db_usage = []
     for usage in service.usage:
@@ -57,6 +58,25 @@ def set_service_usage(
             )
         )
     db_service.usage = db_usage
+    db.add(db_service)
+    db.commit()
+    db.refresh(db_service)
+    return db_service
+
+
+def set_service(
+    db: Session, service_uuid: str, service: schemas.ServiceCreate
+) -> sql_models.Service:
+    db_service = get_service_by_uuid(db, service_uuid)
+    if db_service is None:
+        raise ClanError(f"Service with uuid '{service_uuid}' not found")
+    db_service.service_name = service.service_name  # type: ignore
+    db_service.service_type = service.service_type  # type: ignore
+    db_service.endpoint_url = service.endpoint_url  # type: ignore
+    db_service.status = service.status  # type: ignore
+    db_service.other = service.other  # type: ignore
+    db_service.entity_did = service.entity_did  # type: ignore
+    db_service.action = service.action  # type: ignore
     db.add(db_service)
     db.commit()
     db.refresh(db_service)

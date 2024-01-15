@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Any, List, Optional
+from typing import Any, List
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, Query
@@ -42,9 +42,32 @@ def create_service(
 
 @router.post("/api/v1/service_usage", response_model=Service, tags=[Tags.services])
 def add_service_usage(
-    usage: ServiceUsageCreate, service_uuid: str, db: Session = Depends(sql_db.get_db)
+    usage: ServiceUsageCreate,
+    service_uuid: str = "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
+    db: Session = Depends(sql_db.get_db),
 ) -> Service:
     service = sql_crud.add_service_usage(db, service_uuid, usage)
+    return service
+
+
+@router.put("/api/v1/inc_service_usage", response_model=Service, tags=[Tags.services])
+def inc_service_usage(
+    usage: ServiceUsageCreate,
+    consumer_entity_did: str = "did:sov:test:120",
+    service_uuid: str = "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
+    db: Session = Depends(sql_db.get_db),
+) -> Service:
+    service = sql_crud.increment_service_usage(db, service_uuid, consumer_entity_did)
+    return service
+
+
+@router.put("/api/v1/service", response_model=Service, tags=[Tags.services])
+def update_service(
+    service: ServiceCreate,
+    uuid: str = "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
+    db: Session = Depends(sql_db.get_db),
+) -> Service:
+    service = sql_crud.set_service(db, uuid, service)
     return service
 
 
@@ -56,7 +79,9 @@ def get_all_services(
     return services
 
 
-@router.get("/api/v1/service", response_model=List[Service], tags=[Tags.services])
+@router.get(
+    "/api/v1/service_by_did", response_model=List[Service], tags=[Tags.services]
+)
 def get_service_by_did(
     entity_did: str = "did:sov:test:120",
     skip: int = 0,
@@ -64,6 +89,19 @@ def get_service_by_did(
     db: Session = Depends(sql_db.get_db),
 ) -> List[sql_models.Service]:
     service = sql_crud.get_services_by_entity_did(db, entity_did=entity_did)
+    return service
+
+
+@router.get("/api/v1/service", response_model=Service, tags=[Tags.services])
+def get_service_by_uuid(
+    uuid: str = "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(sql_db.get_db),
+) -> sql_models.Service:
+    service = sql_crud.get_service_by_uuid(db, uuid=uuid)
+    if service is None:
+        raise ClanError(f"Service with uuid '{uuid}' not found")
     return service
 
 
@@ -121,12 +159,14 @@ def get_all_entities(
     return entities
 
 
-@router.get("/api/v1/entity", response_model=Optional[Entity], tags=[Tags.entities])
+@router.get("/api/v1/entity", response_model=Entity, tags=[Tags.entities])
 def get_entity_by_did(
     entity_did: str = "did:sov:test:120",
     db: Session = Depends(sql_db.get_db),
-) -> Optional[sql_models.Entity]:
+) -> sql_models.Entity:
     entity = sql_crud.get_entity_by_name_or_did(db, name=entity_did)
+    if entity is None:
+        raise ClanError(f"Entity with did '{entity_did}' not found")
     return entity
 
 
