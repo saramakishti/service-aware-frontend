@@ -133,7 +133,7 @@ const SequenceDiagram = () => {
     <div className="flex flex-col items-end">
       {hasData ? (
         <>
-          <div className="flex justify-end gap-2.5 mb-5">
+          <div className="flex justify-end">
             <Tooltip placement="top" title="Refresh Diagram">
               <IconButton color="default" onClick={onRefresh}>
                 <RefreshIcon />
@@ -170,7 +170,7 @@ const SequenceDiagram = () => {
           </div>
         </>
       ) : (
-        <div className="flex w-full justify-center items-center">
+        <div className="flex w-full justify-center">
           <NoDataOverlay label="No Activity yet" />
         </div>
       )}
