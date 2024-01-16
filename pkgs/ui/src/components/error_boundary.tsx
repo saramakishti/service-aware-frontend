@@ -16,7 +16,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     this.state = { hasError: false };
   }
   static getDerivedStateFromError(error: Error): State {
-    // eslint-disable-line
+    console.error(error);
     // Update state so the next render will show the fallback UI
     return { hasError: true };
   }
