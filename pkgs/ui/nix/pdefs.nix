@@ -301,6 +301,19 @@
           version = "7.22.10";
         };
       };
+      "@braintree/sanitize-url" = {
+        "6.0.4" = {
+          fetchInfo = {
+            narHash = "sha256-jvJSLbfIhpe2zW/i7QdjA52OpjOWMR3IVitJVtYLTew=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/@braintree/sanitize-url/-/sanitize-url-6.0.4.tgz";
+          };
+          ident = "@braintree/sanitize-url";
+          ltype = "file";
+          treeInfo = { };
+          version = "6.0.4";
+        };
+      };
       "@emotion/babel-plugin" = {
         "11.11.0" = {
           depInfo = {
@@ -3542,6 +3555,19 @@
           version = "4.0.3";
         };
       };
+      "@types/d3-scale-chromatic" = {
+        "3.0.3" = {
+          fetchInfo = {
+            narHash = "sha256-zt3tU8oHb30AGYPzS/4zHcmAQTMgyA8uL4+vzhe1+mc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/@types/d3-scale-chromatic/-/d3-scale-chromatic-3.0.3.tgz";
+          };
+          ident = "@types/d3-scale-chromatic";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.3";
+        };
+      };
       "@types/d3-shape" = {
         "3.1.1" = {
           depInfo = {
@@ -3585,6 +3611,25 @@
           ltype = "file";
           treeInfo = { };
           version = "3.0.0";
+        };
+      };
+      "@types/debug" = {
+        "4.1.12" = {
+          depInfo = {
+            "@types/ms" = {
+              descriptor = "*";
+              pin = "0.7.34";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-HFd2r0EbXHE1LxrZSMTyVd8iSDJKiwtU/ooGyJsVzx8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/@types/debug/-/debug-4.1.12.tgz";
+          };
+          ident = "@types/debug";
+          ltype = "file";
+          version = "4.1.12";
         };
       };
       "@types/es-aggregate-error" = {
@@ -3643,6 +3688,38 @@
           ltype = "file";
           treeInfo = { };
           version = "0.0.29";
+        };
+      };
+      "@types/mdast" = {
+        "3.0.15" = {
+          depInfo = {
+            "@types/unist" = {
+              descriptor = "^2";
+              pin = "2.0.10";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-XCi9mTmLhmbuda5mfZKitBeqpivm3siWo7c0io48I6w=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/@types/mdast/-/mdast-3.0.15.tgz";
+          };
+          ident = "@types/mdast";
+          ltype = "file";
+          version = "3.0.15";
+        };
+      };
+      "@types/ms" = {
+        "0.7.34" = {
+          fetchInfo = {
+            narHash = "sha256-GTqMYbLGrzLj9Joj0tPhOq4PQOMO/5bSg526nh26Z8U=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/@types/ms/-/ms-0.7.34.tgz";
+          };
+          ident = "@types/ms";
+          ltype = "file";
+          treeInfo = { };
+          version = "0.7.34";
         };
       };
       "@types/node" = {
@@ -3794,6 +3871,19 @@
           ltype = "file";
           treeInfo = { };
           version = "7.5.4";
+        };
+      };
+      "@types/unist" = {
+        "2.0.10" = {
+          fetchInfo = {
+            narHash = "sha256-7ODjtCH0mqwhV9pDfAYR76QrIB5uCjuZI2R6Z4iSU3g=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/@types/unist/-/unist-2.0.10.tgz";
+          };
+          ident = "@types/unist";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.0.10";
         };
       };
       "@types/urijs" = {
@@ -5301,6 +5391,19 @@
           version = "4.1.2";
         };
       };
+      character-entities = {
+        "2.0.2" = {
+          fetchInfo = {
+            narHash = "sha256-jK/EpyIGEf7fXiNp+OFMxvoAh76A9pel+NS4ZUXDNJY=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/character-entities/-/character-entities-2.0.2.tgz";
+          };
+          ident = "character-entities";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.0.2";
+        };
+      };
       chokidar = {
         "3.5.3" = {
           depInfo = {
@@ -5454,6 +5557,11 @@
             hex-rgb = {
               descriptor = "^5.0.0";
               pin = "5.0.0";
+              runtime = true;
+            };
+            mermaid = {
+              descriptor = "^10.6.1";
+              pin = "10.6.1";
               runtime = true;
             };
             next = {
@@ -5638,6 +5746,9 @@
             };
             "node_modules/@babel/types" = {
               key = "@babel/types/7.22.10";
+            };
+            "node_modules/@braintree/sanitize-url" = {
+              key = "@braintree/sanitize-url/6.0.4";
             };
             "node_modules/@emotion/babel-plugin" = {
               key = "@emotion/babel-plugin/11.11.0";
@@ -6073,6 +6184,9 @@
             "node_modules/@types/d3-scale" = {
               key = "@types/d3-scale/4.0.3";
             };
+            "node_modules/@types/d3-scale-chromatic" = {
+              key = "@types/d3-scale-chromatic/3.0.3";
+            };
             "node_modules/@types/d3-shape" = {
               key = "@types/d3-shape/3.1.1";
             };
@@ -6081,6 +6195,9 @@
             };
             "node_modules/@types/d3-timer" = {
               key = "@types/d3-timer/3.0.0";
+            };
+            "node_modules/@types/debug" = {
+              key = "@types/debug/4.1.12";
             };
             "node_modules/@types/es-aggregate-error" = {
               dev = true;
@@ -6096,6 +6213,12 @@
             "node_modules/@types/json5" = {
               dev = true;
               key = "@types/json5/0.0.29";
+            };
+            "node_modules/@types/mdast" = {
+              key = "@types/mdast/3.0.15";
+            };
+            "node_modules/@types/ms" = {
+              key = "@types/ms/0.7.34";
             };
             "node_modules/@types/node" = {
               dev = true;
@@ -6125,6 +6248,9 @@
             };
             "node_modules/@types/semver" = {
               key = "@types/semver/7.5.4";
+            };
+            "node_modules/@types/unist" = {
+              key = "@types/unist/2.0.10";
             };
             "node_modules/@types/urijs" = {
               dev = true;
@@ -6333,6 +6459,9 @@
             "node_modules/chalk" = {
               key = "chalk/4.1.2";
             };
+            "node_modules/character-entities" = {
+              key = "character-entities/2.0.2";
+            };
             "node_modules/chokidar" = {
               key = "chokidar/3.5.3";
             };
@@ -6388,6 +6517,9 @@
             "node_modules/convert-source-map" = {
               key = "convert-source-map/1.9.0";
             };
+            "node_modules/cose-base" = {
+              key = "cose-base/1.0.3";
+            };
             "node_modules/cosmiconfig" = {
               key = "cosmiconfig/7.1.0";
             };
@@ -6407,17 +6539,74 @@
               dev = true;
               key = "cuid/2.1.8";
             };
+            "node_modules/cytoscape" = {
+              key = "cytoscape/3.28.1";
+            };
+            "node_modules/cytoscape-cose-bilkent" = {
+              key = "cytoscape-cose-bilkent/4.1.0";
+            };
+            "node_modules/cytoscape-fcose" = {
+              key = "cytoscape-fcose/2.2.0";
+            };
+            "node_modules/cytoscape-fcose/node_modules/cose-base" = {
+              key = "cose-base/2.2.0";
+            };
+            "node_modules/cytoscape-fcose/node_modules/layout-base" = {
+              key = "layout-base/2.0.1";
+            };
+            "node_modules/d3" = {
+              key = "d3/7.8.5";
+            };
             "node_modules/d3-array" = {
               key = "d3-array/3.2.4";
+            };
+            "node_modules/d3-axis" = {
+              key = "d3-axis/3.0.0";
+            };
+            "node_modules/d3-brush" = {
+              key = "d3-brush/3.0.0";
+            };
+            "node_modules/d3-chord" = {
+              key = "d3-chord/3.0.1";
             };
             "node_modules/d3-color" = {
               key = "d3-color/3.1.0";
             };
+            "node_modules/d3-contour" = {
+              key = "d3-contour/4.0.2";
+            };
+            "node_modules/d3-delaunay" = {
+              key = "d3-delaunay/6.0.4";
+            };
+            "node_modules/d3-dispatch" = {
+              key = "d3-dispatch/3.0.1";
+            };
+            "node_modules/d3-drag" = {
+              key = "d3-drag/3.0.0";
+            };
+            "node_modules/d3-dsv" = {
+              key = "d3-dsv/3.0.1";
+            };
+            "node_modules/d3-dsv/node_modules/commander" = {
+              key = "commander/7.2.0";
+            };
             "node_modules/d3-ease" = {
               key = "d3-ease/3.0.1";
             };
+            "node_modules/d3-fetch" = {
+              key = "d3-fetch/3.0.1";
+            };
+            "node_modules/d3-force" = {
+              key = "d3-force/3.0.0";
+            };
             "node_modules/d3-format" = {
               key = "d3-format/3.1.0";
+            };
+            "node_modules/d3-geo" = {
+              key = "d3-geo/3.1.0";
+            };
+            "node_modules/d3-hierarchy" = {
+              key = "d3-hierarchy/3.1.2";
             };
             "node_modules/d3-interpolate" = {
               key = "d3-interpolate/3.0.1";
@@ -6425,8 +6614,38 @@
             "node_modules/d3-path" = {
               key = "d3-path/3.1.0";
             };
+            "node_modules/d3-polygon" = {
+              key = "d3-polygon/3.0.1";
+            };
+            "node_modules/d3-quadtree" = {
+              key = "d3-quadtree/3.0.1";
+            };
+            "node_modules/d3-random" = {
+              key = "d3-random/3.0.1";
+            };
+            "node_modules/d3-sankey" = {
+              key = "d3-sankey/0.12.3";
+            };
+            "node_modules/d3-sankey/node_modules/d3-array" = {
+              key = "d3-array/2.12.1";
+            };
+            "node_modules/d3-sankey/node_modules/d3-path" = {
+              key = "d3-path/1.0.9";
+            };
+            "node_modules/d3-sankey/node_modules/d3-shape" = {
+              key = "d3-shape/1.3.7";
+            };
+            "node_modules/d3-sankey/node_modules/internmap" = {
+              key = "internmap/1.0.1";
+            };
             "node_modules/d3-scale" = {
               key = "d3-scale/4.0.2";
+            };
+            "node_modules/d3-scale-chromatic" = {
+              key = "d3-scale-chromatic/3.0.0";
+            };
+            "node_modules/d3-selection" = {
+              key = "d3-selection/3.0.0";
             };
             "node_modules/d3-shape" = {
               key = "d3-shape/3.2.0";
@@ -6440,6 +6659,15 @@
             "node_modules/d3-timer" = {
               key = "d3-timer/3.0.1";
             };
+            "node_modules/d3-transition" = {
+              key = "d3-transition/3.0.1";
+            };
+            "node_modules/d3-zoom" = {
+              key = "d3-zoom/3.0.0";
+            };
+            "node_modules/dagre-d3-es" = {
+              key = "dagre-d3-es/7.0.10";
+            };
             "node_modules/damerau-levenshtein" = {
               dev = true;
               key = "damerau-levenshtein/1.0.8";
@@ -6448,11 +6676,17 @@
               dev = true;
               key = "data-uri-to-buffer/2.0.2";
             };
+            "node_modules/dayjs" = {
+              key = "dayjs/1.11.10";
+            };
             "node_modules/debug" = {
               key = "debug/4.3.4";
             };
             "node_modules/decimal.js-light" = {
               key = "decimal.js-light/2.5.1";
+            };
+            "node_modules/decode-named-character-reference" = {
+              key = "decode-named-character-reference/1.0.2";
             };
             "node_modules/deep-is" = {
               key = "deep-is/0.1.4";
@@ -6469,6 +6703,9 @@
               dev = true;
               key = "define-properties/1.2.0";
             };
+            "node_modules/delaunator" = {
+              key = "delaunator/5.0.0";
+            };
             "node_modules/delayed-stream" = {
               key = "delayed-stream/1.0.0";
             };
@@ -6477,11 +6714,13 @@
               key = "dependency-graph/0.11.0";
             };
             "node_modules/dequal" = {
-              dev = true;
               key = "dequal/2.0.3";
             };
             "node_modules/didyoumean" = {
               key = "didyoumean/1.2.2";
+            };
+            "node_modules/diff" = {
+              key = "diff/5.1.0";
             };
             "node_modules/dir-glob" = {
               key = "dir-glob/3.0.1";
@@ -6495,8 +6734,14 @@
             "node_modules/dom-helpers" = {
               key = "dom-helpers/5.2.1";
             };
+            "node_modules/dompurify" = {
+              key = "dompurify/3.0.8";
+            };
             "node_modules/electron-to-chromium" = {
               key = "electron-to-chromium/1.4.491";
+            };
+            "node_modules/elkjs" = {
+              key = "elkjs/0.8.2";
             };
             "node_modules/emoji-regex" = {
               dev = true;
@@ -6934,6 +7179,9 @@
               dev = true;
               key = "has-tostringtag/1.0.0";
             };
+            "node_modules/heap" = {
+              key = "heap/0.2.7";
+            };
             "node_modules/hex-rgb" = {
               key = "hex-rgb/5.0.0";
             };
@@ -6994,6 +7242,9 @@
             "node_modules/ibm-openapi-validator/node_modules/semver" = {
               dev = true;
               key = "semver/5.7.2";
+            };
+            "node_modules/iconv-lite" = {
+              key = "iconv-lite/0.6.3";
             };
             "node_modules/ignore" = {
               key = "ignore/5.2.4";
@@ -7188,6 +7439,12 @@
               dev = true;
               key = "jsx-ast-utils/3.3.5";
             };
+            "node_modules/khroma" = {
+              key = "khroma/2.1.0";
+            };
+            "node_modules/kleur" = {
+              key = "kleur/4.1.5";
+            };
             "node_modules/language-subtag-registry" = {
               dev = true;
               key = "language-subtag-registry/0.3.22";
@@ -7195,6 +7452,9 @@
             "node_modules/language-tags" = {
               dev = true;
               key = "language-tags/1.0.5";
+            };
+            "node_modules/layout-base" = {
+              key = "layout-base/1.0.2";
             };
             "node_modules/leven" = {
               dev = true;
@@ -7274,12 +7534,84 @@
               dev = true;
               key = "escape-string-regexp/1.0.5";
             };
+            "node_modules/mdast-util-from-markdown" = {
+              key = "mdast-util-from-markdown/1.3.1";
+            };
+            "node_modules/mdast-util-to-string" = {
+              key = "mdast-util-to-string/3.2.0";
+            };
             "node_modules/merge-stream" = {
               dev = true;
               key = "merge-stream/2.0.0";
             };
             "node_modules/merge2" = {
               key = "merge2/1.4.1";
+            };
+            "node_modules/mermaid" = {
+              key = "mermaid/10.6.1";
+            };
+            "node_modules/micromark" = {
+              key = "micromark/3.2.0";
+            };
+            "node_modules/micromark-core-commonmark" = {
+              key = "micromark-core-commonmark/1.1.0";
+            };
+            "node_modules/micromark-factory-destination" = {
+              key = "micromark-factory-destination/1.1.0";
+            };
+            "node_modules/micromark-factory-label" = {
+              key = "micromark-factory-label/1.1.0";
+            };
+            "node_modules/micromark-factory-space" = {
+              key = "micromark-factory-space/1.1.0";
+            };
+            "node_modules/micromark-factory-title" = {
+              key = "micromark-factory-title/1.1.0";
+            };
+            "node_modules/micromark-factory-whitespace" = {
+              key = "micromark-factory-whitespace/1.1.0";
+            };
+            "node_modules/micromark-util-character" = {
+              key = "micromark-util-character/1.2.0";
+            };
+            "node_modules/micromark-util-chunked" = {
+              key = "micromark-util-chunked/1.1.0";
+            };
+            "node_modules/micromark-util-classify-character" = {
+              key = "micromark-util-classify-character/1.1.0";
+            };
+            "node_modules/micromark-util-combine-extensions" = {
+              key = "micromark-util-combine-extensions/1.1.0";
+            };
+            "node_modules/micromark-util-decode-numeric-character-reference" = {
+              key = "micromark-util-decode-numeric-character-reference/1.1.0";
+            };
+            "node_modules/micromark-util-decode-string" = {
+              key = "micromark-util-decode-string/1.1.0";
+            };
+            "node_modules/micromark-util-encode" = {
+              key = "micromark-util-encode/1.1.0";
+            };
+            "node_modules/micromark-util-html-tag-name" = {
+              key = "micromark-util-html-tag-name/1.2.0";
+            };
+            "node_modules/micromark-util-normalize-identifier" = {
+              key = "micromark-util-normalize-identifier/1.1.0";
+            };
+            "node_modules/micromark-util-resolve-all" = {
+              key = "micromark-util-resolve-all/1.1.0";
+            };
+            "node_modules/micromark-util-sanitize-uri" = {
+              key = "micromark-util-sanitize-uri/1.2.0";
+            };
+            "node_modules/micromark-util-subtokenize" = {
+              key = "micromark-util-subtokenize/1.1.0";
+            };
+            "node_modules/micromark-util-symbol" = {
+              key = "micromark-util-symbol/1.1.0";
+            };
+            "node_modules/micromark-util-types" = {
+              key = "micromark-util-types/1.1.0";
             };
             "node_modules/micromatch" = {
               key = "micromatch/4.0.5";
@@ -7300,6 +7632,9 @@
             "node_modules/minimist" = {
               dev = true;
               key = "minimist/1.2.8";
+            };
+            "node_modules/mri" = {
+              key = "mri/1.2.0";
             };
             "node_modules/ms" = {
               key = "ms/2.1.2";
@@ -7345,6 +7680,9 @@
             };
             "node_modules/node-releases" = {
               key = "node-releases/2.0.13";
+            };
+            "node_modules/non-layered-tidy-tree-layout" = {
+              key = "non-layered-tidy-tree-layout/2.0.2";
             };
             "node_modules/normalize-path" = {
               key = "normalize-path/3.0.0";
@@ -7656,12 +7994,21 @@
             "node_modules/rimraf" = {
               key = "rimraf/3.0.2";
             };
+            "node_modules/robust-predicates" = {
+              key = "robust-predicates/3.0.2";
+            };
             "node_modules/rollup" = {
               dev = true;
               key = "rollup/2.79.1";
             };
             "node_modules/run-parallel" = {
               key = "run-parallel/1.2.0";
+            };
+            "node_modules/rw" = {
+              key = "rw/1.3.3";
+            };
+            "node_modules/sade" = {
+              key = "sade/1.8.1";
             };
             "node_modules/safe-array-concat" = {
               dev = true;
@@ -7674,6 +8021,9 @@
             "node_modules/safe-stable-stringify" = {
               dev = true;
               key = "safe-stable-stringify/1.1.1";
+            };
+            "node_modules/safer-buffer" = {
+              key = "safer-buffer/2.1.2";
             };
             "node_modules/scheduler" = {
               key = "scheduler/0.23.0";
@@ -7840,6 +8190,9 @@
               dev = true;
               key = "tr46/0.0.3";
             };
+            "node_modules/ts-dedent" = {
+              key = "ts-dedent/2.2.0";
+            };
             "node_modules/ts-interface-checker" = {
               key = "ts-interface-checker/0.1.13";
             };
@@ -7889,6 +8242,9 @@
               dev = true;
               key = "unbox-primitive/1.0.2";
             };
+            "node_modules/unist-util-stringify-position" = {
+              key = "unist-util-stringify-position/3.0.3";
+            };
             "node_modules/universalify" = {
               dev = true;
               key = "universalify/2.0.0";
@@ -7912,6 +8268,12 @@
             "node_modules/utility-types" = {
               dev = true;
               key = "utility-types/3.10.0";
+            };
+            "node_modules/uuid" = {
+              key = "uuid/9.0.1";
+            };
+            "node_modules/uvu" = {
+              key = "uvu/0.5.6";
             };
             "node_modules/validate-npm-package-name" = {
               dev = true;
@@ -7945,6 +8307,9 @@
             "node_modules/wcwidth" = {
               dev = true;
               key = "wcwidth/1.0.1";
+            };
+            "node_modules/web-worker" = {
+              key = "web-worker/1.3.0";
             };
             "node_modules/webidl-conversions" = {
               dev = true;
@@ -8187,6 +8552,17 @@
           treeInfo = { };
           version = "4.1.1";
         };
+        "7.2.0" = {
+          fetchInfo = {
+            narHash = "sha256-Lpfs1ZcB9tHStUY6cDcFQvdq2nIeJdF5b0/jdEmydIg=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/commander/-/commander-7.2.0.tgz";
+          };
+          ident = "commander";
+          ltype = "file";
+          treeInfo = { };
+          version = "7.2.0";
+        };
       };
       commondir = {
         "1.0.1" = {
@@ -8301,6 +8677,42 @@
           ltype = "file";
           treeInfo = { };
           version = "1.9.0";
+        };
+      };
+      cose-base = {
+        "1.0.3" = {
+          depInfo = {
+            layout-base = {
+              descriptor = "^1.0.0";
+              pin = "1.0.2";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-HUTWW3nM8EAHOdBeXrkkb342fJy/UXXgcOaG/bgAtVo=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/cose-base/-/cose-base-1.0.3.tgz";
+          };
+          ident = "cose-base";
+          ltype = "file";
+          version = "1.0.3";
+        };
+        "2.2.0" = {
+          depInfo = {
+            layout-base = {
+              descriptor = "^2.0.0";
+              pin = "2.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-D8lZoHNG9UnwXasWczHYBwL0nrtaSglfy98xi+2N6EM=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/cose-base/-/cose-base-2.2.0.tgz";
+          };
+          ident = "cose-base";
+          ltype = "file";
+          version = "2.2.0";
         };
       };
       cosmiconfig = {
@@ -8428,7 +8840,260 @@
           version = "2.1.8";
         };
       };
+      cytoscape = {
+        "3.28.1" = {
+          depInfo = {
+            heap = {
+              descriptor = "^0.2.6";
+              pin = "0.2.7";
+              runtime = true;
+            };
+            lodash = {
+              descriptor = "^4.17.21";
+              pin = "4.17.21";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-lOuDDhUATOFFt0SE5h0ypt2M1SVH6OJb/a7BbREe5Vc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/cytoscape/-/cytoscape-3.28.1.tgz";
+          };
+          ident = "cytoscape";
+          ltype = "file";
+          version = "3.28.1";
+        };
+      };
+      cytoscape-cose-bilkent = {
+        "4.1.0" = {
+          depInfo = {
+            cose-base = {
+              descriptor = "^1.0.0";
+              pin = "1.0.3";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-bDmyB0bZ7rulhiyMXd7NdWKQu5hK0B76xO5mRYzhb+M=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/cytoscape-cose-bilkent/-/cytoscape-cose-bilkent-4.1.0.tgz";
+          };
+          ident = "cytoscape-cose-bilkent";
+          ltype = "file";
+          peerInfo = {
+            cytoscape = {
+              descriptor = "^3.2.0";
+            };
+          };
+          version = "4.1.0";
+        };
+      };
+      cytoscape-fcose = {
+        "2.2.0" = {
+          depInfo = {
+            cose-base = {
+              descriptor = "^2.2.0";
+              pin = "2.2.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-Jz1hwZiApJIKD40bKDQHvH1Er9mzpnzGNX8RTvjFxPM=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/cytoscape-fcose/-/cytoscape-fcose-2.2.0.tgz";
+          };
+          ident = "cytoscape-fcose";
+          ltype = "file";
+          peerInfo = {
+            cytoscape = {
+              descriptor = "^3.2.0";
+            };
+          };
+          version = "2.2.0";
+        };
+      };
+      d3 = {
+        "7.8.5" = {
+          depInfo = {
+            d3-array = {
+              descriptor = "3";
+              pin = "3.2.4";
+              runtime = true;
+            };
+            d3-axis = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-brush = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-chord = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-color = {
+              descriptor = "3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-contour = {
+              descriptor = "4";
+              pin = "4.0.2";
+              runtime = true;
+            };
+            d3-delaunay = {
+              descriptor = "6";
+              pin = "6.0.4";
+              runtime = true;
+            };
+            d3-dispatch = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-drag = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-dsv = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-ease = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-fetch = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-force = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-format = {
+              descriptor = "3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-geo = {
+              descriptor = "3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-hierarchy = {
+              descriptor = "3";
+              pin = "3.1.2";
+              runtime = true;
+            };
+            d3-interpolate = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-path = {
+              descriptor = "3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-polygon = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-quadtree = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-random = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-scale = {
+              descriptor = "4";
+              pin = "4.0.2";
+              runtime = true;
+            };
+            d3-scale-chromatic = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-selection = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-shape = {
+              descriptor = "3";
+              pin = "3.2.0";
+              runtime = true;
+            };
+            d3-time = {
+              descriptor = "3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-time-format = {
+              descriptor = "4";
+              pin = "4.1.0";
+              runtime = true;
+            };
+            d3-timer = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-transition = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-zoom = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-S9PAywzAjxCUNtLQfiOsWX2q35ZPu7ECFiSVGPJkpSk=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3/-/d3-7.8.5.tgz";
+          };
+          ident = "d3";
+          ltype = "file";
+          version = "7.8.5";
+        };
+      };
       d3-array = {
+        "2.12.1" = {
+          depInfo = {
+            internmap = {
+              descriptor = "^1.0.0";
+              pin = "1.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-AjqsUDFxmg09nq61Rn40arhRJm3sECDR5ktY58XTzhk=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-array/-/d3-array-2.12.1.tgz";
+          };
+          ident = "d3-array";
+          ltype = "file";
+          version = "2.12.1";
+        };
         "3.2.4" = {
           depInfo = {
             internmap = {
@@ -8447,6 +9112,77 @@
           version = "3.2.4";
         };
       };
+      d3-axis = {
+        "3.0.0" = {
+          fetchInfo = {
+            narHash = "sha256-c8PP4li+qbg5CxSI/cc+4ETKFyJsznBX5AbRiBbthYA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-axis/-/d3-axis-3.0.0.tgz";
+          };
+          ident = "d3-axis";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.0";
+        };
+      };
+      d3-brush = {
+        "3.0.0" = {
+          depInfo = {
+            d3-dispatch = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-drag = {
+              descriptor = "2 - 3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-interpolate = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-selection = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-transition = {
+              descriptor = "3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-373h9J9+yJ4bq7xIu2QSbzKkcWorQ4H6kGSFLv+BSn8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-brush/-/d3-brush-3.0.0.tgz";
+          };
+          ident = "d3-brush";
+          ltype = "file";
+          version = "3.0.0";
+        };
+      };
+      d3-chord = {
+        "3.0.1" = {
+          depInfo = {
+            d3-path = {
+              descriptor = "1 - 3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-bXQXDU25yxnN959nY50aO48DfYZnXC4BqgGvLa5HzyU=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-chord/-/d3-chord-3.0.1.tgz";
+          };
+          ident = "d3-chord";
+          ltype = "file";
+          version = "3.0.1";
+        };
+      };
       d3-color = {
         "3.1.0" = {
           fetchInfo = {
@@ -8458,6 +9194,123 @@
           ltype = "file";
           treeInfo = { };
           version = "3.1.0";
+        };
+      };
+      d3-contour = {
+        "4.0.2" = {
+          depInfo = {
+            d3-array = {
+              descriptor = "^3.2.0";
+              pin = "3.2.4";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-V/L6HEp+vWN3scx0OAeih2hAd9tt3f2JLll/001rbpA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-contour/-/d3-contour-4.0.2.tgz";
+          };
+          ident = "d3-contour";
+          ltype = "file";
+          version = "4.0.2";
+        };
+      };
+      d3-delaunay = {
+        "6.0.4" = {
+          depInfo = {
+            delaunator = {
+              descriptor = "5";
+              pin = "5.0.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-KTMDMs/M237mHXPRp2QD91MB90qgon+CYRbxm0eKSz8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-delaunay/-/d3-delaunay-6.0.4.tgz";
+          };
+          ident = "d3-delaunay";
+          ltype = "file";
+          version = "6.0.4";
+        };
+      };
+      d3-dispatch = {
+        "3.0.1" = {
+          fetchInfo = {
+            narHash = "sha256-K1m4co33vyB5cUn9pBj/s4G8z6BS3GotX7le81Y15cw=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-dispatch/-/d3-dispatch-3.0.1.tgz";
+          };
+          ident = "d3-dispatch";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.1";
+        };
+      };
+      d3-drag = {
+        "3.0.0" = {
+          depInfo = {
+            d3-dispatch = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-selection = {
+              descriptor = "3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-j2AyffzgEunHmiQCo1JSQup0yxAGURXZPUAyfdeezqE=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-drag/-/d3-drag-3.0.0.tgz";
+          };
+          ident = "d3-drag";
+          ltype = "file";
+          version = "3.0.0";
+        };
+      };
+      d3-dsv = {
+        "3.0.1" = {
+          binInfo = {
+            binPairs = {
+              csv2json = "bin/dsv2json.js";
+              csv2tsv = "bin/dsv2dsv.js";
+              dsv2dsv = "bin/dsv2dsv.js";
+              dsv2json = "bin/dsv2json.js";
+              json2csv = "bin/json2dsv.js";
+              json2dsv = "bin/json2dsv.js";
+              json2tsv = "bin/json2dsv.js";
+              tsv2csv = "bin/dsv2dsv.js";
+              tsv2json = "bin/dsv2json.js";
+            };
+          };
+          depInfo = {
+            commander = {
+              descriptor = "7";
+              pin = "7.2.0";
+              runtime = true;
+            };
+            iconv-lite = {
+              descriptor = "0.6";
+              pin = "0.6.3";
+              runtime = true;
+            };
+            rw = {
+              descriptor = "1";
+              pin = "1.3.3";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-9EwAoEnUQSj/MS1DgXxyqOT2oMCl6wGzARPt0k5zmco=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-dsv/-/d3-dsv-3.0.1.tgz";
+          };
+          ident = "d3-dsv";
+          ltype = "file";
+          version = "3.0.1";
         };
       };
       d3-ease = {
@@ -8473,6 +9326,54 @@
           version = "3.0.1";
         };
       };
+      d3-fetch = {
+        "3.0.1" = {
+          depInfo = {
+            d3-dsv = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-LIHXIsy7Bj6DSNA7Fdumi2a1wbmcrhhRMuGyv0pGZHQ=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-fetch/-/d3-fetch-3.0.1.tgz";
+          };
+          ident = "d3-fetch";
+          ltype = "file";
+          version = "3.0.1";
+        };
+      };
+      d3-force = {
+        "3.0.0" = {
+          depInfo = {
+            d3-dispatch = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-quadtree = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-timer = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-7liVPqk18d70Q213TRn5SxKW3bRYWE7yYv86guj/upo=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-force/-/d3-force-3.0.0.tgz";
+          };
+          ident = "d3-force";
+          ltype = "file";
+          version = "3.0.0";
+        };
+      };
       d3-format = {
         "3.1.0" = {
           fetchInfo = {
@@ -8484,6 +9385,38 @@
           ltype = "file";
           treeInfo = { };
           version = "3.1.0";
+        };
+      };
+      d3-geo = {
+        "3.1.0" = {
+          depInfo = {
+            d3-array = {
+              descriptor = "2.5.0 - 3";
+              pin = "3.2.4";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-z8nKVfAb5/2D8+oBtGMxFkAjqY9p3KFERnx16WLKG4Q=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-geo/-/d3-geo-3.1.0.tgz";
+          };
+          ident = "d3-geo";
+          ltype = "file";
+          version = "3.1.0";
+        };
+      };
+      d3-hierarchy = {
+        "3.1.2" = {
+          fetchInfo = {
+            narHash = "sha256-1bo4oLsFql3z/pbeKYbSv7dG789MqC4069fxLDNjqVc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-hierarchy/-/d3-hierarchy-3.1.2.tgz";
+          };
+          ident = "d3-hierarchy";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.1.2";
         };
       };
       d3-interpolate = {
@@ -8506,6 +9439,17 @@
         };
       };
       d3-path = {
+        "1.0.9" = {
+          fetchInfo = {
+            narHash = "sha256-fzeRHy3cgbUX0YzOSfK39oac8+t4x5QtqQKvCKcZmQY=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-path/-/d3-path-1.0.9.tgz";
+          };
+          ident = "d3-path";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.0.9";
+        };
         "3.1.0" = {
           fetchInfo = {
             narHash = "sha256-MS70PBjwXw68XDWlu+LUvIjKOQ0EBIp7f2kUlMqyq64=";
@@ -8516,6 +9460,69 @@
           ltype = "file";
           treeInfo = { };
           version = "3.1.0";
+        };
+      };
+      d3-polygon = {
+        "3.0.1" = {
+          fetchInfo = {
+            narHash = "sha256-0DmegTztMQBVeKoCv9Ww17OSOFK2GzrCnZUqjwaXfNw=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-polygon/-/d3-polygon-3.0.1.tgz";
+          };
+          ident = "d3-polygon";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.1";
+        };
+      };
+      d3-quadtree = {
+        "3.0.1" = {
+          fetchInfo = {
+            narHash = "sha256-2s/Eru084bPt1sw8Gjmf0G1aaSrXacAk6iKzH7ELtOY=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-quadtree/-/d3-quadtree-3.0.1.tgz";
+          };
+          ident = "d3-quadtree";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.1";
+        };
+      };
+      d3-random = {
+        "3.0.1" = {
+          fetchInfo = {
+            narHash = "sha256-1CYK0FljhdRsAq5RVH06+FGpRYFVcRDuHTXiAvAaMzw=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-random/-/d3-random-3.0.1.tgz";
+          };
+          ident = "d3-random";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.1";
+        };
+      };
+      d3-sankey = {
+        "0.12.3" = {
+          depInfo = {
+            d3-array = {
+              descriptor = "1 - 2";
+              pin = "2.12.1";
+              runtime = true;
+            };
+            d3-shape = {
+              descriptor = "^1.2.0";
+              pin = "1.3.7";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-XKBgZdu31C3HXgaER7Wg8gO8BYV7a13hTCjgJ4R5MPk=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-sankey/-/d3-sankey-0.12.3.tgz";
+          };
+          ident = "d3-sankey";
+          ltype = "file";
+          version = "0.12.3";
         };
       };
       d3-scale = {
@@ -8557,7 +9564,61 @@
           version = "4.0.2";
         };
       };
+      d3-scale-chromatic = {
+        "3.0.0" = {
+          depInfo = {
+            d3-color = {
+              descriptor = "1 - 3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-interpolate = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-9KXjRjtVlGOejA1sqUs8+qCmgecfFC10r216Nvdjfc8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-scale-chromatic/-/d3-scale-chromatic-3.0.0.tgz";
+          };
+          ident = "d3-scale-chromatic";
+          ltype = "file";
+          version = "3.0.0";
+        };
+      };
+      d3-selection = {
+        "3.0.0" = {
+          fetchInfo = {
+            narHash = "sha256-BT6FcIookqYEzdg1cNQoaYheaIaxN5UfjB5KGvQcqhY=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-selection/-/d3-selection-3.0.0.tgz";
+          };
+          ident = "d3-selection";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.0";
+        };
+      };
       d3-shape = {
+        "1.3.7" = {
+          depInfo = {
+            d3-path = {
+              descriptor = "1";
+              pin = "1.0.9";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-9IW2w90hCeIkgPsB5Vg9El4SSN6MxNkFonol22ospew=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-shape/-/d3-shape-1.3.7.tgz";
+          };
+          ident = "d3-shape";
+          ltype = "file";
+          version = "1.3.7";
+        };
         "3.2.0" = {
           depInfo = {
             d3-path = {
@@ -8627,6 +9688,113 @@
           version = "3.0.1";
         };
       };
+      d3-transition = {
+        "3.0.1" = {
+          depInfo = {
+            d3-color = {
+              descriptor = "1 - 3";
+              pin = "3.1.0";
+              runtime = true;
+            };
+            d3-dispatch = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-ease = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-interpolate = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-timer = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-kTGkgirGo32+AFhaSzy+bTjg6QCCLnXhxL8AoJu+c54=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-transition/-/d3-transition-3.0.1.tgz";
+          };
+          ident = "d3-transition";
+          ltype = "file";
+          peerInfo = {
+            d3-selection = {
+              descriptor = "2 - 3";
+            };
+          };
+          version = "3.0.1";
+        };
+      };
+      d3-zoom = {
+        "3.0.0" = {
+          depInfo = {
+            d3-dispatch = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-drag = {
+              descriptor = "2 - 3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-interpolate = {
+              descriptor = "1 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+            d3-selection = {
+              descriptor = "2 - 3";
+              pin = "3.0.0";
+              runtime = true;
+            };
+            d3-transition = {
+              descriptor = "2 - 3";
+              pin = "3.0.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-7Oa1W71iY9ICRBFwduQnTrirYabn0qQO1Ikm86ARsPc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/d3-zoom/-/d3-zoom-3.0.0.tgz";
+          };
+          ident = "d3-zoom";
+          ltype = "file";
+          version = "3.0.0";
+        };
+      };
+      dagre-d3-es = {
+        "7.0.10" = {
+          depInfo = {
+            d3 = {
+              descriptor = "^7.8.2";
+              pin = "7.8.5";
+              runtime = true;
+            };
+            lodash-es = {
+              descriptor = "^4.17.21";
+              pin = "4.17.21";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-cd3cc4ftpfZG89YCyu7QqXm9EusFpc4dXxgbXCoQVEk=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/dagre-d3-es/-/dagre-d3-es-7.0.10.tgz";
+          };
+          ident = "dagre-d3-es";
+          ltype = "file";
+          version = "7.0.10";
+        };
+      };
       damerau-levenshtein = {
         "1.0.8" = {
           fetchInfo = {
@@ -8651,6 +9819,19 @@
           ltype = "file";
           treeInfo = { };
           version = "2.0.2";
+        };
+      };
+      dayjs = {
+        "1.11.10" = {
+          fetchInfo = {
+            narHash = "sha256-rHzlH2wvt5b461uLYB6WlF7WMVlWEb9rzBQGOACdsrA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/dayjs/-/dayjs-1.11.10.tgz";
+          };
+          ident = "dayjs";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.11.10";
         };
       };
       debug = {
@@ -8706,6 +9887,25 @@
           ltype = "file";
           treeInfo = { };
           version = "2.5.1";
+        };
+      };
+      decode-named-character-reference = {
+        "1.0.2" = {
+          depInfo = {
+            character-entities = {
+              descriptor = "^2.0.0";
+              pin = "2.0.2";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-p7iDUqcfz+axnu9v3pYM0YWVeudS4ffys4X8LROb3/I=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/decode-named-character-reference/-/decode-named-character-reference-1.0.2.tgz";
+          };
+          ident = "decode-named-character-reference";
+          ltype = "file";
+          version = "1.0.2";
         };
       };
       deep-is = {
@@ -8777,6 +9977,25 @@
           version = "1.2.0";
         };
       };
+      delaunator = {
+        "5.0.0" = {
+          depInfo = {
+            robust-predicates = {
+              descriptor = "^3.0.0";
+              pin = "3.0.2";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-Cvri/POBx+1dKa6OrhSaoh/IpiGA5qbqgchG2Fvp2cE=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/delaunator/-/delaunator-5.0.0.tgz";
+          };
+          ident = "delaunator";
+          ltype = "file";
+          version = "5.0.0";
+        };
+      };
       delayed-stream = {
         "1.0.0" = {
           fetchInfo = {
@@ -8827,6 +10046,19 @@
           ltype = "file";
           treeInfo = { };
           version = "1.2.2";
+        };
+      };
+      diff = {
+        "5.1.0" = {
+          fetchInfo = {
+            narHash = "sha256-yNDIwajXaEerClmryFlqMOWvNJjdON2mIORdvEuu2iA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/diff/-/diff-5.1.0.tgz";
+          };
+          ident = "diff";
+          ltype = "file";
+          treeInfo = { };
+          version = "5.1.0";
         };
       };
       dir-glob = {
@@ -8938,6 +10170,19 @@
           version = "5.2.1";
         };
       };
+      dompurify = {
+        "3.0.8" = {
+          fetchInfo = {
+            narHash = "sha256-NaVY5ZT2T1TEcFeifexdiMQY6R3wVrV2IA8mORtYUik=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/dompurify/-/dompurify-3.0.8.tgz";
+          };
+          ident = "dompurify";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.8";
+        };
+      };
       electron-to-chromium = {
         "1.4.491" = {
           fetchInfo = {
@@ -8949,6 +10194,19 @@
           ltype = "file";
           treeInfo = { };
           version = "1.4.491";
+        };
+      };
+      elkjs = {
+        "0.8.2" = {
+          fetchInfo = {
+            narHash = "sha256-WmnRW4+Ud8CLyJ7RWSxyugfY3hGl0Cs2dsd0j/Ffx+k=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/elkjs/-/elkjs-0.8.2.tgz";
+          };
+          ident = "elkjs";
+          ltype = "file";
+          treeInfo = { };
+          version = "0.8.2";
         };
       };
       emoji-regex = {
@@ -12069,6 +13327,19 @@
           version = "1.0.0";
         };
       };
+      heap = {
+        "0.2.7" = {
+          fetchInfo = {
+            narHash = "sha256-kF6j19qDpro2YBzVmbfungoKbDuPpeTWmC4ABoY3oh0=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/heap/-/heap-0.2.7.tgz";
+          };
+          ident = "heap";
+          ltype = "file";
+          treeInfo = { };
+          version = "0.2.7";
+        };
+      };
       hex-rgb = {
         "5.0.0" = {
           fetchInfo = {
@@ -12254,6 +13525,25 @@
           version = "0.97.5";
         };
       };
+      iconv-lite = {
+        "0.6.3" = {
+          depInfo = {
+            safer-buffer = {
+              descriptor = ">= 2.1.2 < 3.0.0";
+              pin = "2.1.2";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-5WTD6wj4xQL0yKVTnCsqIUkbWZ6/A1wPKJeLlMvP6xA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.6.3.tgz";
+          };
+          ident = "iconv-lite";
+          ltype = "file";
+          version = "0.6.3";
+        };
+      };
       ignore = {
         "5.2.4" = {
           fetchInfo = {
@@ -12384,6 +13674,17 @@
         };
       };
       internmap = {
+        "1.0.1" = {
+          fetchInfo = {
+            narHash = "sha256-obIWFoN6IIGTe9sW7tvcNEFOdQ5UcQoWSM6auJUXVio=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/internmap/-/internmap-1.0.1.tgz";
+          };
+          ident = "internmap";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.0.1";
+        };
         "2.0.3" = {
           fetchInfo = {
             narHash = "sha256-KIR9V1DKo0L+A86SoyglogHN3+BJNc/AHV5nKZys7yY=";
@@ -13223,6 +14524,32 @@
           version = "3.3.5";
         };
       };
+      khroma = {
+        "2.1.0" = {
+          fetchInfo = {
+            narHash = "sha256-0Q0Y0dA2smPPI4UJRVU8I+uZ+4QSFrmSKcROg/REZF0=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/khroma/-/khroma-2.1.0.tgz";
+          };
+          ident = "khroma";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.1.0";
+        };
+      };
+      kleur = {
+        "4.1.5" = {
+          fetchInfo = {
+            narHash = "sha256-GfBnO6v505JHnsIcZv5iA+DxVSVnUHYAk/fX/eKR6u8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/kleur/-/kleur-4.1.5.tgz";
+          };
+          ident = "kleur";
+          ltype = "file";
+          treeInfo = { };
+          version = "4.1.5";
+        };
+      };
       language-subtag-registry = {
         "0.3.22" = {
           fetchInfo = {
@@ -13253,6 +14580,30 @@
           ident = "language-tags";
           ltype = "file";
           version = "1.0.5";
+        };
+      };
+      layout-base = {
+        "1.0.2" = {
+          fetchInfo = {
+            narHash = "sha256-GcclGT529O3Pz95h1c19J+F5Ybj0766mi0m1K1JHrEc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/layout-base/-/layout-base-1.0.2.tgz";
+          };
+          ident = "layout-base";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.0.2";
+        };
+        "2.0.1" = {
+          fetchInfo = {
+            narHash = "sha256-vdHpvtA9LJxC1sHSZyLo6O66KISo1AVegXZGLZdSDgU=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/layout-base/-/layout-base-2.0.1.tgz";
+          };
+          ident = "layout-base";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.0.1";
         };
       };
       leven = {
@@ -13601,6 +14952,99 @@
           version = "1.1.1";
         };
       };
+      mdast-util-from-markdown = {
+        "1.3.1" = {
+          depInfo = {
+            "@types/mdast" = {
+              descriptor = "^3.0.0";
+              pin = "3.0.15";
+              runtime = true;
+            };
+            "@types/unist" = {
+              descriptor = "^2.0.0";
+              pin = "2.0.10";
+              runtime = true;
+            };
+            decode-named-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.0.2";
+              runtime = true;
+            };
+            mdast-util-to-string = {
+              descriptor = "^3.1.0";
+              pin = "3.2.0";
+              runtime = true;
+            };
+            micromark = {
+              descriptor = "^3.0.0";
+              pin = "3.2.0";
+              runtime = true;
+            };
+            micromark-util-decode-numeric-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-decode-string = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-normalize-identifier = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            unist-util-stringify-position = {
+              descriptor = "^3.0.0";
+              pin = "3.0.3";
+              runtime = true;
+            };
+            uvu = {
+              descriptor = "^0.5.0";
+              pin = "0.5.6";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-IEAnDY+UinxS1rtvqqHko3vkmWR2wrar1Kefl1ws4jk=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/mdast-util-from-markdown/-/mdast-util-from-markdown-1.3.1.tgz";
+          };
+          ident = "mdast-util-from-markdown";
+          ltype = "file";
+          version = "1.3.1";
+        };
+      };
+      mdast-util-to-string = {
+        "3.2.0" = {
+          depInfo = {
+            "@types/mdast" = {
+              descriptor = "^3.0.0";
+              pin = "3.0.15";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-cQtDpY3UJ2fohMneCCinjHd++s7s/BIfM/WrzExsWqc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/mdast-util-to-string/-/mdast-util-to-string-3.2.0.tgz";
+          };
+          ident = "mdast-util-to-string";
+          ltype = "file";
+          version = "3.2.0";
+        };
+      };
       merge-stream = {
         "2.0.0" = {
           fetchInfo = {
@@ -13625,6 +15069,770 @@
           ltype = "file";
           treeInfo = { };
           version = "1.4.1";
+        };
+      };
+      mermaid = {
+        "10.6.1" = {
+          depInfo = {
+            "@braintree/sanitize-url" = {
+              descriptor = "^6.0.1";
+              pin = "6.0.4";
+              runtime = true;
+            };
+            "@types/d3-scale" = {
+              descriptor = "^4.0.3";
+              pin = "4.0.3";
+              runtime = true;
+            };
+            "@types/d3-scale-chromatic" = {
+              descriptor = "^3.0.0";
+              pin = "3.0.3";
+              runtime = true;
+            };
+            cytoscape = {
+              descriptor = "^3.23.0";
+              pin = "3.28.1";
+              runtime = true;
+            };
+            cytoscape-cose-bilkent = {
+              descriptor = "^4.1.0";
+              pin = "4.1.0";
+              runtime = true;
+            };
+            cytoscape-fcose = {
+              descriptor = "^2.1.0";
+              pin = "2.2.0";
+              runtime = true;
+            };
+            d3 = {
+              descriptor = "^7.4.0";
+              pin = "7.8.5";
+              runtime = true;
+            };
+            d3-sankey = {
+              descriptor = "^0.12.3";
+              pin = "0.12.3";
+              runtime = true;
+            };
+            dagre-d3-es = {
+              descriptor = "7.0.10";
+              pin = "7.0.10";
+              runtime = true;
+            };
+            dayjs = {
+              descriptor = "^1.11.7";
+              pin = "1.11.10";
+              runtime = true;
+            };
+            dompurify = {
+              descriptor = "^3.0.5";
+              pin = "3.0.8";
+              runtime = true;
+            };
+            elkjs = {
+              descriptor = "^0.8.2";
+              pin = "0.8.2";
+              runtime = true;
+            };
+            khroma = {
+              descriptor = "^2.0.0";
+              pin = "2.1.0";
+              runtime = true;
+            };
+            lodash-es = {
+              descriptor = "^4.17.21";
+              pin = "4.17.21";
+              runtime = true;
+            };
+            mdast-util-from-markdown = {
+              descriptor = "^1.3.0";
+              pin = "1.3.1";
+              runtime = true;
+            };
+            non-layered-tidy-tree-layout = {
+              descriptor = "^2.0.2";
+              pin = "2.0.2";
+              runtime = true;
+            };
+            stylis = {
+              descriptor = "^4.1.3";
+              pin = "4.2.0";
+              runtime = true;
+            };
+            ts-dedent = {
+              descriptor = "^2.2.0";
+              pin = "2.2.0";
+              runtime = true;
+            };
+            uuid = {
+              descriptor = "^9.0.0";
+              pin = "9.0.1";
+              runtime = true;
+            };
+            web-worker = {
+              descriptor = "^1.2.0";
+              pin = "1.3.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-HSnb6HWQJZW8Ul7B4kmEmAgEOJUPYXy/vW5D32z5VBc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/mermaid/-/mermaid-10.6.1.tgz";
+          };
+          ident = "mermaid";
+          ltype = "file";
+          version = "10.6.1";
+        };
+      };
+      micromark = {
+        "3.2.0" = {
+          depInfo = {
+            "@types/debug" = {
+              descriptor = "^4.0.0";
+              pin = "4.1.12";
+              runtime = true;
+            };
+            debug = {
+              descriptor = "^4.0.0";
+              pin = "4.3.4";
+              runtime = true;
+            };
+            decode-named-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.0.2";
+              runtime = true;
+            };
+            micromark-core-commonmark = {
+              descriptor = "^1.0.1";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-factory-space = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-chunked = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-combine-extensions = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-decode-numeric-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-encode = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-normalize-identifier = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-resolve-all = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-sanitize-uri = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-subtokenize = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.1";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            uvu = {
+              descriptor = "^0.5.0";
+              pin = "0.5.6";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-MMvznzuXSwZoY2rdlJwDzXTonybRU0YsBliUCEJQTv4=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark/-/micromark-3.2.0.tgz";
+          };
+          ident = "micromark";
+          ltype = "file";
+          version = "3.2.0";
+        };
+      };
+      micromark-core-commonmark = {
+        "1.1.0" = {
+          depInfo = {
+            decode-named-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.0.2";
+              runtime = true;
+            };
+            micromark-factory-destination = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-factory-label = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-factory-space = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-factory-title = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-factory-whitespace = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-chunked = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-classify-character = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-html-tag-name = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-normalize-identifier = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-resolve-all = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-subtokenize = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.1";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            uvu = {
+              descriptor = "^0.5.0";
+              pin = "0.5.6";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-JkJnPediE8cC2Apx5FIT35EgaFZe9zhOoNOgLftD6Fo=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-core-commonmark/-/micromark-core-commonmark-1.1.0.tgz";
+          };
+          ident = "micromark-core-commonmark";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-factory-destination = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-SBI0XUyGKl9X758zaE/Qs2XSk/LuLdbHKJL52XLeNtU=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-factory-destination/-/micromark-factory-destination-1.1.0.tgz";
+          };
+          ident = "micromark-factory-destination";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-factory-label = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            uvu = {
+              descriptor = "^0.5.0";
+              pin = "0.5.6";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-VZWsqxakHNN+kanAjSCrNAPI/gRR9cf3ZmIgJIaq9Ew=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-factory-label/-/micromark-factory-label-1.1.0.tgz";
+          };
+          ident = "micromark-factory-label";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-factory-space = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-Y9guDX5nBzov2qZwlGVfWwSoVSpOpJNY1LazVSnAkS0=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-factory-space/-/micromark-factory-space-1.1.0.tgz";
+          };
+          ident = "micromark-factory-space";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-factory-title = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-factory-space = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-0mPR7skhiGxZwxJdpkQRc6i02cVolSl1vRlWjd72L7M=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-factory-title/-/micromark-factory-title-1.1.0.tgz";
+          };
+          ident = "micromark-factory-title";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-factory-whitespace = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-factory-space = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-7yVwgFnHzKPfBie1G2dfe++i+jBC07/yLX5eS0NK9Xo=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-factory-whitespace/-/micromark-factory-whitespace-1.1.0.tgz";
+          };
+          ident = "micromark-factory-whitespace";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-character = {
+        "1.2.0" = {
+          depInfo = {
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-tTZdAQOY+luXrIS5nWYY2I6yhdjWvL5HEkoKP4uWxio=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-character/-/micromark-util-character-1.2.0.tgz";
+          };
+          ident = "micromark-util-character";
+          ltype = "file";
+          version = "1.2.0";
+        };
+      };
+      micromark-util-chunked = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-UJBNxWcn50IskzS+wemUnq+h9eq0G4WgmqTeFo4oRyY=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-chunked/-/micromark-util-chunked-1.1.0.tgz";
+          };
+          ident = "micromark-util-chunked";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-classify-character = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-xYfUtre9jlHj37+uA4geiK1RCJr86CIBGBmBmkcQj20=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-classify-character/-/micromark-util-classify-character-1.1.0.tgz";
+          };
+          ident = "micromark-util-classify-character";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-combine-extensions = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-chunked = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-g19DgHX2F1peqfRy8dHk+T/PQ5fC6wgHBJaMUJFK6QU=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-combine-extensions/-/micromark-util-combine-extensions-1.1.0.tgz";
+          };
+          ident = "micromark-util-combine-extensions";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-decode-numeric-character-reference = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-Pt/ojyrp7tNk7gCeDgqAbp25uNYS2Hchhgcbk6uWiqg=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-decode-numeric-character-reference/-/micromark-util-decode-numeric-character-reference-1.1.0.tgz";
+          };
+          ident = "micromark-util-decode-numeric-character-reference";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-decode-string = {
+        "1.1.0" = {
+          depInfo = {
+            decode-named-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.0.2";
+              runtime = true;
+            };
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-decode-numeric-character-reference = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-yuh+fGP8SnkCfUVwmlh5bBveHwh0ATDdYpZ60TtWcMA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-decode-string/-/micromark-util-decode-string-1.1.0.tgz";
+          };
+          ident = "micromark-util-decode-string";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-encode = {
+        "1.1.0" = {
+          fetchInfo = {
+            narHash = "sha256-3o5yywNuGP7E0Jo6j/lmQ2q0Qq1VyndbMcFVuULZIgk=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-encode/-/micromark-util-encode-1.1.0.tgz";
+          };
+          ident = "micromark-util-encode";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.1.0";
+        };
+      };
+      micromark-util-html-tag-name = {
+        "1.2.0" = {
+          fetchInfo = {
+            narHash = "sha256-VLu8mBpF7mgrkh0jqTpMDGYhcoJPzXypgDI7G3ylOHE=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-html-tag-name/-/micromark-util-html-tag-name-1.2.0.tgz";
+          };
+          ident = "micromark-util-html-tag-name";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.2.0";
+        };
+      };
+      micromark-util-normalize-identifier = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-dxeP5sWg9/z7lNsD7MNgUQmUlOrriK15fUe5zENRq4U=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-normalize-identifier/-/micromark-util-normalize-identifier-1.1.0.tgz";
+          };
+          ident = "micromark-util-normalize-identifier";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-resolve-all = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-vlnTU07tbL+5AqQ+JxinGIZ7w7H12nijEzAI/nQlQ0c=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-resolve-all/-/micromark-util-resolve-all-1.1.0.tgz";
+          };
+          ident = "micromark-util-resolve-all";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-sanitize-uri = {
+        "1.2.0" = {
+          depInfo = {
+            micromark-util-character = {
+              descriptor = "^1.0.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+            micromark-util-encode = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-/Vi6KhiBlNWGods/Y1EL0tlp0X0kLZFWwa53gTIf+F8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-sanitize-uri/-/micromark-util-sanitize-uri-1.2.0.tgz";
+          };
+          ident = "micromark-util-sanitize-uri";
+          ltype = "file";
+          version = "1.2.0";
+        };
+      };
+      micromark-util-subtokenize = {
+        "1.1.0" = {
+          depInfo = {
+            micromark-util-chunked = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-symbol = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            micromark-util-types = {
+              descriptor = "^1.0.0";
+              pin = "1.1.0";
+              runtime = true;
+            };
+            uvu = {
+              descriptor = "^0.5.0";
+              pin = "0.5.6";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-yM2jeNqEdp8xh/hgpHntjJLZS1VRvbIItNUp3DAkyVg=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-subtokenize/-/micromark-util-subtokenize-1.1.0.tgz";
+          };
+          ident = "micromark-util-subtokenize";
+          ltype = "file";
+          version = "1.1.0";
+        };
+      };
+      micromark-util-symbol = {
+        "1.1.0" = {
+          fetchInfo = {
+            narHash = "sha256-lnwNm9jRcA82gd+ZiuYHEWxdpIYbAmpPCPUifChRqGo=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-symbol/-/micromark-util-symbol-1.1.0.tgz";
+          };
+          ident = "micromark-util-symbol";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.1.0";
+        };
+      };
+      micromark-util-types = {
+        "1.1.0" = {
+          fetchInfo = {
+            narHash = "sha256-szZG8UEBG7GtHmyazmincewEA9M9y6oy0dfTxz2Rj/8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/micromark-util-types/-/micromark-util-types-1.1.0.tgz";
+          };
+          ident = "micromark-util-types";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.1.0";
         };
       };
       micromatch = {
@@ -13726,6 +15934,19 @@
           ltype = "file";
           treeInfo = { };
           version = "1.2.8";
+        };
+      };
+      mri = {
+        "1.2.0" = {
+          fetchInfo = {
+            narHash = "sha256-W2D0+TF+nUcdPWPlGRgJF1l0BatRq1V7Vc7o+Dwubh8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/mri/-/mri-1.2.0.tgz";
+          };
+          ident = "mri";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.2.0";
         };
       };
       ms = {
@@ -14067,6 +16288,19 @@
           ltype = "file";
           treeInfo = { };
           version = "2.0.13";
+        };
+      };
+      non-layered-tidy-tree-layout = {
+        "2.0.2" = {
+          fetchInfo = {
+            narHash = "sha256-ZnntWaM3qwAworpKZFIuOJaExweLh4P09s52zVPA0mE=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/non-layered-tidy-tree-layout/-/non-layered-tidy-tree-layout-2.0.2.tgz";
+          };
+          ident = "non-layered-tidy-tree-layout";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.0.2";
         };
       };
       normalize-path = {
@@ -16138,6 +18372,19 @@
           version = "3.0.2";
         };
       };
+      robust-predicates = {
+        "3.0.2" = {
+          fetchInfo = {
+            narHash = "sha256-oidd9ZNozRFj5WV6hXJmfxS9lgZIt3Aik0916G8k8D8=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/robust-predicates/-/robust-predicates-3.0.2.tgz";
+          };
+          ident = "robust-predicates";
+          ltype = "file";
+          treeInfo = { };
+          version = "3.0.2";
+        };
+      };
       rollup = {
         "2.79.1" = {
           binInfo = {
@@ -16180,6 +18427,38 @@
           ident = "run-parallel";
           ltype = "file";
           version = "1.2.0";
+        };
+      };
+      rw = {
+        "1.3.3" = {
+          fetchInfo = {
+            narHash = "sha256-BrX0OuyEXA2Ck5TMSOOwLKTtu6LPQKVfjmisYlnauWg=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/rw/-/rw-1.3.3.tgz";
+          };
+          ident = "rw";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.3.3";
+        };
+      };
+      sade = {
+        "1.8.1" = {
+          depInfo = {
+            mri = {
+              descriptor = "^1.1.0";
+              pin = "1.2.0";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-Yboqi3els68hdZTMx0T14DdOzu31DQ0mRmJaYZMwWM4=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/sade/-/sade-1.8.1.tgz";
+          };
+          ident = "sade";
+          ltype = "file";
+          version = "1.8.1";
         };
       };
       safe-array-concat = {
@@ -16256,6 +18535,19 @@
           ltype = "file";
           treeInfo = { };
           version = "1.1.1";
+        };
+      };
+      safer-buffer = {
+        "2.1.2" = {
+          fetchInfo = {
+            narHash = "sha256-3h6PTqFTKFv3m2ETKDUSOB1rI9KcqogKnSfrV1qnJc0=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz";
+          };
+          ident = "safer-buffer";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.1.2";
         };
       };
       scheduler = {
@@ -17405,6 +19697,19 @@
           version = "0.0.3";
         };
       };
+      ts-dedent = {
+        "2.2.0" = {
+          fetchInfo = {
+            narHash = "sha256-WwHgjnPdahFvoulsWemKuHeBPdv+4OvSz0J8prf7XgQ=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/ts-dedent/-/ts-dedent-2.2.0.tgz";
+          };
+          ident = "ts-dedent";
+          ltype = "file";
+          treeInfo = { };
+          version = "2.2.0";
+        };
+      };
       ts-interface-checker = {
         "0.1.13" = {
           fetchInfo = {
@@ -17740,6 +20045,25 @@
           version = "1.0.2";
         };
       };
+      unist-util-stringify-position = {
+        "3.0.3" = {
+          depInfo = {
+            "@types/unist" = {
+              descriptor = "^2.0.0";
+              pin = "2.0.10";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-+qU+mgTnGjDtwgxK0Ct5CoKNCxSGfVsuDG54sGonm1o=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-3.0.3.tgz";
+          };
+          ident = "unist-util-stringify-position";
+          ltype = "file";
+          version = "3.0.3";
+        };
+      };
       universalify = {
         "2.0.0" = {
           fetchInfo = {
@@ -17861,6 +20185,63 @@
           ltype = "file";
           treeInfo = { };
           version = "3.10.0";
+        };
+      };
+      uuid = {
+        "9.0.1" = {
+          binInfo = {
+            binPairs = {
+              uuid = "dist/bin/uuid";
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-jGaZJD1IXpco7VfxVmJsBI/0pr1v+81e/YbLw1EqoHc=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz";
+          };
+          ident = "uuid";
+          ltype = "file";
+          treeInfo = { };
+          version = "9.0.1";
+        };
+      };
+      uvu = {
+        "0.5.6" = {
+          binInfo = {
+            binPairs = {
+              uvu = "bin.js";
+            };
+          };
+          depInfo = {
+            dequal = {
+              descriptor = "^2.0.0";
+              pin = "2.0.3";
+              runtime = true;
+            };
+            diff = {
+              descriptor = "^5.0.0";
+              pin = "5.1.0";
+              runtime = true;
+            };
+            kleur = {
+              descriptor = "^4.0.3";
+              pin = "4.1.5";
+              runtime = true;
+            };
+            sade = {
+              descriptor = "^1.7.3";
+              pin = "1.8.1";
+              runtime = true;
+            };
+          };
+          fetchInfo = {
+            narHash = "sha256-j9T9lBid8XTaend58vuJAx7tc2QdOYxqyz3UE8igd6w=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/uvu/-/uvu-0.5.6.tgz";
+          };
+          ident = "uvu";
+          ltype = "file";
+          version = "0.5.6";
         };
       };
       validate-npm-package-name = {
@@ -18102,6 +20483,19 @@
           ident = "wcwidth";
           ltype = "file";
           version = "1.0.1";
+        };
+      };
+      web-worker = {
+        "1.3.0" = {
+          fetchInfo = {
+            narHash = "sha256-vyWRnE0t6E0FlJwXg305ykCCXCI6iF9SSEe9jC4xOAA=";
+            type = "tarball";
+            url = "https://registry.npmjs.org/web-worker/-/web-worker-1.3.0.tgz";
+          };
+          ident = "web-worker";
+          ltype = "file";
+          treeInfo = { };
+          version = "1.3.0";
         };
       };
       webidl-conversions = {

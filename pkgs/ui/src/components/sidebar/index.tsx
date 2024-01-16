@@ -6,6 +6,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
@@ -137,9 +138,14 @@ export function Sidebar(props: SidebarProps) {
           />
         </div>
         <div className="lg:absolute lg:right-0 lg:top-0">
-          <IconButton size="large" className="text-white" onClick={onClose}>
-            <ChevronLeftIcon fontSize="inherit" />
-          </IconButton>
+          <Tooltip
+            placement="right"
+            title={collapseMenuOpen ? "Close Sidebar" : "Expand Sidebar"}
+          >
+            <IconButton size="large" className="text-white" onClick={onClose}>
+              <ChevronLeftIcon fontSize="inherit" />
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
       <Divider

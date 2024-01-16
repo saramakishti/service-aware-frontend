@@ -49,8 +49,8 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} style={{ maxHeight: 350 }}>
+      <Table stickyHeader sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             {configuration.map((header: CustomTableConfiguration) => (

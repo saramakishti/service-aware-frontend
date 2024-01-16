@@ -6,6 +6,7 @@ import {
   CssBaseline,
   IconButton,
   ThemeProvider,
+  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import { StyledEngineProvider } from "@mui/material/styles";
@@ -50,6 +51,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Service Aware Networks" />
         <link rel="icon" href="tub-favicon.ico" sizes="any" />
+        {/* <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> */}
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `mermaid.initialize({startOnLoad: true});`,
+          }}
+        />
       </head>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={userPrefersDarkmode ? darkTheme : lightTheme}>
@@ -77,13 +85,15 @@ export default function RootLayout({
                         >
                           <div className="grid grid-cols-3">
                             <div className="col-span-1">
-                              <IconButton
-                                style={{ padding: "12px" }}
-                                hidden={true}
-                                onClick={() => setShowSidebar((c) => !c)}
-                              >
-                                {!showSidebar && <MenuIcon />}
-                              </IconButton>
+                              <Tooltip placement="right" title="Expand Sidebar">
+                                <IconButton
+                                  style={{ padding: "12px" }}
+                                  hidden={true}
+                                  onClick={() => setShowSidebar((c) => !c)}
+                                >
+                                  {!showSidebar && <MenuIcon />}
+                                </IconButton>
+                              </Tooltip>
                             </div>
                           </div>
 

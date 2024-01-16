@@ -3,18 +3,26 @@
 import { DLGResolutionTableConfig, DLGSummaryDetails } from "@/config/dlg";
 import CustomTable from "@/components/table";
 import SummaryDetails from "@/components/summary_card";
-import useFetch from "@/components/hooks/useFetch";
 import { useEffect } from "react";
+import { useGetAllResolutions } from "@/api/resolution/resolution";
+import { mutate } from "swr";
 
 export default function DLG() {
   const {
     data: resolutionData,
-    loading: loadingResolutions,
-    fetch,
-  } = useFetch("/get_resolutions");
+    isLoading: loadingResolutions,
+    swrKey: resolutionsKeyFunc,
+  } = useGetAllResolutions();
 
   const onRefresh = () => {
-    fetch();
+    const resolutionsKey =
+      typeof resolutionsKeyFunc === "function"
+        ? resolutionsKeyFunc()
+        : resolutionsKeyFunc;
+
+    if (resolutionsKey) {
+      mutate(resolutionsKey);
+    }
   };
 
   useEffect(() => {
@@ -41,7 +49,7 @@ export default function DLG() {
         <h4>DID Resolution View</h4>
         <CustomTable
           loading={loadingResolutions}
-          data={resolutionData}
+          data={resolutionData?.data}
           configuration={DLGResolutionTableConfig}
           tkey="resolution_table"
         />

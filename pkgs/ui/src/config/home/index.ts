@@ -10,10 +10,6 @@ export const HomeTableConfig = [
   {
     key: "network",
     label: "Network",
-    render: (value: any) => {
-      const renderedValue = typeof value === "object" ? value?.network : "-";
-      return renderedValue;
-    },
   },
   {
     key: "ip",
@@ -22,11 +18,6 @@ export const HomeTableConfig = [
   {
     key: "roles",
     label: "Roles",
-    render: (value: any) => {
-      const renderedValue =
-        typeof value === "object" ? value?.roles?.join(", ") : "-";
-      return renderedValue;
-    },
   },
   {
     key: "attached",

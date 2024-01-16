@@ -59,22 +59,31 @@ export const APServiceRepositoryTableConfig = [
   {
     key: "status",
     label: "Status",
-  },
-  {
-    key: "other",
-    label: "Type",
     render: (value: any) => {
       let renderedValue: any = "";
-      if (typeof value === "object") {
-        const label = Object.keys(value)[0];
-        const info = value[label];
-        renderedValue = (
-          <code>
-            {label} {info}
-          </code>
-        );
+      if (Array.isArray(value.data)) {
+        renderedValue = value.data.join(", ");
+      } else {
+        console.error("Status is not an array", value);
       }
       return renderedValue;
     },
   },
+  // {
+  //   key: "other",
+  //   label: "Type",
+  //   render: (value: any) => {
+  //     let renderedValue: any = "";
+  //     if (typeof value === "object") {
+  //       const label = Object.keys(value)[0];
+  //       const info = value[label];
+  //       renderedValue = (
+  //         <code>
+  //           {label} {info}
+  //         </code>
+  //       );
+  //     }
+  //     return renderedValue;
+  //   },
+  // },
 ];
