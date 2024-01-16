@@ -1,51 +1,46 @@
-export const generateMermaidString = (data: any) => {
+import { Eventmessage } from "@/api/model";
+
+export const generateMermaidString = (data: Eventmessage[] | undefined) => {
   if (!data || data.length === 0) return "";
 
-  // Extract unique participants
   const participants = Array.from(
-    new Set(
-      data
-        .map((item: any) => item.src_did)
-        .concat(data.map((item: any) => item.des_did)),
-    ),
+    new Set(data.flatMap((item) => [item.src_did, item.des_did])),
   );
 
-  // Begin the sequence diagram definition
   let mermaidString = "sequenceDiagram\n";
 
-  // Add participants to the diagram
   participants.forEach((participant, index) => {
     mermaidString += `  participant ${String.fromCharCode(
       65 + index,
     )} as ${participant}\n`;
   });
 
-  // Add messages to the diagram
-  data.forEach((item: any, index: number) => {
+  let currentGroupId: number | null = null;
+
+  data.forEach((item, index) => {
     const srcParticipant = String.fromCharCode(
       65 + participants.indexOf(item.src_did),
     );
     const desParticipant = String.fromCharCode(
       65 + participants.indexOf(item.des_did),
     );
-    const timestamp = new Date(item.timestamp * 1000).toLocaleString(); // Convert Unix timestamp to readable date
+    const timestamp = new Date(item.timestamp * 1000).toLocaleString();
     const message = item.msg.text || `Event message ${index + 1}`;
 
-    // If group_name or group_id exists, start an 'alt' block
-    if (item.group_id != null) {
-      mermaidString += `  alt ${item.group_name || item.group_id}\n`;
-      mermaidString += `    rect rgb(191, 223, 255)\n`;
+    if (item.group_id !== currentGroupId) {
+      if (currentGroupId !== null) {
+        mermaidString += `  end\n`;
+      }
+      mermaidString += `  alt Group ${item.group_id}\n`;
+      currentGroupId = item.group_id;
     }
 
-    // Add the message interaction
-    mermaidString += `  ${srcParticipant}->>${desParticipant}: [${timestamp}] ${message}\n`;
-
-    // If there was an 'alt' block, close it
-    if (item.group_id != null) {
-      mermaidString += `    end\n`;
-      mermaidString += `  end\n`;
-    }
+    mermaidString += `    ${srcParticipant}->>${desParticipant}: [${timestamp}] ${message}\n`;
   });
+
+  if (currentGroupId !== null) {
+    mermaidString += `  end\n`;
+  }
 
   return mermaidString;
 };

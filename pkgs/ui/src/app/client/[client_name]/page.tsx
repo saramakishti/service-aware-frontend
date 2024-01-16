@@ -154,6 +154,8 @@ export default function Client({
     setSnackbarOpen(false);
   };
 
+  console.log("entity", entity);
+
   if (services_loading) return <Skeleton height={500} />;
   if (!services) return <Alert severity="error">Client not found</Alert>;
 
@@ -193,7 +195,7 @@ export default function Client({
             IP: <code>{entity?.ip}</code>
           </Typography>
           <Typography color="text.primary" gutterBottom>
-            Network: <code>{entity?.other?.network}</code>
+            Network: <code>{entity?.network}</code>
           </Typography>
         </CardContent>
       </Card>

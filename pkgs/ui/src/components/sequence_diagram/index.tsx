@@ -26,7 +26,6 @@ const SequenceDiagram = () => {
   const mermaidRef: any = useRef(null);
   const [scale, setScale] = useState(1);
   const hasData = eventMessagesData?.data && eventMessagesData?.data.length > 0;
-  // const hasData = true;
 
   const mermaidString = generateMermaidString(eventMessagesData?.data);
 
@@ -51,7 +50,7 @@ const SequenceDiagram = () => {
       const svg = mermaidRef.current.querySelector("svg");
       if (svg) {
         svg.style.transform = `scale(${scale})`;
-        svg.style.transformOrigin = "top left"; // Set transform origin to top left
+        svg.style.transformOrigin = "top left";
         mermaidRef.current.style.width = `${
           svg.getBoundingClientRect().width * scale
         }px`;
@@ -131,10 +130,10 @@ const SequenceDiagram = () => {
     return <LoadingOverlay title="Loading Diagram" subtitle="Please wait..." />;
 
   return (
-    <div className="flex w-full flex-col items-end">
+    <div className="flex flex-col items-end">
       {hasData ? (
         <>
-          <div className="flex w-full justify-end gap-2.5 mb-5">
+          <div className="flex justify-end gap-2.5 mb-5">
             <Tooltip placement="top" title="Refresh Diagram">
               <IconButton color="default" onClick={onRefresh}>
                 <RefreshIcon />
@@ -166,7 +165,7 @@ const SequenceDiagram = () => {
               </IconButton>
             </Tooltip>
           </div>
-          <div className="w-full h-full overflow-auto p-2.5 box-border">
+          <div className="w-full p-2.5">
             <div className="mermaid" ref={mermaidRef}></div>
           </div>
         </>
