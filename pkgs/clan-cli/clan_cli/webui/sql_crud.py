@@ -1,3 +1,4 @@
+# Imports
 from typing import List, Optional
 
 from sqlalchemy import func
@@ -6,6 +7,8 @@ from sqlalchemy.sql.expression import true
 
 from ..errors import ClanError
 from . import schemas, sql_models
+
+# Functions to manipulate the tables of the database
 
 
 #########################

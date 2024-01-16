@@ -27,11 +27,21 @@ router = APIRouter()
 log = logging.getLogger(__name__)
 
 
+# API Endpoints for all tables
+# see the default api documentation under:
+### pkgs/clan-cli/tests/openapi_client/docs/DefaultApi.md
+
+
 #########################
 #                       #
 #        Service        #
 #                       #
 #########################
+# see the corresponding documentation under:
+### pkgs/clan-cli/tests/openapi_client/docs/Service.md
+### pkgs/clan-cli/tests/openapi_client/docs/ServiceCreate.md
+### pkgs/clan-cli/tests/openapi_client/docs/ServiceUsageCreate.md
+### pkgs/clan-cli/tests/openapi_client/docs/ServicesApi.md
 @router.post("/api/v1/service", response_model=Service, tags=[Tags.services])
 def create_service(
     service: ServiceCreate, db: Session = Depends(sql_db.get_db)
@@ -134,6 +144,10 @@ def delete_service(
 #        Entity         #
 #                       #
 #########################
+# see the corresponding documentation under:
+### pkgs/clan-cli/tests/openapi_client/docs/Entity.md
+### pkgs/clan-cli/tests/openapi_client/docs/EntityCreate.md
+### pkgs/clan-cli/tests/openapi_client/docs/EntitiesApi.md
 @router.post("/api/v1/entity", response_model=Entity, tags=[Tags.entities])
 def create_entity(
     entity: EntityCreate, db: Session = Depends(sql_db.get_db)
@@ -298,6 +312,9 @@ def get_rpc_by_role(db: Session, role: Role, path: str) -> Any:
 #      Resolution       #
 #                       #
 #########################
+# see the corresponding documentation under:
+### pkgs/clan-cli/tests/openapi_client/docs/Resolution.md
+### pkgs/clan-cli/tests/openapi_client/docs/ResolutionApi.md
 @router.get(
     "/api/v1/resolutions", response_model=List[Resolution], tags=[Tags.resolutions]
 )
@@ -312,6 +329,8 @@ def get_all_resolutions(
 #      Repository       #
 #                       #
 #########################
+# see the corresponding documentation under:
+### pkgs/clan-cli/tests/openapi_client/docs/RepositoriesApi.md
 @router.get(
     "/api/v1/repositories", tags=[Tags.repositories], response_model=List[Service]
 )
@@ -326,6 +345,10 @@ def get_all_repositories(
 #      Eventmessage     #
 #                       #
 #########################
+# see the corresponding documentation under:
+### pkgs/clan-cli/tests/openapi_client/docs/Eventmessage.md
+### pkgs/clan-cli/tests/openapi_client/docs/EventmessageCreate.md
+### pkgs/clan-cli/tests/openapi_client/docs/EventmessageApi.md
 @router.post(
     "/api/v1/event_message", response_model=Eventmessage, tags=[Tags.eventmessages]
 )

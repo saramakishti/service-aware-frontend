@@ -1,19 +1,24 @@
+# Importing necessary modules and packages
 import sys
 import time
 import urllib
 from datetime import datetime
 
+# Importing FastAPI and related components
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 
+# Importing configuration and schemas from the clan_cli package
 import clan_cli.config as config
 from clan_cli.webui.schemas import Resolution
 
+# Creating FastAPI instances for different applications
 app_dlg = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 app_ap = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 app_c1 = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 app_c2 = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
 
+# List of FastAPI instances and their associated ports
 apps = [
     (app_dlg, config.port_dlg),
     (app_ap, config.port_ap),
@@ -22,7 +27,7 @@ apps = [
 ]
 
 
-#### HEALTHCHECK
+# Healthcheck endpoints for different applications
 @app_c1.get("/")
 async def root_c1() -> str:
     return "C1 is alive"
@@ -63,6 +68,7 @@ async def healthcheck_ap() -> str:
     return "200 OK"
 
 
+# Function for performing health checks on a given URL with retries
 def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | None:
     for attempt in range(max_retries):
         try:
@@ -74,13 +80,10 @@ def get_health(*, url: str, max_retries: int = 20, delay: float = 0.2) -> str | 
     return None
 
 
-#### CONSUME SERVICE
-
-# TODO send_msg???
-
-
+# Service consumption emulation for c1 which returns a gif1
 @app_c1.get("/v1/print_daemon1", response_class=HTMLResponse)
 async def consume_service_from_other_entity_c1() -> HTMLResponse:
+    # HTML content for the response
     html_content = """
     <html>
         <body>
@@ -104,6 +107,7 @@ async def deregister_c1() -> JSONResponse:
 
 @app_c2.get("/v1/print_daemon2", response_class=HTMLResponse)
 async def consume_service_from_other_entity_c2() -> HTMLResponse:
+    # Similar HTML content for the response
     html_content = """
     <html>
         <body>
@@ -127,7 +131,9 @@ async def deregister_c2() -> JSONResponse:
 
 @app_ap.get("/ap_list_of_services", response_class=JSONResponse)
 async def ap_list_of_services() -> JSONResponse:
+    # Sample list of services as a JSON response
     res = [
+        # Service 1
         {
             "uuid": "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
             "service_name": "Carlos Printing0",
@@ -150,6 +156,7 @@ async def ap_list_of_services() -> JSONResponse:
             },
             "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
         },
+        # Service 2 (similar structure)
         {
             "uuid": "23b8c1e9-3924-56de-3eb1-3b9046685257",
             "service_name": "Carlos Printing1",
@@ -217,7 +224,6 @@ async def ap_list_of_services() -> JSONResponse:
             "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
         },
     ]
-    # resp = json.dumps(obj=res)
     return JSONResponse(content=res, status_code=200)
 
 

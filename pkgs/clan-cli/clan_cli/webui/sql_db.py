@@ -1,3 +1,4 @@
+# Imports
 from typing import Generator
 
 from sqlalchemy import create_engine
@@ -6,6 +7,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 URL = "sqlite:///./sql_app.db"
+
+# Create db engine
 
 engine = create_engine(URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
