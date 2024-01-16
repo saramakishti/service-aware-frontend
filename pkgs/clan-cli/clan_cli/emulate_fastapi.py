@@ -129,44 +129,92 @@ async def deregister_c2() -> JSONResponse:
 async def ap_list_of_services() -> JSONResponse:
     res = [
         {
-            "uuid": "98ae4334-6c12-ace8-ae34-0454cac5b68c",
-            "service_name": "Carlos Printing46",
+            "uuid": "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
+            "service_name": "Carlos Printing0",
             "service_type": "3D Printing",
-            "endpoint_url": "127.0.0.1:6600/v1/print_daemon46",
-            "status": "unknown",
-            "other": {"action": ["register", "deregister", "delete", "create"]},
-            "entity_did": "did:sov:test:6600",
-            "entity": {
-                "did": "did:sov:test:6600",
-                "name": "AP",
-                "ip": "127.0.0.1:6600",
-                "network": "255.255.0.0",
-                "visible": True,
-                "other": {},
-                "attached": False,
-                "stop_health_task": False,
-                "roles": ["AP"],
+            "endpoint_url": "http://127.0.0.1:8000/v1/print_daemon0",
+            "other": {},
+            "entity_did": "did:sov:test:120",
+            "status": {"data": ["draft", "registered"]},
+            "action": {
+                "data": [
+                    {
+                        "name": "register",
+                        "endpoint": "http://127.0.0.1:8000/v1/print_daemon0/register",
+                    },
+                    {
+                        "name": "deregister",
+                        "endpoint": "http://127.0.0.1:8000/v1/print_daemon0/deregister",
+                    },
+                ]
             },
+            "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
         },
         {
-            "uuid": "988c24c9-61b1-cd22-6280-1c4510435a10",
-            "service_name": "Carlos Printing47",
+            "uuid": "23b8c1e9-3924-56de-3eb1-3b9046685257",
+            "service_name": "Carlos Printing1",
             "service_type": "3D Printing",
-            "endpoint_url": "127.0.0.1:6600/v1/print_daemon47",
-            "status": "unknown",
-            "other": {"action": ["register", "deregister", "delete", "create"]},
-            "entity_did": "did:sov:test:6600",
-            "entity": {
-                "did": "did:sov:test:6600",
-                "name": "AP",
-                "ip": "127.0.0.1:6600",
-                "network": "255.255.0.0",
-                "visible": True,
-                "other": {},
-                "attached": False,
-                "stop_health_task": False,
-                "roles": ["AP"],
+            "endpoint_url": "http://127.0.0.1:8001/v1/print_daemon1",
+            "other": {},
+            "entity_did": "did:sov:test:121",
+            "status": {"data": ["draft", "registered"]},
+            "action": {
+                "data": [
+                    {
+                        "name": "register",
+                        "endpoint": "http://127.0.0.1:8001/v1/print_daemon1/register",
+                    },
+                    {
+                        "name": "deregister",
+                        "endpoint": "http://127.0.0.1:8001/v1/print_daemon1/deregister",
+                    },
+                ]
             },
+            "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
+        },
+        {
+            "uuid": "bd9c66b3-ad3c-2d6d-1a3d-1fa7bc8960a9",
+            "service_name": "Carlos Printing2",
+            "service_type": "3D Printing",
+            "endpoint_url": "http://127.0.0.1:8002/v1/print_daemon2",
+            "other": {},
+            "entity_did": "did:sov:test:122",
+            "status": {"data": ["draft", "registered"]},
+            "action": {
+                "data": [
+                    {
+                        "name": "register",
+                        "endpoint": "http://127.0.0.1:8002/v1/print_daemon2/register",
+                    },
+                    {
+                        "name": "deregister",
+                        "endpoint": "http://127.0.0.1:8002/v1/print_daemon2/deregister",
+                    },
+                ]
+            },
+            "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
+        },
+        {
+            "uuid": "972a8469-1641-9f82-8b9d-2434e465e150",
+            "service_name": "Carlos Printing3",
+            "service_type": "3D Printing",
+            "endpoint_url": "http://127.0.0.1:8003/v1/print_daemon3",
+            "other": {},
+            "entity_did": "did:sov:test:123",
+            "status": {"data": ["draft", "registered"]},
+            "action": {
+                "data": [
+                    {
+                        "name": "register",
+                        "endpoint": "http://127.0.0.1:8003/v1/print_daemon3/register",
+                    },
+                    {
+                        "name": "deregister",
+                        "endpoint": "http://127.0.0.1:8003/v1/print_daemon3/deregister",
+                    },
+                ]
+            },
+            "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
         },
     ]
     # resp = json.dumps(obj=res)
