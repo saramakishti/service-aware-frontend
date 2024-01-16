@@ -10,6 +10,7 @@ import { NoDataOverlay } from "@/components/noDataOverlay";
 import { StyledTableCell, StyledTableRow } from "./style";
 import { ICustomTable, CustomTableConfiguration } from "@/types";
 import { Checkbox, Skeleton } from "@mui/material";
+import ErrorBoundary from "@/components/error_boundary";
 
 const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
   if (loading)
@@ -35,11 +36,15 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
 
     // cover use case if we want to render a component
     if (render) renderedValue = render(value);
-
+    if (typeof renderedValue === "object" && render === undefined) {
+      console.warn("Missing render function for column " + cellKey);
+    }
     return (
-      <StyledTableCell key={cellKey} align="left">
-        {renderedValue}
-      </StyledTableCell>
+      <ErrorBoundary>
+        <StyledTableCell key={cellKey} align="left">
+          {renderedValue}
+        </StyledTableCell>
+      </ErrorBoundary>
     );
   };
 
