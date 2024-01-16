@@ -1,3 +1,4 @@
+# Imports
 import logging
 from datetime import datetime
 from typing import List
@@ -7,12 +8,21 @@ from pydantic import BaseModel, Field, validator
 from . import sql_models
 from .db_types import Role, Status
 
+# Set logger
 log = logging.getLogger(__name__)
 
 
+# create basemodel
 class Machine(BaseModel):
     name: str
     status: Status
+
+
+### Create database schema for sql
+# each section will represent an own table
+#   Entity, Service, Resolution, Eventmessages
+# The relation between them is as follows:
+#   one Entity can have many Services
 
 
 #########################

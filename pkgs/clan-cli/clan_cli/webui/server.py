@@ -1,3 +1,4 @@
+# Imports
 import argparse
 import logging
 import multiprocessing as mp
@@ -10,7 +11,6 @@ from pathlib import Path
 from threading import Thread
 from typing import Iterator
 
-# XXX: can we dynamically load this using nix develop?
 import uvicorn
 from pydantic import AnyUrl, IPvAnyAddress
 from pydantic.tools import parse_obj_as
@@ -19,9 +19,11 @@ import clan_cli.config as config
 from clan_cli.emulate_fastapi import apps, get_health
 from clan_cli.errors import ClanError
 
+# Setting up logging
 log = logging.getLogger(__name__)
 
 
+# Function to open the browser for a specified URL
 def open_browser(base_url: AnyUrl, sub_url: str) -> None:
     for i in range(5):
         try:
@@ -33,6 +35,7 @@ def open_browser(base_url: AnyUrl, sub_url: str) -> None:
     _open_browser(url)
 
 
+# Helper function to open a web browser for a given URL using available browsers
 def _open_browser(url: AnyUrl) -> subprocess.Popen:
     for browser in ("firefox", "iceweasel", "iceape", "seamonkey"):
         if shutil.which(browser):
@@ -52,6 +55,7 @@ def _open_browser(url: AnyUrl) -> subprocess.Popen:
     raise ClanError("No browser found")
 
 
+# Context manager to spawn the Node.js development server
 @contextmanager
 def spawn_node_dev_server(host: IPvAnyAddress, port: int) -> Iterator[None]:
     log.info("Starting node dev server...")
@@ -78,6 +82,7 @@ def spawn_node_dev_server(host: IPvAnyAddress, port: int) -> Iterator[None]:
             proc.terminate()
 
 
+# Main function to start the server
 def start_server(args: argparse.Namespace) -> None:
     with ExitStack() as stack:
         headers: list[tuple[str, str]] = []
@@ -115,6 +120,7 @@ def start_server(args: argparse.Namespace) -> None:
         sql_models.Base.metadata.drop_all(engine)
 
         if args.populate:
+            # pre populate the server with some test data
             test_dir = Path(__file__).parent.parent.parent / "tests"
 
             if not test_dir.is_dir():
