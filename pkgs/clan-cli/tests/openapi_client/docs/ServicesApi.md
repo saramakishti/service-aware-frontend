@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**get_service_by_uuid**](ServicesApi.md#get_service_by_uuid) | **GET** /api/v1/service | Get Service By Uuid
 [**get_services_without_entity**](ServicesApi.md#get_services_without_entity) | **GET** /api/v1/services_without_entity | Get Services Without Entity
 [**inc_service_usage**](ServicesApi.md#inc_service_usage) | **PUT** /api/v1/inc_service_usage | Inc Service Usage
+[**update_service**](ServicesApi.md#update_service) | **PUT** /api/v1/service | Update Service
 
 
 # **add_service_usage**
@@ -542,6 +543,75 @@ Name | Type | Description  | Notes
  **service_usage_create** | [**ServiceUsageCreate**](ServiceUsageCreate.md)|  | 
  **consumer_entity_did** | **str**|  | [optional] [default to &#39;did:sov:test:120&#39;]
  **service_uuid** | **str**|  | [optional] [default to &#39;bdd640fb-0667-1ad1-1c80-317fa3b1799d&#39;]
+
+### Return type
+
+[**Service**](Service.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_service**
+> Service update_service(service_create, uuid=uuid)
+
+Update Service
+
+### Example
+
+```python
+import time
+import os
+import openapi_client
+from openapi_client.models.service import Service
+from openapi_client.models.service_create import ServiceCreate
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.ServicesApi(api_client)
+    service_create = openapi_client.ServiceCreate() # ServiceCreate | 
+    uuid = 'bdd640fb-0667-1ad1-1c80-317fa3b1799d' # str |  (optional) (default to 'bdd640fb-0667-1ad1-1c80-317fa3b1799d')
+
+    try:
+        # Update Service
+        api_response = api_instance.update_service(service_create, uuid=uuid)
+        print("The response of ServicesApi->update_service:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ServicesApi->update_service: %s\n" % e)
+```
+
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **service_create** | [**ServiceCreate**](ServiceCreate.md)|  | 
+ **uuid** | **str**|  | [optional] [default to &#39;bdd640fb-0667-1ad1-1c80-317fa3b1799d&#39;]
 
 ### Return type
 

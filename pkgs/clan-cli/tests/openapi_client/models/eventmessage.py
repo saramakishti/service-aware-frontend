@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Eventmessage(BaseModel):
@@ -33,7 +33,10 @@ class Eventmessage(BaseModel):
     des_did: StrictStr = Field(...)
     msg: Dict[str, Any] = Field(...)
     id: StrictInt = Field(...)
-    __properties = ["timestamp", "group", "group_id", "msg_type", "src_did", "des_did", "msg", "id"]
+    des_name: Optional[StrictStr] = None
+    src_name: Optional[StrictStr] = None
+    msg_type_name: Optional[StrictStr] = None
+    __properties = ["timestamp", "group", "group_id", "msg_type", "src_did", "des_did", "msg", "id", "des_name", "src_name", "msg_type_name"]
 
     class Config:
         """Pydantic configuration"""
@@ -78,7 +81,10 @@ class Eventmessage(BaseModel):
             "src_did": obj.get("src_did"),
             "des_did": obj.get("des_did"),
             "msg": obj.get("msg"),
-            "id": obj.get("id")
+            "id": obj.get("id"),
+            "des_name": obj.get("des_name"),
+            "src_name": obj.get("src_name"),
+            "msg_type_name": obj.get("msg_type_name")
         })
         return _obj
 

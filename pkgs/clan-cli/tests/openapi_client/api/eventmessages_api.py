@@ -20,7 +20,7 @@ from pydantic import validate_arguments, ValidationError
 
 from pydantic import StrictInt
 
-from typing import List, Optional
+from typing import Optional
 
 from openapi_client.models.eventmessage import Eventmessage
 from openapi_client.models.eventmessage_create import EventmessageCreate
@@ -192,7 +192,7 @@ class EventmessagesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_all_eventmessages(self, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> List[Eventmessage]:  # noqa: E501
+    def get_all_eventmessages(self, skip : Optional[StrictInt] = None, limit : Optional[StrictInt] = None, **kwargs) -> None:  # noqa: E501
         """Get All Eventmessages  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -214,7 +214,7 @@ class EventmessagesApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: List[Eventmessage]
+        :rtype: None
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -258,7 +258,7 @@ class EventmessagesApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Eventmessage], status_code(int), headers(HTTPHeaderDict))
+        :rtype: None
         """
 
         _params = locals()
@@ -316,10 +316,7 @@ class EventmessagesApi:
         # authentication setting
         _auth_settings = []  # noqa: E501
 
-        _response_types_map = {
-            '200': "List[Eventmessage]",
-            '422': "HTTPValidationError",
-        }
+        _response_types_map = {}
 
         return self.api_client.call_api(
             '/api/v1/event_messages', 'GET',

@@ -12,6 +12,9 @@ Name | Type | Description | Notes
 **des_did** | **str** |  | 
 **msg** | **object** |  | 
 **id** | **int** |  | 
+**des_name** | **str** |  | [optional] 
+**src_name** | **str** |  | [optional] 
+**msg_type_name** | **str** |  | [optional] 
 
 ## Example
 

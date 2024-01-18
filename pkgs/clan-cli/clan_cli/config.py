@@ -8,3 +8,15 @@ dlg_url = f"http://{host}:{port_dlg}/docs"
 ap_url = f"http://{host}:{port_ap}/docs"
 c1_url = f"http://{host}:{c1_port}/docs"
 c2_url = f"http://{host}:{c2_port}/docs"
+
+
+msg_type_to_label = {
+    1: "Attachement",
+    2: "Connection Setup",
+    3: "Presentation",
+    4: "DID Resolution",
+    5: "Service De-registration",
+    6: "Service Registration",
+    7: "Service Discovery",
+    8: "Service Operation",
+}
