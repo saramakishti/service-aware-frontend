@@ -173,11 +173,12 @@ def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
 
 def test_create_eventmessages(api_client: ApiClient) -> None:
     api = EventmessagesApi(api_client=api_client)
-    assert [] == api.get_all_eventmessages()
+
+    assert api.get_all_eventmessages() is None
     for idx, own_eventmsg in enumerate(create_eventmessages()):
         res: Eventmessage = api.create_eventmessage(own_eventmsg)
 
         assert res.msg == own_eventmsg.msg
         assert res.src_did == own_eventmsg.src_did
         assert res.des_did == own_eventmsg.des_did
-    assert [] != api.get_all_eventmessages()
+    assert {} != api.get_all_eventmessages()

@@ -1,7 +1,7 @@
 # Imports
 import logging
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field, validator
 
@@ -173,7 +173,7 @@ class EventmessageBase(BaseModel):
         ..., example=12345
     )  # specific to one group needed to enable visually nested groups
     msg_type: int = Field(..., example=1)  # message type for the label
-    src_did: str = Field(..., example="did:sov:test:2234")
+    src_did: str = Field(..., example="did:sov:test:121")
     des_did: str = Field(..., example="did:sov:test:120")
 
 
@@ -183,6 +183,9 @@ class EventmessageCreate(EventmessageBase):
 
 class Eventmessage(EventmessageCreate):
     id: int = Field(...)
+    des_name: Optional[str] = Field(default=None, example="C2")
+    src_name: Optional[str] = Field(default=None, example="C1")
+    msg_type_name: Optional[str] = Field(default=None, example="Service Usage")
 
     class Config:
         orm_mode = True

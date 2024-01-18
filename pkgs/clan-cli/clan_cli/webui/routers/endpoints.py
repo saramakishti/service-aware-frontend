@@ -1,11 +1,14 @@
 import logging
 import time
-from typing import Any, List
+import typing
+from typing import Any, List, Optional
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, Query
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy.orm import Session
+
+from clan_cli.config import ap_url, c1_url, c2_url, dlg_url, msg_type_to_label
 
 from ...errors import ClanError
 from .. import sql_crud, sql_db, sql_models
@@ -108,10 +111,8 @@ def get_service_by_uuid(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(sql_db.get_db),
-) -> sql_models.Service:
+) -> Optional[sql_models.Service]:
     service = sql_crud.get_service_by_uuid(db, uuid=uuid)
-    if service is None:
-        raise ClanError(f"Service with uuid '{uuid}' not found")
     return service
 
 
@@ -177,10 +178,8 @@ def get_all_entities(
 def get_entity_by_did(
     entity_did: str = "did:sov:test:120",
     db: Session = Depends(sql_db.get_db),
-) -> sql_models.Entity:
+) -> Optional[sql_models.Entity]:
     entity = sql_crud.get_entity_by_name_or_did(db, name=entity_did)
-    if entity is None:
-        raise ClanError(f"Entity with did '{entity_did}' not found")
     return entity
 
 
@@ -358,16 +357,46 @@ def create_eventmessage(
     return sql_crud.create_eventmessage(db, eventmsg)
 
 
+@typing.no_type_check
 @router.get(
     "/api/v1/event_messages",
-    response_model=List[Eventmessage],
+    response_class=JSONResponse,
     tags=[Tags.eventmessages],
 )
 def get_all_eventmessages(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> List[sql_models.Eventmessage]:
+) -> JSONResponse:
     eventmessages = sql_crud.get_eventmessages(db, skip=skip, limit=limit)
-    return eventmessages
+    result: dict[int, dict[int, List[Eventmessage]]] = {}
+
+    for msg in eventmessages:
+        msg_name = msg_type_to_label.get(msg.msg_type, None)
+        src_name = sql_crud.get_entity_by_did(db, msg.src_did)
+        src_name = src_name if src_name is None else src_name.name
+        des_name = sql_crud.get_entity_by_did(db, msg.des_did)
+        des_name = des_name if des_name is None else des_name.name
+
+        if result.get(msg.group) is None:
+            result[msg.group] = {}
+        if result[msg.group].get(msg.group_id) is None:
+            result[msg.group][msg.group_id] = []
+
+        result[msg.group][msg.group_id].append(
+            Eventmessage(
+                id=msg.id,
+                timestamp=msg.timestamp,
+                group=msg.group,
+                group_id=msg.group_id,
+                msg_type=msg.msg_type,
+                msg_type_name=msg_name,
+                src_did=msg.src_did,
+                src_name=src_name,
+                des_did=msg.des_did,
+                des_name=des_name,
+                msg=msg.msg,
+            ).dict()
+        )
+    return JSONResponse(content=result, status_code=200)
 
 
 ##############################
@@ -377,8 +406,6 @@ def get_all_eventmessages(
 ##############################
 @router.get("/emulate", response_class=HTMLResponse)
 def get_emulated_enpoints() -> HTMLResponse:
-    from clan_cli.config import ap_url, c1_url, c2_url, dlg_url
-
     html_content = f"""
     <html>
         <head>

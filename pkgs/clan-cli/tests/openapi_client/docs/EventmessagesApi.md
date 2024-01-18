@@ -76,7 +76,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_eventmessages**
-> List[Eventmessage] get_all_eventmessages(skip=skip, limit=limit)
+> get_all_eventmessages(skip=skip, limit=limit)
 
 Get All Eventmessages
 
@@ -86,7 +86,6 @@ Get All Eventmessages
 import time
 import os
 import openapi_client
-from openapi_client.models.eventmessage import Eventmessage
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -106,9 +105,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
     try:
         # Get All Eventmessages
-        api_response = api_instance.get_all_eventmessages(skip=skip, limit=limit)
-        print("The response of EventmessagesApi->get_all_eventmessages:\n")
-        pprint(api_response)
+        api_instance.get_all_eventmessages(skip=skip, limit=limit)
     except Exception as e:
         print("Exception when calling EventmessagesApi->get_all_eventmessages: %s\n" % e)
 ```
@@ -124,7 +121,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List[Eventmessage]**](Eventmessage.md)
+void (empty response body)
 
 ### Authorization
 
