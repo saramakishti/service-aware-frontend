@@ -14,10 +14,14 @@ export const ClientTableConfig = [
     label: "End Point",
     render: (value: any) => {
       const onConsume = () => {
-        // fetch(value).then(() => { }).catch(() => { })
+        fetch(value).then((response) => {
+          console.log(response)
+        }).catch(error => {
+          console.log("Fetch error: ", error)
+        })
       };
       return (
-        <Button onClick={onConsume} disabled variant="outlined">
+        <Button onClick={onConsume} variant="outlined">
           Consume
         </Button>
       );
@@ -85,7 +89,11 @@ export const ServiceTableConfig = [
 
       const onButtonClick = (endpoint: string) => {
         console.log("which endpoint comes here?", endpoint);
-        // fetch(endpoint).then(() => { }).catch(() => { })
+        fetch(endpoint).then((response) => {
+              console.log(response);
+            }).catch(error => {
+              console.log("Fetch error: ", error)
+        })
       };
 
       if (!data) return <div>N/A</div>;
