@@ -14,20 +14,20 @@ import { NoDataOverlay } from "../noDataOverlay";
 import { useGetAllEventmessages } from "@/api/eventmessages/eventmessages";
 import { mutate } from "swr";
 import { LoadingOverlay } from "../join/loadingOverlay";
-import { generateMermaidString } from "./helpers";
+//import { generateMermaidString } from "./helpers";
 
 const SequenceDiagram = () => {
   const {
-    data: eventMessagesData,
+    //    data: eventMessagesData,
     isLoading: loadingEventMessages,
     swrKey: eventMessagesKeyFunc,
   } = useGetAllEventmessages();
 
   const mermaidRef: any = useRef(null);
   const [scale, setScale] = useState(1);
-  const hasData = eventMessagesData?.data && eventMessagesData?.data.length > 0;
+  const hasData = false; // TODO: Readd this, right now it's always false
 
-  const mermaidString = generateMermaidString(eventMessagesData?.data);
+  const mermaidString = ""; //generateMermaidString(eventMessagesData?.data);
 
   useEffect(() => {
     if (!loadingEventMessages && hasData)
