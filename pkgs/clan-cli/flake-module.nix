@@ -12,6 +12,19 @@
       };
       inherit (self'.packages.clan-cli) clan-openapi;
       default = self'.packages.clan-cli;
+
+
+      clan-docker = pkgs.dockerTools.buildImage {
+        name = "clan-docker";
+        tag = "latest";
+        created = "now";
+        config = {
+          Cmd = [ "${self'.packages.clan-cli}/bin/clan" "webui" "--no-open" "--host" "0.0.0.0" ];
+          ExposedPorts = {
+            "2979/tcp" = { };
+          };
+        };
+      };
     };
 
     checks = self'.packages.clan-cli.tests;
