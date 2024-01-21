@@ -1,5 +1,5 @@
-import {Button, CircularProgress, Tooltip} from "@mui/material";
-import {useState} from "react";
+import { Button, CircularProgress, Tooltip } from "@mui/material";
+import { useState } from "react";
 
 export const ClientTableConfig = [
   {
@@ -19,17 +19,17 @@ export const ClientTableConfig = [
         setIsLoading(true);
         fetch(value)
           .then((response) => {
-            setIsLoading(false)
+            setIsLoading(false);
             console.log(response);
           })
           .catch((error) => {
-            setIsLoading(false)
+            setIsLoading(false);
             console.log("Fetch error: ", error);
           });
       };
       return (
         <Button onClick={onConsume} variant="outlined">
-          {isLoading ? <CircularProgress size={20} /> : 'Consume'}
+          {isLoading ? <CircularProgress size={20} /> : "Consume"}
         </Button>
       );
     },
