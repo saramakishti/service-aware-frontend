@@ -14,7 +14,7 @@ import { NoDataOverlay } from "../noDataOverlay";
 import { useGetAllEventmessages } from "@/api/eventmessages/eventmessages";
 import { mutate } from "swr";
 import { LoadingOverlay } from "../join/loadingOverlay";
-import { generateMermaidString } from "./helpers";
+import { dataFromBE, generateMermaidString } from "./helpers";
 
 const SequenceDiagram = () => {
   const {
@@ -25,9 +25,10 @@ const SequenceDiagram = () => {
 
   const mermaidRef: any = useRef(null);
   const [scale, setScale] = useState(1);
-  const hasData = eventMessagesData?.data && eventMessagesData?.data.length > 0;
+  // const hasData = eventMessagesData?.data && eventMessagesData?.data.length > 0;
+  const hasData = true;
 
-  const mermaidString = generateMermaidString(eventMessagesData?.data);
+  const mermaidString = generateMermaidString(dataFromBE);
 
   useEffect(() => {
     if (!loadingEventMessages && hasData)

@@ -1,7 +1,4 @@
-import { Button, IconButton, Tooltip } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Button, Tooltip } from "@mui/material";
 
 export const ClientTableConfig = [
   {
@@ -15,26 +12,21 @@ export const ClientTableConfig = [
   {
     key: "endpoint_url",
     label: "End Point",
-    render: () => {
+    render: (value: any) => {
+      const onConsume = () => {
+        // fetch(value).then(() => { }).catch(() => { })
+      };
       return (
-        <Button disabled variant="outlined">
+        <Button onClick={onConsume} disabled variant="outlined">
           Consume
         </Button>
       );
     },
   },
-  // {
-  //   key: "entity",
-  //   label: "Entity",
-  // },
   {
     key: "entity_did",
     label: "Entity DID",
   },
-  // {
-  //   key: "network",
-  //   label: "Network",
-  // },
 ];
 
 export const ServiceTableConfig = [
@@ -88,39 +80,35 @@ export const ServiceTableConfig = [
   {
     key: "action",
     label: "Actions",
-    render: () => {
-      return (
-        <>
-          <Tooltip title="Register" placement="top">
-            <IconButton disabled size="small">
-              <AddCircleIcon />
-            </IconButton>
-          </Tooltip>
+    render: (value: any) => {
+      const { data } = value;
 
-          <Tooltip title="De-register" placement="top">
-            <IconButton disabled size="small">
-              <RemoveCircleIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Delete" placement="top">
-            <IconButton disabled size="small" color="secondary">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      );
-      // let renderedValue: any = "";
-      // if (typeof value === "object")
-      //   renderedValue = (
-      //     <>
-      //       {[...value.data, { name: 'Delete', endpoint: '' }].map((actionType: any) => (
-      //         <>
-      //           <Button disabled style={{ marginRight: 8 }} variant="outlined" size="small">{actionType.name}</Button>
-      //         </>
-      //       ))}
-      //     </>
-      //   );
-      // return renderedValue;
+      const onButtonClick = (endpoint: string) => {
+        console.log("which endpoint comes here?", endpoint);
+        // fetch(endpoint).then(() => { }).catch(() => { })
+      };
+
+      if (!data) return <div>N/A</div>;
+
+      if (data && data.length)
+        return data.map((item: any, index: number) => {
+          const buttonLabel = item.name;
+          const buttonEndpoint = item.endpoint;
+
+          return (
+            <Tooltip placement="top" title={buttonLabel}>
+              <Button
+                style={{ marginRight: 8 }}
+                key={index}
+                onClick={() => onButtonClick(buttonEndpoint)}
+                size="small"
+                variant="outlined"
+              >
+                {buttonLabel}
+              </Button>
+            </Tooltip>
+          );
+        });
     },
   },
 ];
