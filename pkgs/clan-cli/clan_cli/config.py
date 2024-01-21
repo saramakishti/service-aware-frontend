@@ -5,7 +5,7 @@ cors_url = [
     "http://0.0.0.0",
     "http://[::]",
 ]
-cors_ports = [2979, 3000]
+cors_ports = ["*", 3000, 2979]
 
 # host for the server, frontend, backend and emulators
 host = "127.0.0.1"

@@ -7,6 +7,7 @@ import { HomeTableConfig } from "@/config/home";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { mutate } from "swr";
+import ErrorBoundary from "@/components/error_boundary";
 
 const NoSSRSequenceDiagram = dynamic(
   () => import("../../components/sequence_diagram"),
@@ -56,7 +57,9 @@ export default function Home() {
 
       <div>
         <h4>Sequence Diagram</h4>
-        <NoSSRSequenceDiagram />
+        <ErrorBoundary>
+          <NoSSRSequenceDiagram />
+        </ErrorBoundary>
       </div>
     </div>
   );

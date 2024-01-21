@@ -21,7 +21,7 @@ Let's get your development environment up and running:
 
 1. **Install Nix Package Manager**:
 
-   - You can install the Nix package manager by either [downloading the Nix installer](https://github.com/DeterminateSystems/nix-installer/releases) or running this command:
+   - You can install the Nix package manager by running this command:
      ```bash
      curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
      ```
@@ -34,7 +34,7 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
 
 2. **Install direnv**:
 
-   - Download the direnv package from [here](https://direnv.net/docs/installation.html) or run the following command:
+   - Install the direnv package by running the following command:
      ```bash
      curl -sfL https://direnv.net/install.sh | bash
      ```
@@ -75,11 +75,20 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
      ```bash
      clan webui --reload --no-open --log-level debug --populate --emulate
      ```
-   - The server will automatically restart if any Python files change.
+   - The server will automatically restart if any Python files change. Emulated services however will not.
    - The `--populate` flag will automatically populate the database with dummy data
+     - To look into the endpoints open up a swagger instance by visiting: http://localhost:2979/docs
    - The `--emulate` flag will automatically run servers the database with dummy data for the fronted to communicate with (ap, dlg, c1 and c2)
+     - To look into the emulated endpoints go to http://localhost:2979/emulate
 
-8. **Build the Frontend**:
+8. **Detailed Backend Documentation**
+
+   - For detailed backend documentation go to [pkgs/clan-cli/README.md](pkgs/clan-cli/README.md)
+   - We explain:
+     - How to build and run a docker image
+     - Internal workings of the App
+
+9. **Build the Frontend**:
 
    - In a different shell, navigate to the `pkgs/ui` directory and execute:
      ```bash
@@ -87,30 +96,19 @@ sudo echo "experimental-features = nix-command flakes" > '/etc/nix/nix.conf'
      ```
    - Wait for the frontend to build.
 
-9. **Start the Frontend**:
-   - To start the frontend, execute:
-     ```bash
-     npm run dev
-     ```
-   - Access the website by going to [http://localhost:3000](http://localhost:3000).
+10. **Start the Frontend**:
+
+- To start the frontend, execute:
+  ```bash
+  npm run dev
+  ```
+- Access the website by going to [http://localhost:3000](http://localhost:3000).
+
+11. **Detailed Frontend Documentation**
+
+- For detailed frontend documentation go to [pkgs/ui/README.md](pkgs/ui/README.md)
 
 # Setting Up Your Git Workflow
-
-Let's set up your Git workflow to collaborate effectively:
-
-1. **Register Your Gitea Account Locally**:
-
-   - Execute the following command to add your Gitea account locally:
-     ```bash
-     tea login add
-     ```
-   - Go to https://gitea.gchq.icu/user/settings/applications and create token with all privileges
-   - Fill out the prompt as follows:
-     - URL of Gitea instance: `https://gitea.gchq.icu`
-     - Name of new Login [gitea.gchq.icu]: `gitea.gchq.icu:7171`
-     - Do you have an access token? Yes
-     - Token: \***\*\*\*\***
-     - Set Optional settings: No
 
 2. **Git Workflow**:
 
@@ -124,99 +122,3 @@ Let's set up your Git workflow to collaborate effectively:
    5. Use `git status` to check for merge conflicts.
    6. If conflicts exist, resolve them. Here's a tutorial for resolving conflicts in [VSCode](https://code.visualstudio.com/docs/sourcecontrol/overview#_merge-conflicts).
    7. After resolving conflicts, execute `git merge --continue` and repeat step 5 until there are no conflicts.
-
-3. **Create a Pull Request**:
-
-   - To automatically open a pull request that gets merged if all tests pass, execute:
-     ```bash
-     merge-after-ci
-     ```
-   - If it fails and says something along the lines off `[ERROR] fail-on-change` then the formatter complained.
-     Execute `nix fmt` from the project root by hand and then make a new git commit. Afterwards redo step 3 and it should work.
-
-4. **Review Your Pull Request**:
-
-   - Visit https://gitea.gchq.icu and go to the project page. Check under "Pull Requests" for any issues with your pull request.
-
-5. **Push Your Changes**:
-   - If there are issues, fix them and redo step 2. Afterward, execute:
-     ```bash
-     git push origin HEAD:YourUsername-main
-     ```
-   - This will directly push to your open pull request.
-
-# Debugging
-
-When working on the backend of your project, debugging is an essential part of the development process. Here are some methods for debugging and testing the backend of your application:
-
-## Test Backend Locally in Devshell with Breakpoints
-
-To test the backend locally in a development environment and set breakpoints for debugging, follow these steps:
-
-1. Run the following command to execute your tests and allow for debugging with breakpoints:
-   ```bash
-   pytest -n0 -s --maxfail=1
-   ```
-   You can place `breakpoint()` in your Python code where you want to trigger a breakpoint for debugging.
-
-## Test Backend Locally in a Nix Sandbox
-
-To run your backend tests in a Nix sandbox, you have two options depending on whether your test functions have been marked as impure or not:
-
-### Running Tests Marked as Impure
-
-If your test functions need to execute `nix build` and have been marked as impure because you can't execute `nix build` inside a Nix sandbox, use the following command:
-
-```bash
-nix run .#impure-checks
-```
-
-This command will run the impure test functions.
-
-### Running Pure Tests
-
-For test functions that have not been marked as impure and don't require executing `nix build`, you can use the following command:
-
-```bash
-nix build .#checks.x86_64-linux.clan-pytest --rebuild
-```
-
-This command will run all pure test functions.
-
-### Inspecting the Nix Sandbox
-
-If you need to inspect the Nix sandbox while running tests, follow these steps:
-
-1. Insert an endless sleep into your test code where you want to pause the execution. For example:
-
-   ```python
-   import time
-   time.sleep(3600)  # Sleep for one hour
-   ```
-
-2. Use `cntr` and `psgrep` to attach to the Nix sandbox. This allows you to interactively debug your code while it's paused. For example:
-
-   ```bash
-   psgrep -a -x your_python_process_name
-   cntr attach <pid>
-   ```
-
-These debugging and testing methods will help you identify and fix issues in your backend code efficiently, ensuring the reliability and robustness of your application.
-
-# Using this Template
-
-To make the most of this template:
-
-1. Set up a new Gitea account named `ui-asset-bot`. Generate an access token with all access permissions and set it under `settings/actions/secrets` as a secret called `BOT_ACCESS_TOKEN`.
-
-   - Also, edit the file `.gitea/workflows/ui_assets.yaml` and change the `BOT_EMAIL` variable to match the email you set for that account. Gitea matches commits to accounts by their email address, so this step is essential.
-
-2. Create a second Gitea account named `merge-bot`. Edit the file `pkgs/merge-after-ci/default.nix` if the name should be different. Under "Branches," set the main branch to be protected and add `merge-bot` to the whitelisted users for pushing. Set the unprotected file pattern to `**/ui-assets.nix`.
-
-   - Enable the status check for "build / test (pull_request)."
-
-3. Add both `merge-bot` and `ui-asset-bot` as collaborators.
-   - Set the option to "Delete pull request branch after merge by default."
-   - Also, set the default merge style to "Rebase then create merge commit."
-
-With this template, you're well-equipped to build and collaborate on high-quality websites efficiently. Happy coding!.
