@@ -70,6 +70,7 @@ in
       # nextjs chaches some stuff in $HOME
       built.override.preBuild = ''
         export HOME=./home
+        export NEXT_BUILD_ID=$(git log -1 --pretty=format:"%H")
 
 
         echo "----------- GENERATE API TS ------------"

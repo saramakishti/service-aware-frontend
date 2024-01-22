@@ -8,7 +8,7 @@ pkgs.mkShell {
     fmod.config.floco.settings.nodePackage
   ];
   shellHook = ''
-    ID=${pkg.built.tree}
+    export ID=${pkg.built.tree}
     currID=$(cat .floco/.node_modules_id 2> /dev/null)
 
     mkdir -p .floco
@@ -22,10 +22,11 @@ pkgs.mkShell {
     ln -sf ${pkgs.roboto}/share/fonts ./src
 
     export PATH="$PATH:$(realpath ./node_modules)/.bin"
-
+    export NEXT_BUILD_ID=$(git log -1 --pretty=format:"%H")
 
     # re-generate the api code
-    rm -rf src/api openapi.json
+    rm -f openapi.json
+    rm -rf src/api
     cp ${clanPkgs.clan-openapi}/openapi.json .
     orval
   '';

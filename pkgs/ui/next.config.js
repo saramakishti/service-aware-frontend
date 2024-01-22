@@ -2,9 +2,16 @@
 const nextConfig = {
   output: "export",
   images: { unoptimized: true },
+  distDir: "build",
   eslint: {
     dirs: ["src"],
   },
+  generateBuildId: async () => {
+    // This could be anything, using the latest git hash
+    return process.env.NEXT_BUILD_ID;
+  },
+  outputFileTracing: true,
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig;
