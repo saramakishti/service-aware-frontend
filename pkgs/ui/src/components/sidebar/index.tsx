@@ -33,7 +33,7 @@ type MenuEntry = {
   subMenuEntries?: MenuEntry[];
 };
 
-const menuEntityEntries: MenuEntry[] = [
+export const menuEntityEntries: MenuEntry[] = [
   {
     icon: <PersonIcon />,
     label: "C1",
@@ -60,7 +60,7 @@ const menuEntityEntries: MenuEntry[] = [
   },
 ];
 
-const menuEntries: MenuEntry[] = [
+export const menuEntries: MenuEntry[] = [
   {
     icon: <HomeIcon />,
     label: "Home",

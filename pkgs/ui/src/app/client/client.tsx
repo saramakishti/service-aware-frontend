@@ -105,14 +105,10 @@ const AttachButton = ({
   );
 };
 
-export default function Client({
-  params,
-}: {
-  params: { client_name: string };
-}) {
-  const { client_name } = params;
+export default function Client({ params }: { params: { name: string } }) {
+  const { name } = params;
 
-  const { entity: entity } = useGetEntityByNameOrDid(client_name);
+  const { entity: entity } = useGetEntityByNameOrDid(name);
   const {
     data: services,
     isLoading: services_loading,
