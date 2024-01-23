@@ -25,7 +25,7 @@ pkgs.mkShell {
     export NEXT_BUILD_ID=$(git log -1 --pretty=format:"%H")
 
     # re-generate the api code
-    rm -f openapi.json
+    rm -f --interactive=never openapi.json
     rm -rf src/api
     cp ${clanPkgs.clan-openapi}/openapi.json .
     orval

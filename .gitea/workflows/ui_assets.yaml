@@ -58,7 +58,8 @@ jobs:
               git commit -am "update ui-assets.nix"
 
               echo "Current branch: $GITHUB_REF_NAME"
-              git push origin HEAD:$GITHUB_REF_NAME
+              git push origin HEAD:"$GITHUB_REF_NAME"
+              echo "Done uploading"
             fi
           else
             echo "No UI files changed. Skipping asset build and push"
