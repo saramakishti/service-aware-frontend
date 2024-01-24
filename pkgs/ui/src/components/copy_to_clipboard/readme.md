@@ -16,8 +16,8 @@ The component accepts the following props:
 
 - Copy Action: When the copy icon is clicked, the component:
 
-  - Prioritizes copying the text from the textToCopy prop if it's provided and not an empty string.
-  - If textToCopy is not provided or is empty, it then attempts to copy the text content of the element referenced by contentRef.
+  - Prioritizes copying the text from the `textToCopy` prop if it's provided and not an empty string.
+  - If `textToCopy` is not provided or is empty, it then attempts to copy the text content of the element referenced by contentRef.
   - Uses the Clipboard API (`navigator.clipboard.writeText`) to copy the text to the user's clipboard.
   - Displays a snackbar notification confirming the copy action if successful.
 
