@@ -33,6 +33,63 @@ And then run the docker file by executing:
 docker run -p 127.0.0.1:2979:2979 clan-docker:latest
 ```
 
+- To change parameters in the generated docker image edit the file :
+  [flake-module.nix at line 22](flake-module.nix)
+- Documentation on `dockerTools.buildImage` you can find here: https://nix.dev/tutorials/nixos/building-and-running-docker-images.html
+
+## Docker build with UI changes
+
+If changes to the UI have been made, and you want them to propagate to the docker container edit the file: [../ui/nix/ui-assets.nix](../ui/nix/ui-assets.nix).
+This is where a release version of the frontend is downloaded and integrated into the cli and the docker build. To do this first execute
+
+```bash
+nix build .#ui --out-link ui-release
+```
+
+Make a tarball out of it called `ui-assets.tar.gz`
+
+```bash
+tar -czvf ui-assets.tar.gz ui-release/lib/node_modules/clan-ui/out/
+```
+
+Upload ui-assets.tar.gz to gitlab. To get the `GITLAB_TOKEN` go to [repo access tokens](https://git.tu-berlin.de/internet-of-services-lab/service-aware-network-front-end/-/settings/access_tokens) and generate one. Then execute
+
+```bash
+export GITLAB_TOKEN="<your-access-token>"
+```
+
+```bash
+curl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+     --upload-file ./ui-assets.tar.gz \
+     "https://git.tu-berlin.de/api/v4/projects/internet-of-services-lab%2Fservice-aware-network-front-end/packages/generic/ui-assets/1.0.0/ui-assets.tar.gz"
+```
+
+You can find your uploaded package at the [package registry](https://git.tu-berlin.de/internet-of-services-lab/service-aware-network-front-end/-/packages)
+
+And export the download url into a variable:
+
+```
+export url="https://git.tu-berlin.de/api/v4/projects/internet-of-services-lab%2Fservice-aware-network-front-end/packages/generic/ui-assets/1.0.0/ui-assets.tar.gz"
+```
+
+Now execute the command:
+
+```bash
+cat > "../ui/nix/ui-assets.nix" <<EOF
+{ fetchzip }:
+fetchzip {
+  url = "$url";
+  sha256 = "$(nix-prefetch-url --unpack $url)";
+}
+EOF
+```
+
+And now build the docker image:
+
+```bash
+nix build .#clan-docker
+```
+
 # Uploading a Docker Image
 
 Login to the tu docker image server
@@ -75,6 +132,70 @@ For the tests we automatically generate a python client for the API endpoints. T
 
 This will replace the folder
 `tests/openapi_client`.
+
+# Adding dependencies
+
+**Dependency Management**: We use the [Nix package manager](https://nixos.org/) to manage dependencies and ensure reproducibility, making your development process more robust.
+
+To add dependencies edit the file [default.nix](default.nix)
+
+To search for a python dependency named "request" execute:
+
+```bash
+nix search nixpkgs#pythonPackages request
+```
+
+Add the depdendency at the top of the file
+
+```nix
+{
+, mydep # <--- Add here
+, websockets
+, broadcaster
+, aenum
+, dateutil
+, urllib3
+}:
+let
+[...]
+```
+
+Add them into this array if they are a python dependency
+
+```nix
+dependencies = [
+    argcomplete
+    fastapi
+    uvicorn
+    sqlalchemy
+    websockets
+    broadcaster
+    mydep # <--- Add here
+  ];
+```
+
+To search for a binary dependency named "firefox" execute:
+
+```bash
+nix search nixpkgs firefox
+```
+
+Runtime dependency add them into this array:
+
+```nix
+  runtimeDependencies = [
+    bash
+    nix
+    fakeroot
+    zbar
+    git
+    mypy
+  ];
+```
+
+# Development environment
+
+The development environment created by `nix develop` or automatically by `direnv` is located at [shell.nix](shell.nix). The `shellHook` variable execute bash code.
 
 # API Documentation
 

@@ -1,5 +1,4 @@
-{ age
-, lib
+{ lib
 , argcomplete
 , fastapi
 , uvicorn
@@ -15,23 +14,17 @@
 , python3
 , runCommand
 , setuptools
-, sops
 , stdenv
 , wheel
 , fakeroot
-, rsync
 , ui-assets
 , bash
-, sshpass
 , zbar
-, tor
 , git
 , nixpkgs
 , makeDesktopItem
 , copyDesktopItems
-, qemu
 , gnupg
-, e2fsprogs
 , mypy
 , sqlalchemy
 , websockets
@@ -73,17 +66,9 @@ let
     bash
     nix
     fakeroot
-    openssh
-    sshpass
     zbar
-    tor
-    age
-    rsync
-    sops
     git
     mypy
-    qemu
-    e2fsprogs
   ];
 
   runtimeDependenciesAsSet = builtins.listToAttrs (builtins.map (p: lib.nameValuePair (lib.getName p.name) p) runtimeDependencies);
