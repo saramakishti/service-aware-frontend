@@ -9,11 +9,11 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import {useGetAllEntities} from "@/api/entities/entities";
+import { useGetAllEntities } from "@/api/entities/entities";
 import Image from "next/image";
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 
-import {tw} from "@/utils/tailwind";
+import { tw } from "@/utils/tailwind";
 import Collapse from "@mui/material/Collapse";
 import Link from "next/link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -91,14 +91,14 @@ export function Sidebar(props: SidebarProps) {
 
   React.useEffect(() => {
     if (entityData) {
-      menuEntityEntries=Array.isArray(entityData.data)
-          ? entityData.data.map((entity, index) => ({
-            icon: <PersonIcon/>,
+      menuEntityEntries = Array.isArray(entityData.data)
+        ? entityData.data.map((entity, index) => ({
+            icon: <PersonIcon />,
             label: entity.name,
             to: `/client/${entity.name}`,
             disabled: false,
           }))
-          : [];
+        : [];
     }
     if (isSmallerScreen) {
       setCollapseMenuOpen(false);
