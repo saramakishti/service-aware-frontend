@@ -25,6 +25,7 @@ For Entity object go to
 - [tests/openapi_client/docs/RepositoriesApi.md](tests/openapi_client/docs/RepositoriesApi.md)
 
 # Building a Docker Image if the Backend Changed
+
 To build a new docker image when the backend code changed be inside the `pkgs/clan-cli` folder and execute:
 
 ```bash
@@ -47,10 +48,11 @@ docker run -p 127.0.0.1:2979:2979 clan-docker:latest
   [flake-module.nix at line 22](flake-module.nix)
 - Documentation on `dockerTools.buildImage` you can find here: https://nix.dev/tutorials/nixos/building-and-running-docker-images.html
 
-## Docker build with UI changes
+## Building a Docker Image if the Frontend Changed
 
-To build a new docker image when the frontend code changed you first need 
+To build a new docker image when the frontend code changed you first need
 to get the `GITLAB_TOKEN` go to [repo access tokens](https://git.tu-berlin.de/internet-of-services-lab/service-aware-network-front-end/-/settings/access_tokens) and generate one. Then execute
+
 ```bash
 export GITLAB_TOKEN="<your-access-token>"
 ```
@@ -61,8 +63,8 @@ Afterwards you can execute:
 ./build_docker.sh
 ```
 
-
 ### The Script Explained
+
 If changes to the UI have been made, and you want them to propagate to the docker container edit the file: [../ui/nix/ui-assets.nix](../ui/nix/ui-assets.nix).
 This is where a release version of the frontend is downloaded and integrated into the cli and the docker build. To do this first execute
 
@@ -111,6 +113,12 @@ nix build .#clan-docker
 ```
 
 # Uploading a Docker Image
+
+You can use the script:
+
+```bash
+./push_docker.sh
+```
 
 Login to the tu docker image server
 
