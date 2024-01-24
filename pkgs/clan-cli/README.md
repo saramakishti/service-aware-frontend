@@ -34,26 +34,31 @@ docker run -p 127.0.0.1:2979:2979 clan-docker:latest
 ```
 
 Login to the tu docker image server
+
 ```bash
 docker login git.tu-berlin.de:5000
 ```
 
 Tag the imported image
+
 ```bash
 docker image tag clan-docker:latest git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
 ```
 
 Push the image to the git registry
+
 ```bash
 docker image push git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
 ```
 
 Pull the image
+
 ```bash
 docker pull git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
 ```
 
 Run the image
+
 ```bash
 docker run -p 127.0.0.1:2979:2979 git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
 ```
