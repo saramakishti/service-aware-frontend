@@ -32,7 +32,9 @@ And then run the docker file by executing:
 ```bash
 docker run -p 127.0.0.1:2979:2979 clan-docker:latest
 ```
+
 # Uploading a Docker Image
+
 Login to the tu docker image server
 
 ```bash
