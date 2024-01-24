@@ -9,10 +9,11 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
+import {useGetAllEntities} from "@/api/entities/entities";
 import Image from "next/image";
-import React, { ReactNode } from "react";
+import React, {ReactNode} from "react";
 
-import { tw } from "@/utils/tailwind";
+import {tw} from "@/utils/tailwind";
 import Collapse from "@mui/material/Collapse";
 import Link from "next/link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -33,32 +34,7 @@ type MenuEntry = {
   subMenuEntries?: MenuEntry[];
 };
 
-export const menuEntityEntries: MenuEntry[] = [
-  {
-    icon: <PersonIcon />,
-    label: "C1",
-    to: "/client/C1",
-    disabled: false,
-  },
-  {
-    icon: <PersonIcon />,
-    label: "C2",
-    to: "/client/C2",
-    disabled: false,
-  },
-  {
-    icon: <PersonIcon />,
-    label: "C3",
-    to: "/client/C3",
-    disabled: false,
-  },
-  {
-    icon: <PersonIcon />,
-    label: "C4",
-    to: "/client/C4",
-    disabled: false,
-  },
-];
+export let menuEntityEntries: MenuEntry[] = [];
 
 export const menuEntries: MenuEntry[] = [
   {
@@ -96,6 +72,7 @@ interface SidebarProps {
 }
 
 export function Sidebar(props: SidebarProps) {
+  const { data: entityData } = useGetAllEntities();
   const { show, onClose } = props;
   const [activeMenuItem, setActiveMenuItem] = React.useState(
     typeof window !== "undefined" ? window.location.pathname : "",
@@ -113,12 +90,22 @@ export function Sidebar(props: SidebarProps) {
   };
 
   React.useEffect(() => {
+    if (entityData) {
+      menuEntityEntries=Array.isArray(entityData.data)
+          ? entityData.data.map((entity, index) => ({
+            icon: <PersonIcon/>,
+            label: entity.name,
+            to: `/client/${entity.name}`,
+            disabled: false,
+          }))
+          : [];
+    }
     if (isSmallerScreen) {
       setCollapseMenuOpen(false);
     } else {
       setCollapseMenuOpen(true);
     }
-  }, [isSmallerScreen]);
+  }, [isSmallerScreen, entityData]);
 
   return (
     <aside
@@ -213,7 +200,7 @@ export function Sidebar(props: SidebarProps) {
                       unmountOnExit
                     >
                       <List component="div" disablePadding>
-                        {menuEntityEntries.map((menuEntry, idx) => (
+                        {menuEntityEntries?.map((menuEntry, idx) => (
                           <ListItemButton
                             key={idx}
                             sx={{ pl: 4 }}
