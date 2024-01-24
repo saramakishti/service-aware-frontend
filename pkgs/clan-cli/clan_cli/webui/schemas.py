@@ -185,7 +185,8 @@ class Eventmessage(EventmessageCreate):
     id: int = Field(...)
     des_name: Optional[str] = Field(default=None, example="C2")
     src_name: Optional[str] = Field(default=None, example="C1")
-    msg_type_name: Optional[str] = Field(default=None, example="Service Usage")
+    msg_type_name: Optional[str] = Field(default=None, example="Request Send")
+    group_name: Optional[str] = Field(default=None, example="Presentation")
 
     class Config:
         orm_mode = True

@@ -8,7 +8,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy.orm import Session
 
-from clan_cli.config import ap_url, c1_url, c2_url, dlg_url, msg_type_to_label
+from clan_cli.config import ap_url, c1_url, c2_url, dlg_url, group_type_to_label
 
 from ...errors import ClanError
 from .. import sql_crud, sql_db, sql_models
@@ -370,25 +370,36 @@ def get_all_eventmessages(
     result: dict[int, dict[int, List[Eventmessage]]] = {}
 
     for msg in eventmessages:
-        msg_name = msg_type_to_label.get(msg.msg_type, None)
+        # Use the group_type_to_label from config.py to get the group name and msg_type name
+        group = group_type_to_label.get(msg.group, None)
+        group_name = group.get("name", None) if group is not None else str(msg.group)
+        msg_type_name = (
+            group.get(msg.msg_type, None) if group is not None else str(msg.msg_type)
+        )
+
+        # Get the name of the src and des entity from the database
         src_name = sql_crud.get_entity_by_did(db, msg.src_did)
         src_name = src_name if src_name is None else src_name.name
         des_name = sql_crud.get_entity_by_did(db, msg.des_did)
         des_name = des_name if des_name is None else des_name.name
 
-        if result.get(msg.group) is None:
-            result[msg.group] = {}
-        if result[msg.group].get(msg.group_id) is None:
-            result[msg.group][msg.group_id] = []
+        # Initialize the result array and dictionary
+        if result.get(group_name) is None:
+            result[group_name] = {}
+        if result[group_name].get(msg.group_id) is None:
+            result[group_name][msg.group_id] = []
 
-        result[msg.group][msg.group_id].append(
+        # Append the eventmessage to the result array
+        result_arr = result[group_name][msg.group_id]
+        result_arr.append(
             Eventmessage(
                 id=msg.id,
                 timestamp=msg.timestamp,
                 group=msg.group,
+                group_name=group_name,
                 group_id=msg.group_id,
                 msg_type=msg.msg_type,
-                msg_type_name=msg_name,
+                msg_type_name=msg_type_name,
                 src_did=msg.src_did,
                 src_name=src_name,
                 des_did=msg.des_did,
@@ -396,6 +407,9 @@ def get_all_eventmessages(
                 msg=msg.msg,
             ).dict()
         )
+
+        # sort by timestamp
+        result_arr.sort(key=lambda x: x["timestamp"])
     return JSONResponse(content=result, status_code=200)
 
 
