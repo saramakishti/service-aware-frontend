@@ -1,11 +1,13 @@
+import json
 import logging
 import time
 import typing
+from collections import OrderedDict
 from typing import Any, List, Optional
 
 import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from sqlalchemy.orm import Session
 
 from clan_cli.config import ap_url, c1_url, c2_url, dlg_url, group_type_to_label
@@ -360,14 +362,15 @@ def create_eventmessage(
 @typing.no_type_check
 @router.get(
     "/api/v1/event_messages",
-    response_class=JSONResponse,
+    response_class=PlainTextResponse,
     tags=[Tags.eventmessages],
 )
 def get_all_eventmessages(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
-) -> JSONResponse:
+) -> PlainTextResponse:
+    # SQL sorts eventmessages by timestamp, so we don't need to sort them here
     eventmessages = sql_crud.get_eventmessages(db, skip=skip, limit=limit)
-    result: dict[int, dict[int, List[Eventmessage]]] = {}
+    result: dict[int, dict[int, List[Eventmessage]]] = OrderedDict()
 
     for msg in eventmessages:
         # Use the group_type_to_label from config.py to get the group name and msg_type name
@@ -385,7 +388,7 @@ def get_all_eventmessages(
 
         # Initialize the result array and dictionary
         if result.get(group_name) is None:
-            result[group_name] = {}
+            result[group_name] = OrderedDict()
         if result[group_name].get(msg.group_id) is None:
             result[group_name][msg.group_id] = []
 
@@ -408,9 +411,7 @@ def get_all_eventmessages(
             ).dict()
         )
 
-        # sort by timestamp
-        result_arr.sort(key=lambda x: x["timestamp"])
-    return JSONResponse(content=result, status_code=200)
+    return PlainTextResponse(content=json.dumps(result, indent=4), status_code=200)
 
 
 ##############################
