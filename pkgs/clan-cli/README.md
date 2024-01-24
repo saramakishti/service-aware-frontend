@@ -13,6 +13,20 @@ clan webui --reload --no-open --log-level debug --populate --emulate
 - The `--emulate` flag will automatically run servers the database with dummy data for the fronted to communicate with (ap, dlg, c1 and c2)
   - To look into the emulated endpoints go to http://localhost:2979/emulate
 
+# Using the Uploaded Docker Image
+
+Pull the image
+
+```bash
+docker pull git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
+```
+
+Run the image
+
+```bash
+docker run -p 127.0.0.1:2979:2979 git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
+```
+
 # API Documentation
 
 Api documentation can be found in the folder `pkgs/clan-cli/tests/openapi_client/docs/`
@@ -24,12 +38,24 @@ For Entity object go to
 - [tests/openapi_client/docs/ResolutionApi.md](tests/openapi_client/docs/ResolutionApi.md)
 - [tests/openapi_client/docs/RepositoriesApi.md](tests/openapi_client/docs/RepositoriesApi.md)
 
-# Building a Docker Image if the Backend Changed
 
-To build a new docker image when the backend code changed be inside the `pkgs/clan-cli` folder and execute:
+# Building a Docker Image if the Frontend Changed
+
+To build a new docker image when the frontend code and/or backend code changed you first need
+to get the `GITLAB_TOKEN` go to [repo access tokens](https://git.tu-berlin.de/internet-of-services-lab/service-aware-network-front-end/-/settings/access_tokens) and generate one.
+
+- Make sure the Gitlab token has access to package registry.
+
+Then execute
 
 ```bash
-nix build .#clan-docker
+export GITLAB_TOKEN="<your-access-token>"
+```
+
+Afterwards you can execute:
+
+```bash
+./build_docker.sh
 ```
 
 This will create a symlink directory called `result` to a tar.gz docker file. Import it by executing:
@@ -44,28 +70,61 @@ And then run the docker file by executing:
 docker run -p 127.0.0.1:2979:2979 clan-docker:latest
 ```
 
-- To change parameters in the generated docker image edit the file :
-  [flake-module.nix at line 22](flake-module.nix)
-- Documentation on `dockerTools.buildImage` you can find here: https://nix.dev/tutorials/nixos/building-and-running-docker-images.html
+# Uploading a Docker Image
 
-## Building a Docker Image if the Frontend Changed
-
-To build a new docker image when the frontend code changed you first need
-to get the `GITLAB_TOKEN` go to [repo access tokens](https://git.tu-berlin.de/internet-of-services-lab/service-aware-network-front-end/-/settings/access_tokens) and generate one. Then execute
+You can use the script:
 
 ```bash
-export GITLAB_TOKEN="<your-access-token>"
-```
-
-Afterwards you can execute:
-
-```bash
-./build_docker.sh
+./push_docker.sh
 ```
 
 ### The Script Explained
 
-If changes to the UI have been made, and you want them to propagate to the docker container edit the file: [../ui/nix/ui-assets.nix](../ui/nix/ui-assets.nix).
+Login to the tu docker image server
+
+```bash
+docker login git.tu-berlin.de:5000
+```
+
+Tag the imported image
+
+```bash
+docker image tag clan-docker:latest git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
+```
+
+Push the image to the git registry
+
+```bash
+docker image push git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
+```
+
+
+# Upload UI assets as a package
+
+To upload the release build UI assets to gitlab as a package
+first get the `GITLAB_TOKEN`. Go to [repo access tokens](https://git.tu-berlin.de/internet-of-services-lab/service-aware-network-front-end/-/settings/access_tokens) and generate one.
+
+- Make sure the Gitlab token has access to package registry.
+
+To upload the UI assets as a package then execute:
+
+```bash
+./upload_ui_assets.sh
+```
+
+Please commit the changes to ui-assets.nix and push them to the repository.
+If you want clan webui to use the new ui assets.
+```bash
+$ git commit -m "Update ui-assets.nix" "$PROJECT_DIR/pkgs/ui/nix/ui-assets.nix"
+$ git push
+```
+
+
+If you execute `clan webui` the page you will see is a precompiled release version of the UI. This above script will update said precompiled release version. The `./build_docker.sh` script execute this to make sure that the included UI in the docker is up to date.
+
+### The Script Explained
+
+If changes to the UI have been made, and you want them to propagate to the docker container and the `clan webui` command edit the file: [../ui/nix/ui-assets.nix](../ui/nix/ui-assets.nix).
 This is where a release version of the frontend is downloaded and integrated into the cli and the docker build. To do this first execute
 
 ```bash
@@ -75,7 +134,7 @@ nix build .#ui --out-link ui-release
 Make a tarball out of it called `ui-assets.tar.gz`
 
 ```bash
-tar -czvf ui-assets.tar.gz ui-release/lib/node_modules/clan-ui/out/
+tar --transform 's,^\.,assets,' -czvf "ui-assets.tar.gz" -C ui-release/result/lib/node_modules/*/out .
 ```
 
 Upload ui-assets.tar.gz to gitlab.
@@ -112,45 +171,29 @@ And now build the docker image:
 nix build .#clan-docker
 ```
 
-# Uploading a Docker Image
+# Building a Docker Image if only the Backend Changed
 
-You can use the script:
-
-```bash
-./push_docker.sh
-```
-
-Login to the tu docker image server
+To build a new docker image only when the backend code changed execute:
 
 ```bash
-docker login git.tu-berlin.de:5000
+nix build .#clan-docker
 ```
-
-Tag the imported image
+This is much faster then the `./build_docker.sh` script as it needs not to build the frontend and again.
+This will create a symlink directory called `result` to a tar.gz docker file. Import it by executing:
 
 ```bash
-docker image tag clan-docker:latest git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
+docker load < result
 ```
 
-Push the image to the git registry
+And then run the docker file by executing:
 
 ```bash
-docker image push git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
+docker run -p 127.0.0.1:2979:2979 clan-docker:latest
 ```
 
-# Using the Uploaded Docker Image
-
-Pull the image
-
-```bash
-docker pull git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
-```
-
-Run the image
-
-```bash
-docker run -p 127.0.0.1:2979:2979 git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
-```
+- To change parameters in the generated docker image edit the file :
+  [flake-module.nix at line 22](flake-module.nix)
+- Documentation on `dockerTools.buildImage` you can find here: https://nix.dev/tutorials/nixos/building-and-running-docker-images.html
 
 # Auto Generating a Python Client
 
