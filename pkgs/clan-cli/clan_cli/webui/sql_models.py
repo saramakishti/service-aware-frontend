@@ -101,7 +101,7 @@ class Eventmessage(Base):
     ## Queryable body ##
     # Primary Key
     id = Column(Integer, primary_key=True, autoincrement=True)
-    timestamp = Column(Integer, unique=True, index=True)
+    timestamp = Column(Integer, index=True)
     group = Column(Integer, index=True)
     group_id = Column(Integer, index=True)
     msg_type = Column(Integer, index=True)  # message type for the label
