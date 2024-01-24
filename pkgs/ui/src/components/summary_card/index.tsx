@@ -13,29 +13,17 @@ import { EntityDetails, ISummaryDetails } from "@/types";
 const SummaryDetails = ({
   entity,
   hasRefreshButton,
-  hasAttachDetach,
   fake,
   onRefresh,
 }: ISummaryDetails) => {
-  const cardContentRef = useRef(null);
+  const cardContentRef = useRef<HTMLDivElement>(null);
   const hasDetails = entity.details && entity.details.length > 0;
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="flex items-center justify-between">
         <h2>{entity.name}</h2>
         <div>
-          {hasAttachDetach && (
-            <Button className="mr-6" variant="contained">
-              Attach / Detach
-            </Button>
-          )}
           {hasRefreshButton && (
             <Button onClick={onRefresh} variant="contained">
               Refresh
@@ -46,7 +34,7 @@ const SummaryDetails = ({
       {hasDetails && (
         <Card variant="outlined">
           <CardHeader
-            subheader={fake ? "Summary (Fake Data)" : "Summary"}
+            subheader={`Summary ${fake ? "(Fake Data)" : ""}`}
             action={<CopyToClipboard contentRef={cardContentRef} />}
           />
           <CardContent ref={cardContentRef}>

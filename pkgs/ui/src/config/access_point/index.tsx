@@ -15,6 +15,8 @@ export const APSummaryDetails = [
   },
 ];
 
+// AP - 2 Tables Configurations to display labels
+
 export const APAttachmentsTableConfig = [
   {
     key: "name",
@@ -61,29 +63,9 @@ export const APServiceRepositoryTableConfig = [
     label: "Status",
     render: (value: any) => {
       let renderedValue: any = "";
-      if (Array.isArray(value.data)) {
-        renderedValue = value.data.join(", ");
-      } else {
-        console.error("Status is not an array", value);
-      }
+      if (Array.isArray(value.data)) renderedValue = value.data.join(", ");
+      else console.error("Status is not an array", value);
       return renderedValue;
     },
   },
-  // {
-  //   key: "other",
-  //   label: "Type",
-  //   render: (value: any) => {
-  //     let renderedValue: any = "";
-  //     if (typeof value === "object") {
-  //       const label = Object.keys(value)[0];
-  //       const info = value[label];
-  //       renderedValue = (
-  //         <code>
-  //           {label} {info}
-  //         </code>
-  //       );
-  //     }
-  //     return renderedValue;
-  //   },
-  // },
 ];

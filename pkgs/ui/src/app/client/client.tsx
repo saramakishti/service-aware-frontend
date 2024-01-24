@@ -139,7 +139,7 @@ export default function Client({ params }: { params: { name: string } }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const cardContentRef = useRef(null);
+  const cardContentRef = useRef<HTMLDivElement>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<
     SnackMessage | undefined

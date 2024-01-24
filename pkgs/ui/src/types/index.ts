@@ -25,6 +25,5 @@ export interface ISummaryDetails {
   entity: any;
   fake?: boolean;
   hasRefreshButton?: boolean;
-  hasAttachDetach?: boolean;
   onRefresh?: () => void;
 }

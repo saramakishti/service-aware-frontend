@@ -13,7 +13,7 @@ export const DLGSummaryDetails = [
   },
 ];
 
-// DLG Resolution Table
+// DLG - 2 Tables Configurations to display labels
 
 export const DLGResolutionDummyData = [
   {

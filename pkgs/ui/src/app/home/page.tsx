@@ -42,7 +42,6 @@ export default function Home() {
         entity={{ name: "Home", details: [] }}
         hasRefreshButton={true}
         onRefresh={onRefresh}
-        hasAttachDetach={false}
       />
 
       <div>

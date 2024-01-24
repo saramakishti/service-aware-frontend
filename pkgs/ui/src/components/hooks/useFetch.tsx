@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BASE_URL } from "@/constants";
+import { projectConfig } from "@/config/config";
 
 const useFetch = (url: string) => {
   const [data, setData] = useState([]);
@@ -10,7 +10,7 @@ const useFetch = (url: string) => {
   const fetch = () => {
     setLoading(true);
     axios
-      .get(BASE_URL + url)
+      .get(projectConfig.BASE_URL + url)
       .then((response) => {
         setData(response.data);
       })

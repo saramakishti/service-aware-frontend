@@ -1,5 +1,6 @@
-export const formatDateTime = (date: string) => {
-  const _date = new Date(date);
+export const formatDateTime = (date: string | number) => {
+  const dateToFormat = typeof date === "number" ? date * 1000 : date;
+  const _date = new Date(dateToFormat);
   return _date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",

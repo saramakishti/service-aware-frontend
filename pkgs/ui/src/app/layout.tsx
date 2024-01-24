@@ -51,7 +51,6 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Service Aware Networks" />
         <link rel="icon" href="tub-favicon.ico" sizes="any" />
-        {/* <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script> */}
         <script
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
