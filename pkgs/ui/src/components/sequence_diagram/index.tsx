@@ -24,7 +24,6 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import DownloadIcon from "@mui/icons-material/Download";
 import ResetIcon from "@mui/icons-material/Autorenew";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 // Custom Components
 import { NoDataOverlay } from "../noDataOverlay";
@@ -33,7 +32,7 @@ import { LoadingOverlay } from "../join/loadingOverlay";
 import { useGetAllEventmessages } from "@/api/eventmessages/eventmessages";
 import { mutate } from "swr";
 
-import { eventMessages, generateMermaidString, mermaidSample } from "./helpers";
+import { eventMessages, mermaidSample } from "./helpers";
 import { iconMatch } from "@/config/config";
 import CopyToClipboard from "../copy_to_clipboard";
 import { formatDateTime } from "@/utils/helpers";
@@ -162,12 +161,6 @@ const SequenceDiagram = () => {
     setSequenceNr(e.target.value);
   };
 
-  const copyToClipboard = (data: any) => {
-    navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => {
-      alert("JSON copied to clipboard!");
-    });
-  };
-
   const isFilterMatch = (index: number) => {
     if (!sequenceNr) return true;
 
@@ -266,7 +259,7 @@ const SequenceDiagram = () => {
                         timestamp,
                         src_did,
                         des_did,
-                        msg,
+                        // msg,
                       } = message;
 
                       const formattedTimeStamp = formatDateTime(timestamp);
