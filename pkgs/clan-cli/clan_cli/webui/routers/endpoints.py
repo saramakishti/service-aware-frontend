@@ -386,9 +386,9 @@ def get_all_eventmessages(
 
         # Get the name of the src and des entity from the database
         src_name = sql_crud.get_entity_by_did(db, msg.src_did)
-        src_name = src_name if src_name is None else src_name.name
+        src_name = msg.src_did if src_name is None else src_name.name
         des_name = sql_crud.get_entity_by_did(db, msg.des_did)
-        des_name = des_name if des_name is None else des_name.name
+        des_name = msg.des_did if des_name is None else des_name.name
 
         result = cresult[cresult_idx]
 
