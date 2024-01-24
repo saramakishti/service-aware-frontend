@@ -38,7 +38,6 @@ For Entity object go to
 - [tests/openapi_client/docs/ResolutionApi.md](tests/openapi_client/docs/ResolutionApi.md)
 - [tests/openapi_client/docs/RepositoriesApi.md](tests/openapi_client/docs/RepositoriesApi.md)
 
-
 # Building a Docker Image if the Frontend Changed
 
 To build a new docker image when the frontend code and/or backend code changed you first need
@@ -98,7 +97,6 @@ Push the image to the git registry
 docker image push git.tu-berlin.de:5000/internet-of-services-lab/service-aware-network-front-end:latest
 ```
 
-
 # Upload UI assets as a package
 
 To upload the release build UI assets to gitlab as a package
@@ -114,11 +112,11 @@ To upload the UI assets as a package then execute:
 
 Please commit the changes to ui-assets.nix and push them to the repository.
 If you want clan webui to use the new ui assets.
+
 ```bash
 $ git commit -m "Update ui-assets.nix" "$PROJECT_DIR/pkgs/ui/nix/ui-assets.nix"
 $ git push
 ```
-
 
 If you execute `clan webui` the page you will see is a precompiled release version of the UI. This above script will update said precompiled release version. The `./build_docker.sh` script execute this to make sure that the included UI in the docker is up to date.
 
@@ -178,6 +176,7 @@ To build a new docker image only when the backend code changed execute:
 ```bash
 nix build .#clan-docker
 ```
+
 This is much faster then the `./build_docker.sh` script as it needs not to build the frontend and again.
 This will create a symlink directory called `result` to a tar.gz docker file. Import it by executing:
 
