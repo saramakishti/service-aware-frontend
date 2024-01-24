@@ -122,49 +122,50 @@ def test_create_services(api_client: ApiClient) -> None:
 random.seed(77)
 
 
-def create_eventmessages(num: int = 2) -> list[EventmessageCreate]:
+def create_eventmessages(num: int = 4) -> list[EventmessageCreate]:
     res = []
     starttime = int(time.time())
-    for i in range(num):
-        group_id = i % 5 + random.getrandbits(6)
+    for idx in range(num):
+        i2 = idx + 1
+        group_id = i2 % 5 + random.getrandbits(6) + 1
         em_req_send = EventmessageCreate(
-            timestamp=starttime + i * 10,
-            group=i % 5,
+            timestamp=starttime + i2 * 10,
+            group=i2 % 5,
             group_id=group_id,
             msg_type=1,
-            src_did=f"did:sov:test:12{i}",
-            des_did=f"did:sov:test:12{i+1}",
+            src_did=f"did:sov:test:12{i2}",
+            des_did=f"did:sov:test:12{i2+1}",
             msg={},
         )
         res.append(em_req_send)
         em_req_rec = EventmessageCreate(
-            timestamp=starttime + (i * 10) + 2,
-            group=i % 5,
+            timestamp=starttime + (i2 * 10) + 2,
+            group=i2 % 5,
             group_id=group_id,
             msg_type=2,
-            src_did=f"did:sov:test:12{i}",
-            des_did=f"did:sov:test:12{i+1}",
+            src_did=f"did:sov:test:12{i2}",
+            des_did=f"did:sov:test:12{i2+1}",
             msg={},
         )
         res.append(em_req_rec)
-        group_id = i % 5 + random.getrandbits(6)
+        group_id = i2 % 5 + random.getrandbits(6)
         em_res_send = EventmessageCreate(
-            timestamp=starttime + i * 10 + 4,
-            group=i % 5,
+            timestamp=starttime + i2 * 10 + 4,
+            group=i2 % 5,
             group_id=group_id,
             msg_type=3,
-            src_did=f"did:sov:test:12{i+1}",
-            des_did=f"did:sov:test:12{i}",
+            src_did=f"did:sov:test:12{i2+1}",
+            des_did=f"did:sov:test:12{i2}",
             msg={},
         )
         res.append(em_res_send)
         em_res_rec = EventmessageCreate(
-            timestamp=starttime + (i * 10) + 8,
-            group=i % 5,
+            timestamp=starttime + (i2 * 10) + 8,
+            group=i2 % 5,
             group_id=group_id,
             msg_type=4,
-            src_did=f"did:sov:test:12{i+1}",
-            des_did=f"did:sov:test:12{i}",
+            src_did=f"did:sov:test:12{i2+1}",
+            des_did=f"did:sov:test:12{i2}",
             msg={},
         )
         res.append(em_res_rec)

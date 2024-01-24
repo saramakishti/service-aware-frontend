@@ -370,12 +370,16 @@ def get_all_eventmessages(
 ) -> PlainTextResponse:
     # SQL sorts eventmessages by timestamp, so we don't need to sort them here
     eventmessages = sql_crud.get_eventmessages(db, skip=skip, limit=limit)
-    result: dict[int, dict[int, List[Eventmessage]]] = OrderedDict()
+    cresult: List[OrderedDict[int, OrderedDict[int, List[Eventmessage]]]] = []
 
-    for msg in eventmessages:
+    cresult_idx = 0
+    cresult.append(OrderedDict())
+    for idx, msg in enumerate(eventmessages):
         # Use the group_type_to_label from config.py to get the group name and msg_type name
         group = group_type_to_label.get(msg.group, None)
-        group_name = group.get("name", None) if group is not None else str(msg.group)
+        group_name = (
+            str(group.get("name", None)) if group is not None else str(msg.group)
+        )
         msg_type_name = (
             group.get(msg.msg_type, None) if group is not None else str(msg.msg_type)
         )
@@ -386,14 +390,26 @@ def get_all_eventmessages(
         des_name = sql_crud.get_entity_by_did(db, msg.des_did)
         des_name = des_name if des_name is None else des_name.name
 
-        # Initialize the result array and dictionary
-        if result.get(group_name) is None:
-            result[group_name] = OrderedDict()
-        if result[group_name].get(msg.group_id) is None:
-            result[group_name][msg.group_id] = []
+        result = cresult[cresult_idx]
+
+        if result.get("group_name") is None:
+            # Initialize the result array and dictionary
+            result["group_name"] = group_name
+        elif result["group_name"] != group_name:
+            # If the group name changed, create a new result array and dictionary
+            cresult_idx += 1
+            cresult.append(OrderedDict())
+            result = cresult[cresult_idx]
+            result["group_name"] = group_name
+
+        if result.get("groups") is None:
+            result["groups"] = OrderedDict()
+
+        if result["groups"].get(msg.group_id) is None:
+            result["groups"][msg.group_id] = []
 
         # Append the eventmessage to the result array
-        result_arr = result[group_name][msg.group_id]
+        result_arr = result["groups"][msg.group_id]
         result_arr.append(
             Eventmessage(
                 id=msg.id,
@@ -411,7 +427,7 @@ def get_all_eventmessages(
             ).dict()
         )
 
-    return PlainTextResponse(content=json.dumps(result, indent=4), status_code=200)
+    return PlainTextResponse(content=json.dumps(cresult, indent=4), status_code=200)
 
 
 ##############################

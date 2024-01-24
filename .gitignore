@@ -23,3 +23,5 @@ htmlcov
 # georgs
 pkgs/.vs/
 pkgs/clan-cli/.hypothesis/
+ui-assets.tar.gz
+ui-release
