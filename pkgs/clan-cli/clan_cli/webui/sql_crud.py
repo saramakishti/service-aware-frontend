@@ -1,7 +1,7 @@
 # Imports
 from typing import List, Optional
 
-from sqlalchemy import func
+from sqlalchemy import asc, func
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import true
 
@@ -319,4 +319,11 @@ def create_eventmessage(
 def get_eventmessages(
     db: Session, skip: int = 0, limit: int = 100
 ) -> List[sql_models.Eventmessage]:
-    return db.query(sql_models.Eventmessage).offset(skip).limit(limit).all()
+    # Use order_by and desc to sort by timestamp
+    return (
+        db.query(sql_models.Eventmessage)
+        .order_by(asc(sql_models.Eventmessage.timestamp))
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
