@@ -1,4 +1,4 @@
-# clan-cli
+# Starting The Backend
 
 The clan-cli contains the command line interface as well as the graphical webui through the `clan webui` command.
 
@@ -12,6 +12,17 @@ clan webui --reload --no-open --log-level debug --populate --emulate
   - To look into the endpoints open up a swagger instance by visiting: http://localhost:2979/docs
 - The `--emulate` flag will automatically run servers the database with dummy data for the fronted to communicate with (ap, dlg, c1 and c2)
   - To look into the emulated endpoints go to http://localhost:2979/emulate
+
+# API Documentation
+
+Api documentation can be found in the folder `pkgs/clan-cli/tests/openapi_client/docs/`
+For Entity object go to
+
+- [tests/openapi_client/docs/EntitiesApi.md](tests/openapi_client/docs/EntitiesApi.md)
+- [tests/openapi_client/docs/EventmessagesApi.md](tests/openapi_client/docs/EventmessagesApi.md)
+- [tests/openapi_client/docs/ServicesApi.md](tests/openapi_client/docs/ServicesApi.md)
+- [tests/openapi_client/docs/ResolutionApi.md](tests/openapi_client/docs/ResolutionApi.md)
+- [tests/openapi_client/docs/RepositoriesApi.md](tests/openapi_client/docs/RepositoriesApi.md)
 
 # Building a Docker Image
 
@@ -196,11 +207,6 @@ Runtime dependency add them into this array:
 # Development environment
 
 The development environment created by `nix develop` or automatically by `direnv` is located at [shell.nix](shell.nix). The `shellHook` variable execute bash code.
-
-# API Documentation
-
-Api documentation can be found in the folder `pkgs/clan-cli/tests/openapi_client/docs/`
-For Entity object go to [tests/openapi_client/docs/EntityCreate.md](tests/openapi_client/docs/EntityCreate.md)
 
 # Debugging
 
