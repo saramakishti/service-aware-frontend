@@ -92,7 +92,7 @@ export function Sidebar(props: SidebarProps) {
   React.useEffect(() => {
     if (entityData) {
       menuEntityEntries = Array.isArray(entityData.data)
-        ? entityData.data.map((entity, index) => ({
+        ? entityData.data.map((entity) => ({
             icon: <PersonIcon />,
             label: entity.name,
             to: `/client/${entity.name}`,
