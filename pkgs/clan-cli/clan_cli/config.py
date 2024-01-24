@@ -9,18 +9,8 @@ cors_ports = ["*", 3000, 2979]
 
 # host for the server, frontend, backend and emulators
 host = "127.0.0.1"
-# used for emmulation and population for testing
-port_dlg = 7000
-port_ap = 7500
-_port_client_base = 8000
-c1_port = _port_client_base + 1
-c2_port = _port_client_base + 2
-dlg_url = f"http://{host}:{port_dlg}/docs"
-ap_url = f"http://{host}:{port_ap}/docs"
-c1_url = f"http://{host}:{c1_port}/docs"
-c2_url = f"http://{host}:{c2_port}/docs"
 
-
+# Used for eventmessage number to name mapping
 group_type_to_label = {
     1: {
         "name": "Attachement",
@@ -80,3 +70,15 @@ group_type_to_label = {
         4: "Response Received",
     },
 }
+
+
+# Used for emulation and population for testing
+port_dlg = 7000
+port_ap = 7500
+_port_client_base = 8000
+c1_port = _port_client_base + 1
+c2_port = _port_client_base + 2
+dlg_url = f"http://{host}:{port_dlg}/docs"
+ap_url = f"http://{host}:{port_ap}/docs"
+c1_url = f"http://{host}:{c1_port}/docs"
+c2_url = f"http://{host}:{c2_port}/docs"

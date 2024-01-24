@@ -36,7 +36,8 @@ class Eventmessage(BaseModel):
     des_name: Optional[StrictStr] = None
     src_name: Optional[StrictStr] = None
     msg_type_name: Optional[StrictStr] = None
-    __properties = ["timestamp", "group", "group_id", "msg_type", "src_did", "des_did", "msg", "id", "des_name", "src_name", "msg_type_name"]
+    group_name: Optional[StrictStr] = None
+    __properties = ["timestamp", "group", "group_id", "msg_type", "src_did", "des_did", "msg", "id", "des_name", "src_name", "msg_type_name", "group_name"]
 
     class Config:
         """Pydantic configuration"""
@@ -84,7 +85,8 @@ class Eventmessage(BaseModel):
             "id": obj.get("id"),
             "des_name": obj.get("des_name"),
             "src_name": obj.get("src_name"),
-            "msg_type_name": obj.get("msg_type_name")
+            "msg_type_name": obj.get("msg_type_name"),
+            "group_name": obj.get("group_name")
         })
         return _obj
 

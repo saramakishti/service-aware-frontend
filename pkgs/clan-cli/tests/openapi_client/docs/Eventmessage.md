@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **des_name** | **str** |  | [optional] 
 **src_name** | **str** |  | [optional] 
 **msg_type_name** | **str** |  | [optional] 
+**group_name** | **str** |  | [optional] 
 
 ## Example
 
