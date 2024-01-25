@@ -92,12 +92,14 @@ export function Sidebar(props: SidebarProps) {
   React.useEffect(() => {
     if (entityData) {
       menuEntityEntries = Array.isArray(entityData.data)
-        ? entityData.data.map((entity) => ({
-            icon: <PersonIcon />,
-            label: entity.name,
-            to: `/client/${entity.name}`,
-            disabled: false,
-          }))
+        ? entityData.data
+            .filter((entity) => entity.name !== "AP" && entity.name !== "DLG")
+            .map((entity) => ({
+              icon: <PersonIcon />,
+              label: entity.name,
+              to: `/client/${entity.name}`,
+              disabled: false,
+            }))
         : [];
     }
     if (isSmallerScreen) {
