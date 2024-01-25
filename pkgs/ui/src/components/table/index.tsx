@@ -36,9 +36,16 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
 
     // cover use case if we want to render a component
     if (render) renderedValue = render(value);
-    if (typeof renderedValue === "object" && render === undefined) {
+
+    // catch use case where the value is an object but the render function is not provided in the table config
+    if (
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      render === undefined
+    ) {
       console.warn("Missing render function for column " + cellKey);
     }
+
     return (
       <ErrorBoundary>
         <StyledTableCell key={cellKey} align="left">

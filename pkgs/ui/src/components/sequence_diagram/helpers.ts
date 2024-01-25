@@ -1,136 +1,93 @@
-import { Eventmessage } from "@/api/model";
+import { getGroupColor, sanitizeDID } from "@/utils/helpers";
 
-export const generateMermaidString = (data: Eventmessage[] | undefined) => {
-  if (!data || data.length === 0) return "";
-
-  const participants = Array.from(
-    new Set(data.flatMap((item) => [item.src_did, item.des_did])),
-  );
+export const generateMermaidString = (data: any) => {
+  if (!data) return "";
 
   let mermaidString = "sequenceDiagram\n";
+  const participantDetails = new Map();
 
-  participants.forEach((participant, index) => {
-    mermaidString += `  participant ${String.fromCharCode(
-      65 + index,
-    )} as ${participant}\n`;
+  // Collect all unique participants along with their sanitized DIDs
+  data.forEach((item: any) => {
+    Object.values(item.groups).forEach((group: any) => {
+      group.forEach((msg: any) => {
+        // Apply sanitization to src_name and des_name if they are in DID format
+        const sanitizedSrcName = msg.src_name.includes(":")
+          ? sanitizeDID(msg.src_name)
+          : msg.src_name;
+        const sanitizedDesName = msg.des_name.includes(":")
+          ? sanitizeDID(msg.des_name)
+          : msg.des_name;
+
+        participantDetails.set(sanitizedSrcName, sanitizeDID(msg.src_did));
+        participantDetails.set(sanitizedDesName, sanitizeDID(msg.des_did));
+      });
+    });
   });
 
-  let currentGroupId: number | null = null;
-
-  data.forEach((item, index) => {
-    const srcParticipant = String.fromCharCode(
-      65 + participants.indexOf(item.src_did),
-    );
-    const desParticipant = String.fromCharCode(
-      65 + participants.indexOf(item.des_did),
-    );
-    const timestamp = new Date(item.timestamp * 1000).toLocaleString();
-    const message = item.msg.text || `Event message ${index + 1}`;
-
-    if (item.group_id !== currentGroupId) {
-      if (currentGroupId !== null) {
-        mermaidString += `  end\n`;
-      }
-      mermaidString += `  alt Group ${item.group_id}\n`;
-      currentGroupId = item.group_id;
-    }
-
-    mermaidString += `    ${srcParticipant}->>${desParticipant}: [${timestamp}] ${message}\n`;
+  // Add participants to the mermaid string with names and sanitized DIDs
+  participantDetails.forEach((sanitizedDID, name) => {
+    mermaidString += `    participant ${name} as ${name} <br/>${sanitizedDID}\n`;
   });
 
-  if (currentGroupId !== null) {
-    mermaidString += `  end\n`;
-  }
+  // Iterate through each group
+  data.forEach((item: any) => {
+    let groupParticipants: any = new Set(); // This will collect participants for the current group
+
+    // Collect participants involved in each specific group
+    Object.values(item.groups).forEach((group: any) => {
+      group.forEach((msg: any) => {
+        const sanitizedSrcName = msg.src_name.includes(":")
+          ? sanitizeDID(msg.src_name)
+          : msg.src_name;
+        const sanitizedDesName = msg.des_name.includes(":")
+          ? sanitizeDID(msg.des_name)
+          : msg.des_name;
+
+        groupParticipants.add(sanitizedSrcName);
+        groupParticipants.add(sanitizedDesName);
+      });
+    });
+
+    // Convert the set of participants to a sorted array and then to a string
+    groupParticipants = Array.from(groupParticipants).sort().join(",");
+
+    // Get the group color from the config
+    const groupColor = getGroupColor(item.group_name);
+
+    // Add group note with only involved participants
+    mermaidString += `\n    rect ${groupColor}\n    Note over ${groupParticipants}: ${item.group_name}\n`;
+
+    Object.entries(item.groups).forEach(([groupId, messages]: any) => {
+      mermaidString += `    alt Group Id ${groupId}\n`;
+      messages.forEach((msg: any) => {
+        const sanitizedSrcName = msg.src_name.includes(":")
+          ? sanitizeDID(msg.src_name)
+          : msg.src_name;
+        const sanitizedDesName = msg.des_name.includes(":")
+          ? sanitizeDID(msg.des_name)
+          : msg.des_name;
+        const arrow = sanitizedSrcName > sanitizedDesName ? "-->>" : "->>";
+        mermaidString += `    ${sanitizedSrcName}${arrow}${sanitizedDesName}: [${msg.msg_type_name}]: Event Message ${msg.id}\n`;
+      });
+      mermaidString += "    end\n";
+    });
+    mermaidString += "    end\n";
+  });
 
   return mermaidString;
 };
 
-// Dummy Data
+export function extractAllEventMessages(data: any) {
+  const allMessagesArray: any = [];
 
-export const dataFromBE = [
-  {
-    id: 12,
-    timestamp: 1704892813,
-    group: 0,
-    group_id: 12,
-    // "group_name": "Data",
-    msg_type: 4,
-    src_did: "did:sov:test:121",
-    // "src_name": "Entity A",
-    des_did: "did:sov:test:120",
-    // "des_name": "Entity B",
-    msg: {
-      text: "Hello World",
-    },
-  },
-  {
-    id: 60,
-    timestamp: 1704892823,
-    group: 1,
-    group_id: 19,
-    msg_type: 4,
-    src_did: "did:sov:test:122",
-    des_did: "did:sov:test:121",
-    msg: {},
-  },
-  {
-    id: 30162,
-    timestamp: 1704892817,
-    group: 1,
-    group_id: 53,
-    msg_type: 2,
-    src_did: "did:sov:test:121",
-    des_did: "did:sov:test:122",
-    msg: {},
-  },
-  {
-    id: 63043,
-    timestamp: 1704892809,
-    group: 0,
-    group_id: 12,
-    msg_type: 3,
-    src_did: "did:sov:test:121",
-    des_did: "did:sov:test:120",
-    msg: {},
-  },
-  {
-    id: 66251,
-    timestamp: 1704892805,
-    group: 0,
-    group_id: 51,
-    msg_type: 1,
-    src_did: "did:sov:test:120",
-    des_did: "did:sov:test:121",
-    msg: {},
-  },
-  {
-    id: 85434,
-    timestamp: 1704892807,
-    group: 0,
-    group_id: 51,
-    msg_type: 2,
-    src_did: "did:sov:test:120",
-    des_did: "did:sov:test:121",
-    msg: {},
-  },
-  {
-    id: 124842,
-    timestamp: 1704892819,
-    group: 1,
-    group_id: 19,
-    msg_type: 3,
-    src_did: "did:sov:test:122",
-    des_did: "did:sov:test:121",
-    msg: {},
-  },
-  {
-    id: 246326,
-    timestamp: 1704892815,
-    group: 1,
-    group_id: 53,
-    msg_type: 1,
-    src_did: "did:sov:test:121",
-    des_did: "did:sov:test:122",
-    msg: {},
-  },
-];
+  if (!data || data.length === 0) return allMessagesArray;
+  else
+    data.forEach((groupData: any) => {
+      Object.values(groupData.groups).forEach((messages: any) => {
+        messages.forEach((message: any) => {
+          allMessagesArray.push(message);
+        });
+      });
+    });
+  return allMessagesArray;
+}
