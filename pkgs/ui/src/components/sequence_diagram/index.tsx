@@ -32,10 +32,9 @@ import { LoadingOverlay } from "../join/loadingOverlay";
 import { useGetAllEventmessages } from "@/api/eventmessages/eventmessages";
 import { mutate } from "swr";
 
-import { eventMessages, mermaidSample } from "./helpers";
-import { iconMatch } from "@/config/config";
+import { extractAllEventMessages, generateMermaidString } from "./helpers";
 import CopyToClipboard from "../copy_to_clipboard";
-import { formatDateTime } from "@/utils/helpers";
+import { formatDateTime, getGroupById } from "@/utils/helpers";
 
 const SequenceDiagram = () => {
   const {
@@ -51,9 +50,8 @@ const SequenceDiagram = () => {
   const [sequenceNr, setSequenceNr] = useState("");
   const hasData = eventMessagesData?.data;
 
-  // const mermaidString = generateMermaidString(eventMessagesData?.data);
-
-  const mermaidString = mermaidSample;
+  const mermaidString = generateMermaidString(eventMessagesData?.data);
+  const allEventMessages = extractAllEventMessages(eventMessagesData?.data);
 
   useEffect(() => {
     if (!loadingEventMessages && hasData)
@@ -245,7 +243,7 @@ const SequenceDiagram = () => {
                   />
                 </div>
                 <List className="w-full" component="nav">
-                  {eventMessages
+                  {allEventMessages
                     .filter((_: any, index: number) => {
                       return isFilterMatch(index);
                     })
@@ -259,19 +257,22 @@ const SequenceDiagram = () => {
                         timestamp,
                         src_did,
                         des_did,
-                        // msg,
+                        msg,
                       } = message;
 
                       const formattedTimeStamp = formatDateTime(timestamp);
-                      const IconComponent = iconMatch[msgType];
+                      const { groupIcon: IconComponent, groupName } =
+                        getGroupById(group);
+
                       return (
-                        <div className="flex items-center gap-5 mb-7">
+                        <div className="flex items-center gap-5 mb-8">
                           <Chip label={sequenceNr ? sequenceNr : ++index} />
                           <Card className="w-full p-2">
-                            <div className="flex justify-between">
+                            <div className="flex justify-between mb-4">
                               <div>
-                                <span className="font-bold flex gap-2">
-                                  {IconComponent} {message.msg_type_name}
+                                <span className="font-bold flex gap-2 items-center mb-4">
+                                  {IconComponent} {groupName}{" "}
+                                  <Chip label={msgType} />
                                 </span>
                                 <span>
                                   Sender: {src_name} <Chip label={src_did} /> |{" "}
@@ -289,7 +290,7 @@ const SequenceDiagram = () => {
                               Event Message {sequenceNr ? sequenceNr : index++}
                             </span>
                             <div
-                              className="flex"
+                              className="flex mt-4"
                               style={{
                                 border: "1px solid #f1f1f1",
                                 borderRadius: 5,
@@ -309,7 +310,7 @@ const SequenceDiagram = () => {
                 </List>
               </DialogContentText>
             </DialogContent>
-            <DialogActions>
+            <DialogActions className="p-4">
               <Button variant="contained" onClick={toggleFilters}>
                 Close
               </Button>

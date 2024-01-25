@@ -7,15 +7,14 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import BuildIcon from "@mui/icons-material/Build";
 
-// Palette: https://coolors.co/palette/ff9aa2-feb7b1-ffdac0-ffecc4-e2f0cc-b5ead6-b7dbeb-c7ceea
-
-export const projectConfig = {
+export const projectConfig: any = {
   BASE_URL: "http://localhost:2979/api/v1",
-  GROUPS: {
-    1: {
-      groupName: "Attachment",
-      groupColor: "rgb(255, 154, 162)",
-      groupIcon: AttachmentIcon,
+  GROUPS: [
+    {
+      groupName: "Attachement",
+      groupId: 1,
+      groupColor: "rgb(230, 230, 250)",
+      groupIcon: <AttachmentIcon />,
       messageTypes: [
         { id: 1, label: "Attachment Request Send" },
         { id: 2, label: "Attachment Request Received" },
@@ -23,10 +22,11 @@ export const projectConfig = {
         { id: 4, label: "Attachment Response Received" },
       ],
     },
-    2: {
+    {
       groupName: "Connection Setup",
-      groupColor: "rgb(254, 183, 177)",
-      groupIcon: ConstructionIcon,
+      groupId: 2,
+      groupColor: "rgb(245, 222, 179)",
+      groupIcon: <ConstructionIcon />,
       messageTypes: [
         { id: 1, label: "Connection request send" },
         { id: 2, label: "Connection request received" },
@@ -34,10 +34,11 @@ export const projectConfig = {
         { id: 4, label: "Connection response received" },
       ],
     },
-    3: {
+    {
       groupName: "Presentation",
-      groupColor: "rgb(255, 218, 192)",
-      groupIcon: ArticleIcon,
+      groupId: 3,
+      groupColor: "rgb(255, 209, 220)",
+      groupIcon: <ArticleIcon />,
       messageTypes: [
         { id: 1, label: "Request send" },
         { id: 2, label: "Request received" },
@@ -46,10 +47,11 @@ export const projectConfig = {
         { id: 5, label: "Presentation acknowledged" },
       ],
     },
-    4: {
+    {
       groupName: "DID Resolution",
-      groupColor: "rgb(255, 236, 196)",
-      groupIcon: AssignmentTurnedInIcon,
+      groupId: 4,
+      groupColor: "rgb(189, 255, 243)",
+      groupIcon: <AssignmentTurnedInIcon />,
       messageTypes: [
         { id: 1, label: "DID Resolution Request send" },
         { id: 2, label: "DID Resolution Request received" },
@@ -57,10 +59,11 @@ export const projectConfig = {
         { id: 4, label: "DID Resolution Response received" },
       ],
     },
-    5: {
+    {
       groupName: "Service De-registration",
-      groupColor: "rgb(226, 240, 204)",
-      groupIcon: RemoveCircleIcon,
+      groupId: 5,
+      groupColor: "rgb(255, 218, 185)",
+      groupIcon: <RemoveCircleIcon />,
       messageTypes: [
         { id: 1, label: "Service De-registration send" },
         { id: 2, label: "Service De-registration received" },
@@ -68,10 +71,11 @@ export const projectConfig = {
         { id: 4, label: "Service De-registration successful received" },
       ],
     },
-    6: {
+    {
       groupName: "Service Registration",
-      groupColor: "rgb(181, 234, 214)",
-      groupIcon: AddCircleIcon,
+      groupId: 6,
+      groupColor: "rgb(200, 162, 200)",
+      groupIcon: <AddCircleIcon />,
       messageTypes: [
         { id: 1, label: "Service Registration send" },
         { id: 2, label: "Service Registration received" },
@@ -79,10 +83,11 @@ export const projectConfig = {
         { id: 4, label: "Service Registration successful received" },
       ],
     },
-    7: {
+    {
       groupName: "Service Discovery",
-      groupColor: "rgb(183, 219, 235)",
-      groupIcon: PageviewIcon,
+      groupId: 7,
+      groupColor: "rgb(255, 250, 205)",
+      groupIcon: <PageviewIcon />,
       messageTypes: [
         { id: 1, label: "Service Discovery send" },
         { id: 2, label: "Service Discovery received" },
@@ -90,10 +95,11 @@ export const projectConfig = {
         { id: 4, label: "Service Discovery Result received" },
       ],
     },
-    8: {
+    {
       groupName: "Service Operation",
-      groupColor: "rgb(199, 206, 234)",
-      groupIcon: BuildIcon,
+      groupId: 8,
+      groupColor: "rgb(135, 206, 235)",
+      groupIcon: <BuildIcon />,
       messageTypes: [
         { id: 1, label: "Service Request Send" },
         { id: 2, label: "Service Request Received" },
@@ -101,12 +107,5 @@ export const projectConfig = {
         { id: 4, label: "Service Response Received" },
       ],
     },
-  },
-};
-
-export const iconMatch: any = {
-  Attachement: <AttachmentIcon />,
-  Presentation: <ArticleIcon />,
-  "DID Resolution": <AssignmentTurnedInIcon />,
-  "Connection Setup": <ConstructionIcon />,
+  ],
 };
