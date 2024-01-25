@@ -270,10 +270,19 @@ const SequenceDiagram = () => {
                           className="flex items-center gap-5 mb-8"
                         >
                           <Chip label={sequenceNr ? sequenceNr : ++index} />
-                          <Card className="p-2 w-full">
-                            <div className="flex justify-between mb-4">
+                          <Card style={{ padding: 10 }} className="w-full">
+                            <div
+                              style={{ marginBottom: 12 }}
+                              className="flex justify-between"
+                            >
                               <div>
-                                <span className="flex items-center gap-2 font-bold mb-4">
+                                <span
+                                  style={{
+                                    marginBottom: 12,
+                                    fontWeight: "bold",
+                                  }}
+                                  className="flex items-center gap-2"
+                                >
                                   {IconComponent} {groupName}{" "}
                                   <Chip label={msgType} />
                                 </span>
