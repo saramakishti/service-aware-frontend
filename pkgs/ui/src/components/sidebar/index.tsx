@@ -9,7 +9,8 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import { useGetAllEntities } from "@/api/entities/entities";
+import { useGetEntityByRole } from "@/api/entities/entities";
+import { Role } from "@/api/model/role";
 import Image from "next/image";
 import React, { ReactNode } from "react";
 
@@ -33,8 +34,6 @@ type MenuEntry = {
 } & {
   subMenuEntries?: MenuEntry[];
 };
-
-export let menuEntityEntries: MenuEntry[] = [];
 
 export const menuEntries: MenuEntry[] = [
   {
@@ -72,7 +71,9 @@ interface SidebarProps {
 }
 
 export function Sidebar(props: SidebarProps) {
-  const { data: entityData } = useGetAllEntities();
+  const { data: entityData } = useGetEntityByRole({
+    role: Role.service_prosumer,
+  });
   const { show, onClose } = props;
   const [activeMenuItem, setActiveMenuItem] = React.useState(
     typeof window !== "undefined" ? window.location.pathname : "",
@@ -89,19 +90,22 @@ export function Sidebar(props: SidebarProps) {
     setCollapseMenuOpen(!collapseMenuOpen);
   };
 
-  React.useEffect(() => {
+  const menuEntityEntries: MenuEntry[] = React.useMemo(() => {
     if (entityData) {
-      menuEntityEntries = Array.isArray(entityData.data)
-        ? entityData.data
-            .filter((entity) => entity.name !== "AP" && entity.name !== "DLG")
-            .map((entity) => ({
-              icon: <PersonIcon />,
-              label: entity.name,
-              to: `/client/${entity.name}`,
-              disabled: false,
-            }))
+      return Array.isArray(entityData.data)
+        ? entityData.data.map((entity) => ({
+            icon: <PersonIcon />,
+            label: entity.name,
+            to: entity.name,
+            disabled: false,
+          }))
         : [];
+    } else {
+      return [];
     }
+  }, [entityData]);
+
+  React.useEffect(() => {
     if (isSmallerScreen) {
       setCollapseMenuOpen(false);
     } else {
@@ -203,30 +207,35 @@ export function Sidebar(props: SidebarProps) {
                     >
                       <List component="div" disablePadding>
                         {menuEntityEntries?.map((menuEntry, idx) => (
-                          <ListItemButton
-                            key={idx}
-                            sx={{ pl: 4 }}
-                            className="lg:justify-normal"
-                            LinkComponent={Link}
-                            href={menuEntry.to}
-                            disabled={menuEntry.disabled}
-                            selected={activeMenuItem === menuEntry.to}
-                            onClick={() => handleMenuItemClick(menuEntry.to)}
+                          <Link
+                            key={"entity-link-" + idx}
+                            href={`/client?name=${menuEntry.to}`}
+                            style={{ textDecoration: "none", color: "white" }}
                           >
-                            <ListItemIcon
-                              color="inherit"
-                              className="overflow-hidden text-white lg:justify-normal"
+                            <ListItemButton
+                              key={idx}
+                              sx={{ pl: 4 }}
+                              className="lg:justify-normal"
+                              LinkComponent={Link}
+                              disabled={menuEntry.disabled}
+                              selected={activeMenuItem === menuEntry.to}
+                              onClick={() => handleMenuItemClick(menuEntry.to)}
                             >
-                              {menuEntry.icon}
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={menuEntry.label}
-                              primaryTypographyProps={{
-                                color: "inherit",
-                              }}
-                              className="hidden lg:block"
-                            />
-                          </ListItemButton>
+                              <ListItemIcon
+                                color="inherit"
+                                className="overflow-hidden text-white lg:justify-normal"
+                              >
+                                {menuEntry.icon}
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={menuEntry.label}
+                                primaryTypographyProps={{
+                                  color: "inherit",
+                                }}
+                                className="hidden lg:block"
+                              />
+                            </ListItemButton>
+                          </Link>
                         ))}
                       </List>
                     </Collapse>

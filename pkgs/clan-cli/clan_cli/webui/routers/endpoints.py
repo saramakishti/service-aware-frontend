@@ -168,6 +168,14 @@ def get_entity_by_roles(
     return entity
 
 
+@router.get("/api/v1/entity_by_role", response_model=List[Entity], tags=[Tags.entities])
+def get_entity_by_role(
+    role: Role, db: Session = Depends(sql_db.get_db)
+) -> List[sql_models.Entity]:
+    entity = sql_crud.get_entity_by_role(db, roles=[role])
+    return entity
+
+
 @router.get("/api/v1/entities", response_model=List[Entity], tags=[Tags.entities])
 def get_all_entities(
     skip: int = 0, limit: int = 100, db: Session = Depends(sql_db.get_db)
