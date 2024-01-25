@@ -1,7 +1,7 @@
 import { getGroupColor, sanitizeDID } from "@/utils/helpers";
 
 export const generateMermaidString = (data: any) => {
-  if (!data) return "";
+  if (!data || !data.length) return "";
 
   let mermaidString = "sequenceDiagram\n";
   const participantDetails = new Map();
