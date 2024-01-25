@@ -2,6 +2,7 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EntityActions from "@/components/entity_actions";
 
 export const ClientTableConfig = [
   {
@@ -88,39 +89,10 @@ export const ServiceTableConfig = [
   {
     key: "action",
     label: "Actions",
-    render: () => {
-      return (
-        <>
-          <Tooltip title="Register" placement="top">
-            <IconButton disabled size="small">
-              <AddCircleIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="De-register" placement="top">
-            <IconButton disabled size="small">
-              <RemoveCircleIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Delete" placement="top">
-            <IconButton disabled size="small" color="secondary">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      );
-      // let renderedValue: any = "";
-      // if (typeof value === "object")
-      //   renderedValue = (
-      //     <>
-      //       {[...value.data, { name: 'Delete', endpoint: '' }].map((actionType: any) => (
-      //         <>
-      //           <Button disabled style={{ marginRight: 8 }} variant="outlined" size="small">{actionType.name}</Button>
-      //         </>
-      //       ))}
-      //     </>
-      //   );
-      // return renderedValue;
+    render: (value: any, rowData?: any) => {
+      if (value && value?.data.length > 0)
+        return <EntityActions rowData={rowData} endpointData={value.data} />;
+      else return "N/A";
     },
   },
 ];

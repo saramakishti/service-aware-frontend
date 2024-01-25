@@ -11,6 +11,7 @@ import {
 } from "@/config/access_point";
 import { useEffect } from "react";
 import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid";
+import { projectConfig } from "@/config/config";
 
 export default function AccessPoint() {
   const { entity } = useGetEntityByNameOrDid("AP");
@@ -46,7 +47,7 @@ export default function AccessPoint() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 5000);
+    }, projectConfig.REFRESH_FREQUENCY);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps

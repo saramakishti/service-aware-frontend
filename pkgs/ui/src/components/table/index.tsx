@@ -23,7 +23,8 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
   const renderTableCell = (
     value: any,
     cellKey: string,
-    render?: (param: any) => void | undefined,
+    render?: (param: any, data?: any) => void | undefined,
+    rowData?: any,
   ) => {
     let renderedValue = value;
 
@@ -35,7 +36,7 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
       renderedValue = <Checkbox disabled checked={value} />;
 
     // cover use case if we want to render a component
-    if (render) renderedValue = render(value);
+    if (render) renderedValue = render(value, rowData);
 
     // catch use case where the value is an object but the render function is not provided in the table config
     if (
@@ -66,17 +67,18 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((data: any, rowIndex: number) => (
+          {data.map((rowData: any, rowIndex: number) => (
             <StyledTableRow key={rowIndex}>
               {configuration.map(
                 (column: CustomTableConfiguration, columnIndex: number) => {
-                  const cellValue: any = data[column.key];
+                  const cellValue: any = rowData[column.key];
                   const cellKey = tkey + ":" + column.key + ":" + rowIndex;
                   const renderComponent = column?.render;
                   return renderTableCell(
                     cellValue,
                     cellKey + ":" + columnIndex,
                     renderComponent,
+                    rowData,
                   );
                 },
               )}

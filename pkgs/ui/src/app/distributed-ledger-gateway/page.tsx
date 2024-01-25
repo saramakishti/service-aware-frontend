@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useGetAllResolutions } from "@/api/resolution/resolution";
 import { mutate } from "swr";
 import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid";
+import { projectConfig } from "@/config/config";
 
 export default function DLG() {
   const { entity } = useGetEntityByNameOrDid("DLG");
@@ -30,7 +31,7 @@ export default function DLG() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 5000);
+    }, projectConfig.REFRESH_FREQUENCY);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
