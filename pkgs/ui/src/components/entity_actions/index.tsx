@@ -26,7 +26,7 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
     severity: AlertColor;
   }>(SNACKBAR_DEFAULT);
 
-  console.error("Error registering/deregistering:", error);
+  if (error) console.error("Error registering/deregistering:", error);
 
   const onDeleteEntity = async () => {
     if (rowData)
@@ -34,7 +34,6 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
         const response = await deleteEntity({
           entity_did: rowData?.entity_did,
         });
-        console.log("On Delete:", response.data.message);
         setSnackbar({
           open: true,
           message: response.data.message,
