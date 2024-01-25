@@ -267,7 +267,8 @@ const SequenceDiagram = () => {
                       return (
                         <div
                           key={index}
-                          className="flex items-center gap-5 mb-8"
+                          style={{ marginBottom: 12 }}
+                          className="flex items-center gap-5"
                         >
                           <Chip label={sequenceNr ? sequenceNr : ++index} />
                           <Card style={{ padding: 10 }} className="w-full">
