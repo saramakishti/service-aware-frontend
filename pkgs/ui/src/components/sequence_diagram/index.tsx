@@ -56,6 +56,7 @@ const SequenceDiagram = () => {
 
   useEffect(() => {
     if (!loadingEventMessages && hasData) {
+      // check for the absence of this attribute to render the diagram
       if (!mermaidRef.current.getAttribute("data-processed")) {
         mermaid.initialize({
           startOnLoad: false,
