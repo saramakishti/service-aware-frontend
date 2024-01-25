@@ -40,7 +40,7 @@ def test_health(api_client: ApiClient) -> None:
 
 def create_entities(num: int = 5, role: str = "entity") -> list[EntityCreate]:
     res = []
-    for i in range(num):
+    for i in range(1, num + 1):
         en = EntityCreate(
             did=f"did:sov:test:12{i}",
             name=f"C{i}",
@@ -125,8 +125,7 @@ random.seed(77)
 def create_eventmessages(num: int = 4) -> list[EventmessageCreate]:
     res = []
     starttime = int(time.time())
-    for idx in range(num):
-        i2 = idx + 1
+    for i2 in range(1, num + 1):
         group_id = i2 % 5 + random.getrandbits(6) + 1
         em_req_send = EventmessageCreate(
             timestamp=starttime + i2 * 10,

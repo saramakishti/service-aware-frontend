@@ -26,6 +26,7 @@ import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid"
 import { useGetAllServices } from "@/api/services/services";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
+import { useSearchParams } from "next/navigation";
 
 interface SnackMessage {
   message: string;
@@ -105,8 +106,10 @@ const AttachButton = ({
   );
 };
 
-export default function Client({ params }: { params: { name: string } }) {
-  const { name } = params;
+export default function Client() {
+  const searchParams = useSearchParams();
+  console.log("params: ", searchParams);
+  const name = searchParams.get("name") ?? "";
 
   const { entity: entity } = useGetEntityByNameOrDid(name);
   const {
