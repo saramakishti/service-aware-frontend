@@ -93,13 +93,13 @@ export function Sidebar(props: SidebarProps) {
     if (entityData) {
       menuEntityEntries = Array.isArray(entityData.data)
         ? entityData.data
-              .filter((entity) => entity.name !== "AP" && entity.name !== "DLG")
-              .map((entity) => ({
-            icon: <PersonIcon />,
-            label: entity.name,
-            to: `/client/${entity.name}`,
-            disabled: false,
-          }))
+            .filter((entity) => entity.name !== "AP" && entity.name !== "DLG")
+            .map((entity) => ({
+              icon: <PersonIcon />,
+              label: entity.name,
+              to: `/client/${entity.name}`,
+              disabled: false,
+            }))
         : [];
     }
     if (isSmallerScreen) {
