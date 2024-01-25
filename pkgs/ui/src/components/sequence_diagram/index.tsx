@@ -257,7 +257,7 @@ const SequenceDiagram = () => {
                         timestamp,
                         src_did,
                         des_did,
-                        msg,
+                        // msg, TODO: Need to use the content inside the msg to display in the diagram
                       } = message;
 
                       const formattedTimeStamp = formatDateTime(timestamp);
@@ -265,12 +265,15 @@ const SequenceDiagram = () => {
                         getGroupById(group);
 
                       return (
-                        <div className="flex items-center gap-5 mb-8">
+                        <div
+                          key={index}
+                          className="flex items-center gap-5 mb-8"
+                        >
                           <Chip label={sequenceNr ? sequenceNr : ++index} />
-                          <Card className="w-full p-2">
+                          <Card className="p-2 w-full">
                             <div className="flex justify-between mb-4">
                               <div>
-                                <span className="font-bold flex gap-2 items-center mb-4">
+                                <span className="flex items-center gap-2 font-bold mb-4">
                                   {IconComponent} {groupName}{" "}
                                   <Chip label={msgType} />
                                 </span>
@@ -290,7 +293,7 @@ const SequenceDiagram = () => {
                               Event Message {sequenceNr ? sequenceNr : index++}
                             </span>
                             <div
-                              className="flex mt-4"
+                              className="mt-4 flex"
                               style={{
                                 border: "1px solid #f1f1f1",
                                 borderRadius: 5,
@@ -299,7 +302,7 @@ const SequenceDiagram = () => {
                               <pre className="flex-1 p-2">
                                 {JSON.stringify(message, null, 2)}
                               </pre>
-                              <div className="flex-shrink-0 p-2">
+                              <div className="shrink-0 p-2">
                                 <CopyToClipboard textToCopy={message} />
                               </div>
                             </div>
