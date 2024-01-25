@@ -6,13 +6,14 @@ import { useGetAllRepositories } from "@/api/repositories/repositories";
 import SummaryDetails from "@/components/summary_card";
 import CustomTable from "@/components/table";
 import {
-  APSummaryDetails,
   APAttachmentsTableConfig,
   APServiceRepositoryTableConfig,
 } from "@/config/access_point";
 import { useEffect } from "react";
+import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid";
 
 export default function AccessPoint() {
+  const { entity } = useGetEntityByNameOrDid("AP");
   const {
     data: APAttachementData,
     isLoading: loadingAttachements,
@@ -54,10 +55,25 @@ export default function AccessPoint() {
   return (
     <div className="m-10">
       <SummaryDetails
-        fake
         hasRefreshButton
         onRefresh={onRefresh}
-        entity={{ name: "Access Point", details: APSummaryDetails }}
+        entity={{
+          name: "Access Point",
+          details: [
+            {
+              label: "DID",
+              value: entity?.did,
+            },
+            {
+              label: "IP",
+              value: entity?.ip,
+            },
+            {
+              label: "Network",
+              value: entity?.network,
+            },
+          ],
+        }}
       />
       <div>
         <h4>Attachment View</h4>

@@ -1,13 +1,15 @@
 "use client";
 
-import { DLGResolutionTableConfig, DLGSummaryDetails } from "@/config/dlg";
+import { DLGResolutionTableConfig } from "@/config/dlg";
 import CustomTable from "@/components/table";
 import SummaryDetails from "@/components/summary_card";
 import { useEffect } from "react";
 import { useGetAllResolutions } from "@/api/resolution/resolution";
 import { mutate } from "swr";
+import useGetEntityByNameOrDid from "@/components/hooks/useGetEntityByNameOrDid";
 
 export default function DLG() {
+  const { entity } = useGetEntityByNameOrDid("DLG");
   const {
     data: resolutionData,
     isLoading: loadingResolutions,
@@ -37,12 +39,24 @@ export default function DLG() {
   return (
     <div className="m-10">
       <SummaryDetails
-        fake
         hasRefreshButton
         onRefresh={onRefresh}
         entity={{
           name: "Distributed Ledger Gateway",
-          details: DLGSummaryDetails,
+          details: [
+            {
+              label: "DID",
+              value: entity?.did,
+            },
+            {
+              label: "IP",
+              value: entity?.ip,
+            },
+            {
+              label: "Network",
+              value: entity?.network,
+            },
+          ],
         }}
       />
       <div>
