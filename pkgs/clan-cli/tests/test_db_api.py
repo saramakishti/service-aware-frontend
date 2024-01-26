@@ -75,6 +75,7 @@ def create_entities(num: int = 5, role: str = "entity") -> list[EntityCreate]:
 
 
 def create_service(idx: int, entity: Entity) -> ServiceCreate:
+    idx += 1
     se = ServiceCreate(
         uuid=uuids[idx],
         service_name=f"Carlos Printing{idx}",

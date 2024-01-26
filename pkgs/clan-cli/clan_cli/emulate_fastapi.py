@@ -138,32 +138,9 @@ async def ap_list_of_services() -> JSONResponse:
             "uuid": "bdd640fb-0667-1ad1-1c80-317fa3b1799d",
             "service_name": "Carlos Printing0",
             "service_type": "3D Printing",
-            "endpoint_url": "http://127.0.0.1:8000/v1/print_daemon0",
-            "other": {},
-            "entity_did": "did:sov:test:120",
-            "status": {"data": ["draft", "registered"]},
-            "action": {
-                "data": [
-                    {
-                        "name": "register",
-                        "endpoint": "http://127.0.0.1:8000/v1/print_daemon0/register",
-                    },
-                    {
-                        "name": "deregister",
-                        "endpoint": "http://127.0.0.1:8000/v1/print_daemon0/deregister",
-                    },
-                ]
-            },
-            "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
-        },
-        # Service 2 (similar structure)
-        {
-            "uuid": "23b8c1e9-3924-56de-3eb1-3b9046685257",
-            "service_name": "Carlos Printing1",
-            "service_type": "3D Printing",
             "endpoint_url": "http://127.0.0.1:8001/v1/print_daemon1",
             "other": {},
-            "entity_did": "did:sov:test:121",
+            "entity_did": "did:sov:test:120",
             "status": {"data": ["draft", "registered"]},
             "action": {
                 "data": [
@@ -179,13 +156,14 @@ async def ap_list_of_services() -> JSONResponse:
             },
             "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
         },
+        # Service 2 (similar structure)
         {
-            "uuid": "bd9c66b3-ad3c-2d6d-1a3d-1fa7bc8960a9",
-            "service_name": "Carlos Printing2",
+            "uuid": "23b8c1e9-3924-56de-3eb1-3b9046685257",
+            "service_name": "Carlos Printing1",
             "service_type": "3D Printing",
             "endpoint_url": "http://127.0.0.1:8002/v1/print_daemon2",
             "other": {},
-            "entity_did": "did:sov:test:122",
+            "entity_did": "did:sov:test:121",
             "status": {"data": ["draft", "registered"]},
             "action": {
                 "data": [
@@ -202,12 +180,12 @@ async def ap_list_of_services() -> JSONResponse:
             "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
         },
         {
-            "uuid": "972a8469-1641-9f82-8b9d-2434e465e150",
-            "service_name": "Carlos Printing3",
+            "uuid": "bd9c66b3-ad3c-2d6d-1a3d-1fa7bc8960a9",
+            "service_name": "Carlos Printing2",
             "service_type": "3D Printing",
             "endpoint_url": "http://127.0.0.1:8003/v1/print_daemon3",
             "other": {},
-            "entity_did": "did:sov:test:123",
+            "entity_did": "did:sov:test:122",
             "status": {"data": ["draft", "registered"]},
             "action": {
                 "data": [
@@ -218,6 +196,28 @@ async def ap_list_of_services() -> JSONResponse:
                     {
                         "name": "deregister",
                         "endpoint": "http://127.0.0.1:8003/v1/print_daemon3/deregister",
+                    },
+                ]
+            },
+            "usage": [{"times_consumed": 2, "consumer_entity_did": "did:sov:test:120"}],
+        },
+        {
+            "uuid": "972a8469-1641-9f82-8b9d-2434e465e150",
+            "service_name": "Carlos Printing3",
+            "service_type": "3D Printing",
+            "endpoint_url": "http://127.0.0.1:8004/v1/print_daemon4",
+            "other": {},
+            "entity_did": "did:sov:test:123",
+            "status": {"data": ["draft", "registered"]},
+            "action": {
+                "data": [
+                    {
+                        "name": "register",
+                        "endpoint": "http://127.0.0.1:8004/v1/print_daemon4/register",
+                    },
+                    {
+                        "name": "deregister",
+                        "endpoint": "http://127.0.0.1:8004/v1/print_daemon4/deregister",
                     },
                 ]
             },
