@@ -119,12 +119,12 @@ async def consume_service_from_other_entity_c2() -> HTMLResponse:
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app_c2.get("/v1/print_daemon1/register", response_class=JSONResponse)
+@app_c2.get("/v1/print_daemon2/register", response_class=JSONResponse)
 async def register_c2() -> JSONResponse:
     return JSONResponse(content={"status": "registered"}, status_code=200)
 
 
-@app_c2.get("/v1/print_daemon1/deregister", response_class=JSONResponse)
+@app_c2.get("/v1/print_daemon2/deregister", response_class=JSONResponse)
 async def deregister_c2() -> JSONResponse:
     return JSONResponse(content={"status": "deregistered"}, status_code=200)
 
