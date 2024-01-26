@@ -1,19 +1,14 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ClientTableConfig, ServiceTableConfig } from "@/config/client_1";
 import CustomTable from "@/components/table";
 import {
   Alert,
   Button,
-  Card,
-  CardContent,
-  CardHeader,
   Snackbar,
-  Typography,
   CircularProgress,
   IconButton,
 } from "@mui/material";
-import CopyToClipboard from "@/components/copy_to_clipboard";
 import {
   attachEntity,
   detachEntity,
@@ -27,6 +22,8 @@ import { useGetAllServices } from "@/api/services/services";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSearchParams } from "next/navigation";
+import SummaryDetails from "@/components/summary_card";
+import { projectConfig } from "@/config/config";
 
 interface SnackMessage {
   message: string;
@@ -136,13 +133,12 @@ export default function Client() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 5000);
+    }, projectConfig.REFRESH_FREQUENCY);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const cardContentRef = useRef<HTMLDivElement>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<
     SnackMessage | undefined
@@ -152,8 +148,6 @@ export default function Client() {
     setSnackbarMessage(undefined);
     setSnackbarOpen(false);
   };
-
-  console.log("entity", entity);
 
   if (services_loading) return <Skeleton height={500} />;
   if (!services) return <Alert severity="error">Client not found</Alert>;
@@ -181,23 +175,16 @@ export default function Client() {
         </div>
       </div>
 
-      <Card variant="outlined">
-        <CardHeader
-          subheader="Summary"
-          action={<CopyToClipboard contentRef={cardContentRef} />}
-        />
-        <CardContent ref={cardContentRef}>
-          <Typography color="text.primary" gutterBottom>
-            DID: <code>{entity?.did}</code>
-          </Typography>
-          <Typography color="text.primary" gutterBottom>
-            IP: <code>{entity?.ip}</code>
-          </Typography>
-          <Typography color="text.primary" gutterBottom>
-            Network: <code>{entity?.network}</code>
-          </Typography>
-        </CardContent>
-      </Card>
+      <SummaryDetails
+        entity={{
+          name: "",
+          details: [
+            { label: "DID", value: entity?.did },
+            { label: "IP", value: entity?.ip },
+            { label: "Network", value: entity?.network },
+          ],
+        }}
+      />
       <div>
         <h4>Client View</h4>
         <CustomTable

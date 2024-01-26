@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { mutate } from "swr";
 import ErrorBoundary from "@/components/error_boundary";
+import { projectConfig } from "@/config/config";
 
 const NoSSRSequenceDiagram = dynamic(
   () => import("../../components/sequence_diagram"),
@@ -30,7 +31,7 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       onRefresh();
-    }, 5000);
+    }, projectConfig.REFRESH_FREQUENCY);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps

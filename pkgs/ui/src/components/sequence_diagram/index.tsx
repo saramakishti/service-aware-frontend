@@ -43,32 +43,48 @@ const SequenceDiagram = () => {
     swrKey: eventMessagesKeyFunc,
   } = useGetAllEventmessages();
 
-  const mermaidRef: any = useRef(null);
   const [scale, setScale] = useState(1);
   const [openFilters, setOpenFilters] = useState(false);
-
   const [sequenceNr, setSequenceNr] = useState("");
-  const hasData = eventMessagesData?.data;
 
+  const mermaidRef: any = useRef(null);
+
+  const hasData = eventMessagesData?.data && eventMessagesData?.data.length > 0;
   const mermaidString = generateMermaidString(eventMessagesData?.data);
   const allEventMessages = extractAllEventMessages(eventMessagesData?.data);
+  const dataDependency = JSON.stringify(hasData ? eventMessagesData?.data : "");
 
   useEffect(() => {
-    if (!loadingEventMessages && hasData)
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "loose",
-        sequence: {
-          mirrorActors: true,
-          showSequenceNumbers: true,
-        },
-      });
+    const currentMermaidRef = mermaidRef?.current;
 
-    if (mermaidRef.current) {
-      mermaidRef.current.innerHTML = mermaidString;
-      mermaid.init(undefined, mermaidRef.current);
+    if (!loadingEventMessages && hasData) {
+      if (
+        currentMermaidRef &&
+        !currentMermaidRef.getAttribute("data-processed")
+      ) {
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: "loose",
+          sequence: {
+            mirrorActors: true,
+            showSequenceNumbers: true,
+          },
+        });
+      }
+
+      if (currentMermaidRef) {
+        currentMermaidRef.innerHTML = mermaidString;
+        mermaid.init(undefined, currentMermaidRef);
+      }
     }
-  }, [loadingEventMessages, hasData, mermaidString]);
+    return () => {
+      if (currentMermaidRef) {
+        currentMermaidRef.removeAttribute("data-processed");
+        currentMermaidRef.innerHTML = "";
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataDependency]);
 
   useEffect(() => {
     if (mermaidRef.current) {

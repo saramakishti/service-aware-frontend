@@ -1,20 +1,3 @@
-// AP - Summary
-
-export const APSummaryDetails = [
-  {
-    label: "DID",
-    value: "did:sov:test:1274",
-  },
-  {
-    label: "IP",
-    value: "127.0.0.2",
-  },
-  {
-    label: "Network",
-    value: "Carlo's Home Network",
-  },
-];
-
 // AP - 2 Tables Configurations to display labels
 
 export const APAttachmentsTableConfig = [

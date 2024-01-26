@@ -93,7 +93,7 @@ export function Sidebar(props: SidebarProps) {
   const menuEntityEntries: MenuEntry[] = React.useMemo(() => {
     if (entityData) {
       return Array.isArray(entityData.data)
-        ? entityData.data.map((entity) => ({
+        ? entityData.data.map((entity: any) => ({
             icon: <PersonIcon />,
             label: entity.name,
             to: entity.name,

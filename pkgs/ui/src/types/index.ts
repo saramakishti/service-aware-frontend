@@ -13,17 +13,22 @@ export interface ICustomTable {
 
 export interface EntityDetails {
   label: string;
-  value: string;
+  value: string | undefined;
 }
 
 export interface Entity {
-  name: string;
+  name?: string;
   details: EntityDetails[];
 }
 
 export interface ISummaryDetails {
-  entity: any;
+  entity: Entity;
   fake?: boolean;
   hasRefreshButton?: boolean;
   onRefresh?: () => void;
+}
+
+export interface IEntityActions {
+  name: string;
+  endpoint: string;
 }

@@ -1,17 +1,4 @@
-// DLG Summary Details
-
 import { formatDateTime } from "@/utils/helpers";
-
-export const DLGSummaryDetails = [
-  {
-    label: "DID",
-    value: "did:sov:test:1274",
-  },
-  {
-    label: "URL",
-    value: "dlg.tu-berlin.de",
-  },
-];
 
 // DLG - 2 Tables Configurations to display labels
 
