@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ClientTableConfig, ServiceTableConfig } from "@/config/client_1";
 import CustomTable from "@/components/table";
 import {

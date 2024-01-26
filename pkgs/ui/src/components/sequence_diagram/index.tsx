@@ -82,6 +82,7 @@ const SequenceDiagram = () => {
         mermaidRef.current.innerHTML = "";
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataDependency]);
 
   useEffect(() => {

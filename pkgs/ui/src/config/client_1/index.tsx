@@ -1,7 +1,4 @@
-import { Button, IconButton, Tooltip } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Button } from "@mui/material";
 import EntityActions from "@/components/entity_actions";
 
 export const ClientTableConfig = [
