@@ -55,9 +55,13 @@ const SequenceDiagram = () => {
   const dataDependency = JSON.stringify(hasData ? eventMessagesData?.data : "");
 
   useEffect(() => {
+    const currentMermaidRef = mermaidRef?.current;
+
     if (!loadingEventMessages && hasData) {
-      // check for the absence of this attribute to render the diagram
-      if (!mermaidRef.current.getAttribute("data-processed")) {
+      if (
+        currentMermaidRef &&
+        !currentMermaidRef.getAttribute("data-processed")
+      ) {
         mermaid.initialize({
           startOnLoad: false,
           securityLevel: "loose",
@@ -67,19 +71,16 @@ const SequenceDiagram = () => {
           },
         });
       }
-    }
 
-    if (mermaidRef.current) {
-      mermaidRef.current.innerHTML = mermaidString;
-      mermaid.init(undefined, mermaidRef.current);
+      if (currentMermaidRef) {
+        currentMermaidRef.innerHTML = mermaidString;
+        mermaid.init(undefined, currentMermaidRef);
+      }
     }
-
     return () => {
-      if (mermaidRef.current) {
-        // By removing the 'data-processed' attribute, we ensure Mermaid will process the diagram again
-        mermaidRef.current.removeAttribute("data-processed");
-        // Reset the innerHTML to clear the diagram
-        mermaidRef.current.innerHTML = "";
+      if (currentMermaidRef) {
+        currentMermaidRef.removeAttribute("data-processed");
+        currentMermaidRef.innerHTML = "";
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
