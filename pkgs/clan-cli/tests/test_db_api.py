@@ -75,6 +75,7 @@ def create_entities(num: int = 5, role: str = "entity") -> list[EntityCreate]:
 
 
 def create_service(idx: int, entity: Entity) -> ServiceCreate:
+    idx += 1
     se = ServiceCreate(
         uuid=uuids[idx],
         service_name=f"Carlos Printing{idx}",
@@ -113,7 +114,7 @@ def test_create_entities(api_client: ApiClient) -> None:
 def test_create_services(api_client: ApiClient) -> None:
     sapi = ServicesApi(api_client=api_client)
     eapi = EntitiesApi(api_client=api_client)
-    for midx, entity in enumerate(eapi.get_all_entities()):
+    for midx, entity in enumerate(eapi.get_entity_by_roles([Role("service_prosumer")])):
         service_obj = create_service(midx, entity)
         service = sapi.create_service(service_obj)
         assert service.uuid == service_obj.uuid
