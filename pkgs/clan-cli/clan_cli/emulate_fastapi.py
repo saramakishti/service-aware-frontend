@@ -6,12 +6,12 @@ from datetime import datetime
 
 # Importing FastAPI and related components
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 
 # Importing configuration and schemas from the clan_cli package
 import clan_cli.config as config
 from clan_cli.webui.schemas import Resolution
-from fastapi.middleware.cors import CORSMiddleware
 
 # Creating FastAPI instances for different applications
 app_dlg = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
@@ -34,6 +34,7 @@ for app, port in apps:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
 
 # Healthcheck endpoints for different applications
 @app_c1.get("/")
