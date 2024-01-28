@@ -1,26 +1,38 @@
 import { Button } from "@mui/material";
-import useAxios from "../hooks/useAxios";
 import { useState } from "react";
+import axios from "axios";
 
 const ConsumeAction = ({ endpoint }: { endpoint: string }) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-  const [currentEndpoint, setCurrentEndpoint] = useState("");
-  const [shouldFetch, setShouldFetch] = useState(false);
-  const { data, error } = useAxios(currentEndpoint, "GET", null, true, shouldFetch);
-
-  if (error) console.error("Error consuming:", error);
-
-  if (data) console.log('what the response', data)
+  if (data) console.log("Data in state", data);
+  if (error) console.log("Error in state", error);
 
   const onConsume = () => {
-    setCurrentEndpoint(endpoint);
-    setShouldFetch(true);
-  }
+    const axiosConfig = {
+      url: endpoint,
+      method: "GET",
+      data: null,
+    };
 
+    axios(axiosConfig)
+      .then((response) => {
+        setData(response.data);
+        console.log("I got the data from consume: ", response.data);
+      })
+      .catch((error) => {
+        console.error("Error happened during consume: ", error);
+        setError(error);
+      })
+      .finally(() => {});
+  };
 
-  return <Button onClick={onConsume} variant="outlined">
-    Consume
-  </Button>
+  return (
+    <Button onClick={onConsume} variant="outlined">
+      Consume
+    </Button>
+  );
 };
 
 export default ConsumeAction;

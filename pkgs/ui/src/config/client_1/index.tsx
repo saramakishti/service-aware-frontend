@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import EntityActions from "@/components/entity_actions";
 import ConsumeAction from "@/components/consume_action";
 
@@ -15,9 +14,7 @@ export const ClientTableConfig = [
     key: "endpoint_url",
     label: "End Point",
     render: (value: any) => {
-      return (
-        <ConsumeAction endpoint={value} />
-      );
+      return <ConsumeAction endpoint={value} />;
     },
   },
   // {

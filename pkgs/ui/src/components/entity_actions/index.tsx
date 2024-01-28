@@ -1,8 +1,8 @@
 import { IEntityActions } from "@/types";
 import { Button, Snackbar, Alert, AlertColor } from "@mui/material";
 import { useState } from "react";
-import useAxios from "../hooks/useAxios";
 import { deleteEntity } from "@/api/entities/entities";
+import axios from "axios";
 
 interface Props {
   endpointData: IEntityActions[];
@@ -16,17 +16,23 @@ const SNACKBAR_DEFAULT = {
 };
 
 const EntityActions = ({ endpointData, rowData }: Props) => {
-  const [currentEndpoint, setCurrentEndpoint] = useState("");
-  const [shouldFetch, setShouldFetch] = useState(false);
-  const { error } = useAxios(currentEndpoint, "GET", null, true, shouldFetch);
-
   const [snackbar, setSnackbar] = useState<{
     open: boolean;
     message: string;
     severity: AlertColor;
   }>(SNACKBAR_DEFAULT);
 
-  if (error) console.error("Error registering/deregistering:", error);
+  const [registerData, setRegisterData] = useState(null);
+  const [registerError, setRegisterError] = useState(null);
+
+  const [DeregisterData, setDeRegisterData] = useState(null);
+  const [DeregisterError, setDeRegisterError] = useState(null);
+
+  if (registerData) console.log("Register Data in state", registerData);
+  if (registerError) console.log("Register Error in state", registerError);
+
+  if (DeregisterData) console.log("Register Data in state", DeregisterData);
+  if (DeregisterError) console.log("Register Error in state", DeregisterError);
 
   const onDeleteEntity = async () => {
     if (rowData)
@@ -50,13 +56,41 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
   };
 
   const onRegisterEntity = (endpoint: string) => {
-    setCurrentEndpoint(endpoint);
-    setShouldFetch(true);
+    const axiosConfig = {
+      url: endpoint,
+      method: "GET",
+      data: null,
+    };
+
+    axios(axiosConfig)
+      .then((response) => {
+        setRegisterData(response.data);
+        console.log("I got the data from register: ", response.data);
+      })
+      .catch((error) => {
+        console.error("Error happened during register: ", error);
+        setRegisterError(error);
+      })
+      .finally(() => {});
   };
 
   const onDeregisterEntity = (endpoint: string) => {
-    setCurrentEndpoint(endpoint);
-    setShouldFetch(true);
+    const axiosConfig = {
+      url: endpoint,
+      method: "GET",
+      data: null,
+    };
+
+    axios(axiosConfig)
+      .then((response) => {
+        setDeRegisterData(response.data);
+        console.log("I got the data from deregister: ", response.data);
+      })
+      .catch((error) => {
+        console.error("Error happened during deregister: ", error);
+        setDeRegisterError(error);
+      })
+      .finally(() => {});
   };
 
   const handleCloseSnackbar = () => {
