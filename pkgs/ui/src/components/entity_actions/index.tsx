@@ -60,6 +60,11 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
       url: endpoint,
       method: "GET",
       data: null,
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     };
 
     axios(axiosConfig)

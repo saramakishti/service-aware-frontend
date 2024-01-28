@@ -14,6 +14,11 @@ const ConsumeAction = ({ endpoint }: { endpoint: string }) => {
       url: endpoint,
       method: "GET",
       data: null,
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     };
 
     axios(axiosConfig)
