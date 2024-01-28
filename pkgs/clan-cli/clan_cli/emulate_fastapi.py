@@ -6,6 +6,7 @@ from datetime import datetime
 
 # Importing FastAPI and related components
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 
 # Importing configuration and schemas from the clan_cli package
@@ -25,6 +26,14 @@ apps = [
     (app_c1, config.c1_port),
     (app_c2, config.c2_port),
 ]
+for app, port in apps:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=config.cors_whitelist,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 # Healthcheck endpoints for different applications

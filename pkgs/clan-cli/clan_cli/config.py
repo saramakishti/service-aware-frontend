@@ -5,7 +5,11 @@ cors_url = [
     "http://0.0.0.0",
     "http://[::]",
 ]
-cors_ports = ["*", 3000, 2979]
+cors_ports = ["*", 3000, 2979, 8001, 8002]
+cors_whitelist = []
+for u in cors_url:
+    for p in cors_ports:
+        cors_whitelist.append(f"{u}:{p}")
 
 # host for the server, frontend, backend and emulators
 host = "127.0.0.1"
