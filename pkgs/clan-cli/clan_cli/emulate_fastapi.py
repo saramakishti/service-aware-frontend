@@ -11,6 +11,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 # Importing configuration and schemas from the clan_cli package
 import clan_cli.config as config
 from clan_cli.webui.schemas import Resolution
+from fastapi.middleware.cors import CORSMiddleware
 
 # Creating FastAPI instances for different applications
 app_dlg = FastAPI(swagger_ui_parameters={"tryItOutEnabled": True})
@@ -25,7 +26,14 @@ apps = [
     (app_c1, config.c1_port),
     (app_c2, config.c2_port),
 ]
-
+for app, port in apps:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=config.cors_whitelist,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 # Healthcheck endpoints for different applications
 @app_c1.get("/")
