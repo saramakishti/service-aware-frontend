@@ -13,8 +13,14 @@ export const ClientTableConfig = [
   {
     key: "endpoint_url",
     label: "End Point",
-    render: (value: any) => {
-      return <ConsumeAction endpoint={value} />;
+    render: (value: any, rowData: any, onConsume: any) => {
+      return (
+        <ConsumeAction
+          rowData={rowData}
+          onConsume={onConsume}
+          endpoint={value}
+        />
+      );
     },
   },
   // {

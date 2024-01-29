@@ -12,7 +12,13 @@ import { ICustomTable, CustomTableConfiguration } from "@/types";
 import { Checkbox, Skeleton } from "@mui/material";
 import ErrorBoundary from "@/components/error_boundary";
 
-const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
+const CustomTable = ({
+  configuration,
+  data,
+  loading,
+  tkey,
+  onConsumeAction,
+}: ICustomTable) => {
   if (loading)
     return <Skeleton variant="rectangular" animation="wave" height={200} />;
 
@@ -23,7 +29,11 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
   const renderTableCell = (
     value: any,
     cellKey: string,
-    render?: (param: any, data?: any) => void | undefined,
+    render?: (
+      param: any,
+      data?: any,
+      onFunc?: (param: any) => void,
+    ) => void | undefined,
     rowData?: any,
   ) => {
     let renderedValue = value;
@@ -36,7 +46,7 @@ const CustomTable = ({ configuration, data, loading, tkey }: ICustomTable) => {
       renderedValue = <Checkbox disabled checked={value} />;
 
     // cover use case if we want to render a component
-    if (render) renderedValue = render(value, rowData);
+    if (render) renderedValue = render(value, rowData, onConsumeAction);
 
     // catch use case where the value is an object but the render function is not provided in the table config
     if (

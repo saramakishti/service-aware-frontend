@@ -1,5 +1,11 @@
 import { IEntityActions } from "@/types";
-import { Button, Snackbar, Alert, AlertColor } from "@mui/material";
+import {
+  Button,
+  Snackbar,
+  Alert,
+  AlertColor,
+  CircularProgress,
+} from "@mui/material";
 import { useState } from "react";
 import { deleteEntity } from "@/api/entities/entities";
 import axios from "axios";
@@ -24,17 +30,23 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
 
   const [registerData, setRegisterData] = useState(null);
   const [registerError, setRegisterError] = useState(null);
+  const [loadingRegister, setLoadingRegister] = useState(false);
 
   const [DeregisterData, setDeRegisterData] = useState(null);
   const [DeregisterError, setDeRegisterError] = useState(null);
+  const [loadingDeRegister, setLoadingDeRegister] = useState(false);
+
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
   if (registerData) console.log("Register Data in state", registerData);
-  if (registerError) console.log("Register Error in state", registerError);
+  if (registerError) console.error("Register Error in state", registerError);
 
   if (DeregisterData) console.log("Register Data in state", DeregisterData);
-  if (DeregisterError) console.log("Register Error in state", DeregisterError);
+  if (DeregisterError)
+    console.error("Register Error in state", DeregisterError);
 
   const onDeleteEntity = async () => {
+    setLoadingDelete(true);
     if (rowData)
       try {
         const response = await deleteEntity({
@@ -52,10 +64,16 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
           message: "Failed to delete entity.",
           severity: "error",
         });
+      } finally {
+        setLoadingDelete(false);
       }
   };
 
   const onRegisterEntity = (endpoint: string) => {
+    if (loadingRegister) return;
+
+    setLoadingRegister(true);
+
     const axiosConfig = {
       url: endpoint,
       method: "GET",
@@ -76,10 +94,16 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
         console.error("Error happened during register: ", error);
         setRegisterError(error);
       })
-      .finally(() => {});
+      .finally(() => {
+        setLoadingRegister(false);
+      });
   };
 
   const onDeregisterEntity = (endpoint: string) => {
+    if (loadingDeRegister) return;
+
+    setLoadingDeRegister(true);
+
     const axiosConfig = {
       url: endpoint,
       method: "GET",
@@ -95,7 +119,9 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
         console.error("Error happened during deregister: ", error);
         setDeRegisterError(error);
       })
-      .finally(() => {});
+      .finally(() => {
+        setLoadingDeRegister(false);
+      });
   };
 
   const handleCloseSnackbar = () => {
@@ -108,8 +134,10 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
         {endpointData.map(
           ({ name, endpoint }: IEntityActions, index: number) => {
             const isRegister = name && name.toLocaleLowerCase() === "register";
+            // const isDeRegister = name && name.toLocaleLowerCase() === "deregister";
             return (
               <Button
+                disabled={loadingRegister || loadingDeRegister}
                 key={index}
                 onClick={() =>
                   isRegister
@@ -124,8 +152,13 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
             );
           },
         )}
-        <Button onClick={onDeleteEntity} size="small" variant="contained">
-          Delete
+        <Button
+          disabled={loadingDelete}
+          onClick={onDeleteEntity}
+          size="small"
+          variant="contained"
+        >
+          {loadingDelete ? <CircularProgress size={24} /> : `Delete`}
         </Button>
       </div>
       <Snackbar

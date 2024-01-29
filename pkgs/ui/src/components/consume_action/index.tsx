@@ -1,15 +1,25 @@
-import { Button } from "@mui/material";
+import { Button, CircularProgress, Snackbar } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
 
-const ConsumeAction = ({ endpoint }: { endpoint: string }) => {
-  const [data, setData] = useState(null);
+const ConsumeAction = ({
+  endpoint,
+  onConsume,
+}: {
+  endpoint: string;
+  rowData?: any;
+  onConsume?: any;
+}) => {
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  if (data) console.log("Data in state", data);
-  if (error) console.log("Error in state", error);
+  if (error) console.error("Error in state", error);
 
-  const onConsume = () => {
+  const handleConsume = () => {
+    if (loading) return;
+
+    setLoading(true);
+
     const axiosConfig = {
       url: endpoint,
       method: "GET",
@@ -23,20 +33,40 @@ const ConsumeAction = ({ endpoint }: { endpoint: string }) => {
 
     axios(axiosConfig)
       .then((response) => {
-        setData(response.data);
-        console.log("I got the data from consume: ", response.data);
+        if (onConsume) {
+          onConsume(response.data);
+          console.log("I got the data from consume: ", response.data);
+        }
       })
       .catch((error) => {
+        if (onConsume) onConsume(null);
         console.error("Error happened during consume: ", error);
         setError(error);
       })
-      .finally(() => {});
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleCloseSnackbar = () => {
+    setError(null);
   };
 
   return (
-    <Button onClick={onConsume} variant="outlined">
-      Consume
-    </Button>
+    <>
+      <Button disabled={loading} onClick={handleConsume} variant="outlined">
+        {loading ? <CircularProgress size={24} /> : `Consume`}
+      </Button>
+      {error && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={error}
+          autoHideDuration={2000}
+          message={`Something happened during consume: ${error}`}
+          onClose={handleCloseSnackbar}
+        />
+      )}
+    </>
   );
 };
 

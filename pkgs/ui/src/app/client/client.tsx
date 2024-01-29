@@ -24,6 +24,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useSearchParams } from "next/navigation";
 import SummaryDetails from "@/components/summary_card";
 import { projectConfig } from "@/config/config";
+import ConsumeDisplayComponent from "@/components/consume_content";
 
 interface SnackMessage {
   message: string;
@@ -105,8 +106,12 @@ const AttachButton = ({
 
 export default function Client() {
   const searchParams = useSearchParams();
-  console.log("params: ", searchParams);
   const name = searchParams.get("name") ?? "";
+  const [consumeContent, setConsumeContent] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<
+    SnackMessage | undefined
+  >(undefined);
 
   const { entity: entity } = useGetEntityByNameOrDid(name);
   const {
@@ -139,14 +144,14 @@ export default function Client() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState<
-    SnackMessage | undefined
-  >(undefined);
-
   const closeSnackBar = () => {
     setSnackbarMessage(undefined);
     setSnackbarOpen(false);
+  };
+
+  // Consume
+  const handleConsumeContent = (content: any) => {
+    setConsumeContent(content);
   };
 
   if (services_loading) return <Skeleton height={500} />;
@@ -185,17 +190,26 @@ export default function Client() {
           ],
         }}
       />
-      <div>
-        <h4>Client View</h4>
-        <CustomTable
-          loading={services_loading}
-          data={clients}
-          configuration={ClientTableConfig}
-          tkey="client-table"
-        />
+      <div className="flex items-center flex-nowrap justify-between w-full">
+        <div style={{ width: consumeContent ? "55%" : "100%" }}>
+          <h4>Service Consumer View</h4>
+          <CustomTable
+            loading={services_loading}
+            data={clients}
+            onConsumeAction={handleConsumeContent}
+            configuration={ClientTableConfig}
+            tkey="client-table"
+          />
+        </div>
+        {consumeContent && (
+          <div style={{ width: "40%" }}>
+            <h4>Service Output</h4>
+            <ConsumeDisplayComponent htmlContent={consumeContent} />
+          </div>
+        )}
       </div>
       <div>
-        <h4>Service View</h4>
+        <h4>Service Producer View</h4>
         <CustomTable
           loading={services_loading}
           data={services?.data}
@@ -231,3 +245,18 @@ export default function Client() {
     </div>
   );
 }
+
+const ClientTable = () => {
+  return (
+    <div>
+      {/* <h4>Client View</h4>
+      <CustomTable
+        loading={services_loading}
+        data={clients}
+        onConsumeAction={handleConsumeContent}
+        configuration={ClientTableConfig}
+        tkey="client-table"
+      /> */}
+    </div>
+  );
+};
