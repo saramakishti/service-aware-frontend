@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
 import EntityActions from "@/components/entity_actions";
+import ConsumeAction from "@/components/consume_action";
 
 export const ClientTableConfig = [
   {
@@ -13,11 +13,13 @@ export const ClientTableConfig = [
   {
     key: "endpoint_url",
     label: "End Point",
-    render: () => {
+    render: (value: any, rowData: any, onConsume: any) => {
       return (
-        <Button disabled variant="outlined">
-          Consume
-        </Button>
+        <ConsumeAction
+          rowData={rowData}
+          onConsume={onConsume}
+          endpoint={value}
+        />
       );
     },
   },

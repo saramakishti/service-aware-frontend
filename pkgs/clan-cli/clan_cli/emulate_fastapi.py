@@ -106,11 +106,13 @@ async def consume_service_from_other_entity_c1() -> HTMLResponse:
 
 @app_c1.get("/v1/print_daemon1/register", response_class=JSONResponse)
 async def register_c1() -> JSONResponse:
+    time.sleep(2)
     return JSONResponse(content={"status": "registered"}, status_code=200)
 
 
 @app_c1.get("/v1/print_daemon1/deregister", response_class=JSONResponse)
 async def deregister_c1() -> JSONResponse:
+    time.sleep(2)
     return JSONResponse(content={"status": "deregistered"}, status_code=200)
 
 
@@ -130,11 +132,13 @@ async def consume_service_from_other_entity_c2() -> HTMLResponse:
 
 @app_c2.get("/v1/print_daemon2/register", response_class=JSONResponse)
 async def register_c2() -> JSONResponse:
+    time.sleep(2)
     return JSONResponse(content={"status": "registered"}, status_code=200)
 
 
 @app_c2.get("/v1/print_daemon2/deregister", response_class=JSONResponse)
 async def deregister_c2() -> JSONResponse:
+    time.sleep(2)
     return JSONResponse(content={"status": "deregistered"}, status_code=200)
 
 

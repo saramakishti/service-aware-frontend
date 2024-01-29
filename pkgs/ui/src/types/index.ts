@@ -1,7 +1,7 @@
 export interface CustomTableConfiguration {
   key: string;
   label: string;
-  render?: (param: any) => void;
+  render?: (param: any, rowData?: any, onConsume?: any) => void;
 }
 
 export interface ICustomTable {
@@ -9,6 +9,7 @@ export interface ICustomTable {
   data: any;
   loading?: boolean;
   tkey: string;
+  onConsumeAction?: (param: any) => void;
 }
 
 export interface EntityDetails {
