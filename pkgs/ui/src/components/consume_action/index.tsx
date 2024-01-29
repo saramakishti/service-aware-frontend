@@ -54,7 +54,7 @@ const ConsumeAction = ({
 
   return (
     <>
-      <Button disabled={loading} onClick={handleConsume} variant="outlined">
+      <Button disabled={loading} onClick={handleConsume} variant="contained">
         {loading ? <CircularProgress size={24} /> : `Consume`}
       </Button>
       {error && (
