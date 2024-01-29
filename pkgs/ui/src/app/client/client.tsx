@@ -190,7 +190,7 @@ export default function Client() {
           ],
         }}
       />
-      <div className="flex items-center flex-nowrap justify-between w-full">
+      <div className="flex items-center flex-nowrap justify-between">
         <div style={{ width: consumeContent ? "55%" : "100%" }}>
           <h4>Service Consumer View</h4>
           <CustomTable
@@ -245,18 +245,3 @@ export default function Client() {
     </div>
   );
 }
-
-const ClientTable = () => {
-  return (
-    <div>
-      {/* <h4>Client View</h4>
-      <CustomTable
-        loading={services_loading}
-        data={clients}
-        onConsumeAction={handleConsumeContent}
-        configuration={ClientTableConfig}
-        tkey="client-table"
-      /> */}
-    </div>
-  );
-};
