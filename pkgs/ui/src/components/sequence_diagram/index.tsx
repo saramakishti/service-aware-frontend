@@ -15,6 +15,7 @@ import {
   IconButton,
   List,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 //Icons
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -53,6 +54,10 @@ const SequenceDiagram = () => {
   const mermaidString = generateMermaidString(eventMessagesData?.data);
   const allEventMessages = extractAllEventMessages(eventMessagesData?.data);
   const dataDependency = JSON.stringify(hasData ? eventMessagesData?.data : "");
+
+  const userPrefersDarkmode = useMediaQuery("(prefers-color-scheme: dark)");
+
+  const iconButtonColor = userPrefersDarkmode ? "default" : "primary";
 
   useEffect(() => {
     const currentMermaidRef = mermaidRef?.current;
@@ -192,37 +197,37 @@ const SequenceDiagram = () => {
           <>
             <div className="flex justify-end">
               <Tooltip placement="top" title="Filter Messages">
-                <IconButton color="primary" onClick={toggleFilters}>
+                <IconButton color={iconButtonColor} onClick={toggleFilters}>
                   <FilterAltIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip placement="top" title="Refresh Diagram">
-                <IconButton color="primary" onClick={onRefresh}>
+                <IconButton color={iconButtonColor} onClick={onRefresh}>
                   <RefreshIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Zoom In" placement="top">
-                <IconButton color="primary" onClick={zoomIn}>
+                <IconButton color={iconButtonColor} onClick={zoomIn}>
                   <ZoomInIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Zoom Out" placement="top">
-                <IconButton color="primary" onClick={zoomOut}>
+                <IconButton color={iconButtonColor} onClick={zoomOut}>
                   <ZoomOutIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Reset" placement="top">
-                <IconButton color="primary" onClick={resetZoom}>
+                <IconButton color={iconButtonColor} onClick={resetZoom}>
                   <ResetIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="View in Fullscreen" placement="top">
-                <IconButton color="primary" onClick={viewInFullScreen}>
+                <IconButton color={iconButtonColor} onClick={viewInFullScreen}>
                   <FullscreenIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Download as PNG" placement="top">
-                <IconButton color="primary" onClick={downloadAsPng}>
+                <IconButton color={iconButtonColor} onClick={downloadAsPng}>
                   <DownloadIcon />
                 </IconButton>
               </Tooltip>

@@ -205,7 +205,7 @@ const EntityActions = ({ endpointData, rowData }: Props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDeleteConfirmation}>Cancel</Button>
-          <Button variant="outlined" onClick={onDeleteEntity}>
+          <Button variant="contained" onClick={onDeleteEntity}>
             {loadingDelete ? <CircularProgress size={24} /> : `Confirm`}
           </Button>
         </DialogActions>
