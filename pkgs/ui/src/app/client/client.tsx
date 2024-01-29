@@ -190,7 +190,14 @@ export default function Client() {
           ],
         }}
       />
-      <div className="flex items-center flex-nowrap justify-between">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "nowrap",
+          alignItems: "center",
+        }}
+      >
         <div style={{ width: consumeContent ? "55%" : "100%" }}>
           <h4>Service Consumer View</h4>
           <CustomTable
