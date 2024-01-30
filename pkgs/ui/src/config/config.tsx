@@ -9,7 +9,7 @@ import BuildIcon from "@mui/icons-material/Build";
 
 export const projectConfig: any = {
   BASE_URL: "http://localhost:2979/api/v1",
-  REFRESH_FREQUENCY: 5000,
+  REFRESH_FREQUENCY: 2000,
   GROUPS: [
     {
       groupName: "Attachement",
